@@ -1,0 +1,56 @@
+html, body {
+  background-color: white;
+  transition: background-color 0.4s;
+  height: 100%;
+  margin: 0;
+  font-family: sans-serif;
+}
+.box{
+  border: solid;
+  /*background-color: white;*/
+  -webkit-user-select: none;
+  position: absolute;
+}
+.box.active {
+  border: solid red;
+}
+.box-button {
+  visibility: hidden;
+  position: absolute;
+  left: -40px;
+  height: 30px;
+  width: 30px;
+  padding: 2px;
+}
+.box-button.zdown {
+  top: 50px;
+}
+.anchor {
+  height: 10px;
+  width: 10px;
+  border-radius: 5px;
+  border: 1px solid;
+
+  position: absolute;
+  visibility: hidden;
+}
+.anchor.rotate {
+  right: -6px;
+  top: -6px;
+  background-color: yellow;
+}
+.anchor.scale {
+  right: -6px;
+  bottom: -6px;
+  background-color: blue;
+}
+.active.box>.anchor {
+  visibility: visible;
+  display: block;
+}
+.active.box>.box-button {
+  visibility: visible;
+}
+.box-content.text {
+  overflow-wrap: break-word;
+}
