@@ -14,8 +14,8 @@ class Box extends React.Component {
     this.state = {
       h: props.h
     , w: props.w
-    , left: props.x
-    , top: props.y
+    , x: props.x
+    , y: props.y
     , rotate: props.rotate
     , z: props.z
     , active: false
@@ -40,31 +40,32 @@ class Box extends React.Component {
   render() {
     return (
       <div className={classnames(this.state.classes)}
-           onClick={()=>{
-             if (this.state.boardState.mode === 'edit')
+          onClick={()=>{
+            if (this.state.boardState.mode === 'edit')
               boardActions.setActiveBox(this)
-           }}
-           onMouseDown={this._startDrag.bind(this)}
-           onMouseUp={this._stopDrag.bind(this)}
-           style={this._getCss()}>
+          }}
+          onMouseDown={this._startDrag.bind(this)}
+          onMouseUp={this._stopDrag.bind(this)}
+          style={this._getCss()}>
         <Button className='box-button zup'
                 bsStyle='success'
-                onClick={()=>{boardActions.addZIndex(1)}}>
+                onClick={this.addZIndex.bind(this, 1)}>
           <Glyphicon glyph='plus'/>
         </Button>
         <Button className='box-button zdown'
                 bsStyle='danger'
-                onClick={()=>{boardActions.addZIndex(-1)}}>
+                onClick={this.addZIndex.bind(this, -1)}>
           <Glyphicon glyph='minus'/>
         </Button>
         <div className='rotate anchor'
              onMouseDown={this._startRotate.bind(this)}/>
         <div className='scale anchor'
-             onMouseDown={this._startScale.bind(this)}/>
+             onMouseDown={this._startResize.bind(this)}/>
         {
           () => {
             let child = cm[this.props.type]
-            let props = _.omit(this.props, 'type')
+            let props = this.props.data
+            props.edit = (this.state.boardState.mode === 'edit')
             return React.createElement(child, props)
           }()
         }
@@ -90,8 +91,8 @@ class Box extends React.Component {
   }
 
   moveTo(x, y) {
-    this.state.left = x
-    this.state.top = y
+    this.state.x = x
+    this.state.y = y
     this.setState(this.state)
   }
 
@@ -101,7 +102,7 @@ class Box extends React.Component {
     })
   }
 
-  scale(h, w) {
+  resize(h, w) {
     this.setState({
       h: h
     , w: w
@@ -110,7 +111,7 @@ class Box extends React.Component {
 
   addZIndex(amount) {
     this.setState({
-      z: this.state.z + amount
+      z: (this.state.z + amount < 0) ? 0 : (this.state.z + amount)
     })
   }
 
@@ -127,19 +128,15 @@ class Box extends React.Component {
       height: this.state.h
     , width: this.state.w
     , zIndex: this.state.z
-    , WebkitTransform: this._getTransform()
-    }
-  }
-
-  _getTransform() {
-    return `translate(${this.state.left}px, ${this.state.top}px)`
+    , WebkitTransform: `translate(${this.state.x}px, ${this.state.y}px)`
       + ` rotate(${this.state.rotate}deg)`
+    }
   }
 
   _startDrag(e) {
     if (this.state.active)
-      boardActions.startDrag( e.clientX - this.state.left
-                            , e.clientY - this.state.top)
+      boardActions.startDrag( e.clientX - this.state.x
+                            , e.clientY - this.state.y)
   }
 
   _stopDrag() {
@@ -155,8 +152,8 @@ class Box extends React.Component {
     e.stopPropagation()
   }
 
-  _startScale(e) {
-    boardActions.startScale(this.state.h, this.state.w, e.clientX, e.clientY)
+  _startResize(e) {
+    boardActions.startResize(this.state.h, this.state.w, e.clientX, e.clientY)
     e.stopPropagation()
   }
 

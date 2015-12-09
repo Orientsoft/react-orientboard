@@ -41,26 +41,32 @@ let mew = _.range(0, 100).map(() => {
 
 let layout = [
   { type: 'text'
-  , text: mew
+  , data: {
+      text: mew
+    }
   , h: 100
   , w: 300
   , x: 320
   , y: 50
   }
 , { type: 'highchart'
-  , config: chartConfig
+  , data: {
+      config: chartConfig
+    }
   , h: 300
   , w: 500
   , x: 200
   , y: 200
   }
 , { type: 'image'
+  , data: {
+      src: 'images/cat.jpeg'
+    }
   , h: 250
   , w: 250
   , x: 600
   , y: 80
   , rotate: 15
-  , src: 'images/cat.jpeg'
   }
 ]
 
@@ -88,15 +94,20 @@ class App extends React.Component {
             <NavItem eventKey={2} onClick={()=>{boardActions.changeMode('edit')}}>
               edit
             </NavItem>
+            <NavItem eventKey={3}
+              onClick={()=>{
+                console.log(this)
+              }}>
+              getjson
+            </NavItem>
+
           </Nav>
         </Navbar>
 
       {
-        () => {
-          return layout.map((info, i) => {
-            return <Box key= {i} {...info} />
-          })
-        }()
+        layout.map((info, i) => {
+          return <Box key={i} {...info} />
+        })
       }
 
       </div>

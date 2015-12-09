@@ -4,7 +4,7 @@ let boardActions = Reflux.createActions([
   'startDrag'
 , 'stopDrag'
 , 'startRotate'
-, 'startScale'
+, 'startResize'
 , 'stopAll'
 , 'setActiveBox'
 , 'deactivateAll'

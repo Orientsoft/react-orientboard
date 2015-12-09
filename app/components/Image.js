@@ -15,6 +15,12 @@ export default class Image extends React.Component {
       </div>
     )
   }
+
+  toJson() {
+    return {
+      src: this.props.src
+    }
+  }
 }
 
 Image.propTypes = {

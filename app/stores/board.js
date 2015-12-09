@@ -18,11 +18,15 @@ let state = {
     x: 0
   , y: 0
   }
-, rCenter: {
+, center: {
     x: 0
   , y: 0
   }
-, rStart: {
+, rotateStart: {
+    x: 0
+  , y: 0
+  }
+, resizeStart: {
     x: 0
   , y: 0
   }
@@ -34,12 +38,13 @@ let state = {
 // let components = {}
 import cm from '../lib/components'
 
-// get the angle between vector(rStart.x - rCenter.x, rStart.y - rCenter.y)
-// and vector(x - rCenter.x, y - rCenter.y) in degree
+// get the angle between vector(rotateStart.x - center.x,
+// rotateStart.y - center.y)
+// and vector(x - center.x, y - center.y) in degree
 function getRotateAngle(x, y) {
-  let {rStart, rCenter} = state
-  let vStart = new Vector(rStart.x - rCenter.x, rStart.y - rCenter.y)
-  let vEnd = new Vector(x - rCenter.x, y - rCenter.y)
+  let {rotateStart, center} = state
+  let vStart = new Vector(rotateStart.x - center.x, rotateStart.y - center.y)
+  let vEnd = new Vector(x - center.x, y - center.y)
   return vEnd.angleDeg() - vStart.angleDeg()
 }
 
@@ -60,8 +65,8 @@ let boardStore = Reflux.createStore({
         break
 
       case ACTIONS.RESIZE:
-        state.box.scale( state.sStart.h + e.clientY - state.sStart.y
-                       , state.sStart.w + e.clientX - state.sStart.x)
+        state.box.resize( state.resizeStart.h + e.clientY - state.resizeStart.y
+                        , state.resizeStart.w + e.clientX - state.resizeStart.x)
         break
 
       }
@@ -81,17 +86,17 @@ let boardStore = Reflux.createStore({
   }
 , onStartRotate: (center, x, y, theta) => {
     state.action = ACTIONS.ROTATE
-    state.rCenter = center
-    state.rStart = {x, y}
+    state.center = center
+    state.rotateStart = {x, y}
     state.rInit = theta
   }
 , onStartDrag: (x, y) => {
     state.action = ACTIONS.DRAG
     state.dragStart = {x, y}
   }
-, onStartScale: (h, w, x, y) => {
+, onStartResize: (h, w, x, y) => {
     state.action = ACTIONS.RESIZE
-    state.sStart = {x, y, h, w}
+    state.resizeStart = {x, y, h, w}
   }
 , onStopDrag: (x, y) => {
     state.action = ACTIONS.NONE
