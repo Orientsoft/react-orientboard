@@ -6,10 +6,7 @@ import {Navbar, Nav, NavItem} from 'react-bootstrap'
 
 import boardActions from '../actions/board'
 
-// import Text from './Text'
 import Box from './Box'
-// import MqttChart from './MqttChart'
-// import Image from './Image'
 
 let chartConfig = {
   chart: {
@@ -40,16 +37,7 @@ let mew = _.range(0, 100).map(() => {
 }).join('')
 
 let layout = [
-  { type: 'text'
-  , data: {
-      text: mew
-    }
-  , h: 100
-  , w: 300
-  , x: 320
-  , y: 50
-  }
-, { type: 'highchart'
+  { type: 'highchart'
   , data: {
       config: chartConfig
     }
@@ -68,6 +56,19 @@ let layout = [
   , y: 80
   , rotate: 15
   }
+, { type: 'text'
+  , data: {
+      text: 'hello'
+    }
+  , h: 200
+  , w: 200
+  }
+, { type: 'counter'
+  , data: {}
+  , h: 100
+  , w: 100
+  , x: 200
+  , y: 200}
 ]
 
 class App extends React.Component {
@@ -80,7 +81,6 @@ class App extends React.Component {
   render() {
     return (
       <div>
-
         <Navbar>
           <Navbar.Header>
             <Navbar.Brand>
@@ -96,7 +96,11 @@ class App extends React.Component {
             </NavItem>
             <NavItem eventKey={3}
               onClick={()=>{
-                console.log(this)
+                let currentLayout = []
+                for (var ref in this.refs) {
+                  currentLayout.push(this.refs[ref].toJson())
+                }
+                console.log(JSON.stringify(currentLayout, null, 2))
               }}>
               getjson
             </NavItem>
@@ -106,7 +110,7 @@ class App extends React.Component {
 
       {
         layout.map((info, i) => {
-          return <Box key={i} {...info} />
+          return <Box key={i} ref={`box-${i}`} {...info} />
         })
       }
 

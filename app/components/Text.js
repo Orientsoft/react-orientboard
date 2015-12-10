@@ -1,4 +1,5 @@
 import React from 'react'
+import pubsub from 'pubsub-js'
 
 class Text extends React.Component {
   constructor(props) {
@@ -10,11 +11,12 @@ class Text extends React.Component {
 
   componentDidMount() {
     // boardStore.getState()
+    pubsub.publish('new-text', this.props.text)
   }
 
   render() {
     return (
-      <div {...this.props} className='box-content text'>
+      <div {...this.props}>
         <textarea
             style={{
               height: '100%'
@@ -40,6 +42,7 @@ class Text extends React.Component {
     this.setState({
       text: event.target.value
     })
+    pubsub.publish('new-text', event.target.value)
   }
 }
 

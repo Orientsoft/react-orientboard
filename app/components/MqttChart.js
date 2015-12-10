@@ -55,6 +55,12 @@ class MqttChart extends React.Component {
     })
   }
 
+  toJson() {
+    return {
+      config: this.props.config
+    }
+  }
+
   render() {
     return (
       <div style={{height: '100%'}}>

@@ -5,8 +5,8 @@ var gulp = require('gulp')
   , source = require('vinyl-source-stream')
   , streamify = require('gulp-streamify')
   // , less = require('gulp-less')
-  // , path = require('path')
-  // , fs = require('fs-extra')
+  , path = require('path')
+  , fs = require('fs-extra')
   // , child_process = require('child_process')
   // , exec = child_process.exec
   // , spawn = child_process.spawn
@@ -14,8 +14,9 @@ var gulp = require('gulp')
       js: require('gulp-uglify')
   //   , css: require('gulp-uglifycss')
     }
+  , cssModulesify = require('css-modulesify')
 
-// var argv = require('minimist')(process.argv.slice(2))
+var argv = require('minimist')(process.argv.slice(2))
 
 function printErrorStack(err) {
   if (err) console.log(err.stack || err)
@@ -35,6 +36,10 @@ gulp.task('build', function () {
   , transform: [babelify]
   , debug: false
   })
+  .plugin(cssModulesify, {
+    rootDir: __dirname
+  , output: './public/css/bundle.css'
+  })
   .bundle()
   .pipe(source('main.js'))
   .pipe(streamify(uglify.js()))
@@ -53,6 +58,9 @@ gulp.task('watch', function () {
   , cache: {}
   , packageCache: {}
   // , fullPaths: true
+  }).plugin(cssModulesify, {
+    rootDir: __dirname
+  , output: './public/css/bundle.css'
   })
 
   console.log('Start watching', file)
@@ -75,6 +83,12 @@ gulp.task('watch', function () {
          })
 
   watcher.build()
+})
+
+gulp.task('new-component', () => {
+  var name = `orientboard-component-${argv.n}`
+  fs.copySync('example-component', path.join('..', name))
+  console.log(name)
 })
 
 gulp.task('default', ['production'])

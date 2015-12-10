@@ -8,9 +8,14 @@ import cm from '../lib/components'
 import {Button, Glyphicon} from 'react-bootstrap'
 import Reflux from 'reflux'
 
+import styles from '../css/box.css'
+
 class Box extends React.Component {
   constructor(props) {
     super(props)
+    let classes = {}
+    classes[styles.active] = false
+    classes[styles.box] = true
     this.state = {
       h: props.h
     , w: props.w
@@ -19,16 +24,14 @@ class Box extends React.Component {
     , rotate: props.rotate
     , z: props.z
     , active: false
-    , classes: {
-        'active': false
-      , 'box': true
-      }
+    , classes: classes
     , edit: true
     , boardState: {}
     }
   }
 
   componentDidMount() {
+    // console.log(styles)
     this.setState({boardState: boardStore.getState()})
     boardStore.listen((newState) => {
       this.setState({
@@ -47,27 +50,29 @@ class Box extends React.Component {
           onMouseDown={this._startDrag.bind(this)}
           onMouseUp={this._stopDrag.bind(this)}
           style={this._getCss()}>
-        <Button className='box-button zup'
+        <Button className={styles['box-button']}
                 bsStyle='success'
                 onClick={this.addZIndex.bind(this, 1)}>
           <Glyphicon glyph='plus'/>
         </Button>
-        <Button className='box-button zdown'
+        <Button className={`${styles['box-button']} ${styles.zdown}`}
                 bsStyle='danger'
                 onClick={this.addZIndex.bind(this, -1)}>
           <Glyphicon glyph='minus'/>
         </Button>
-        <div className='rotate anchor'
+        <div className={`${styles.rotate} ${styles.anchor}`}
              onMouseDown={this._startRotate.bind(this)}/>
-        <div className='scale anchor'
+        <div className={`${styles.scale} ${styles.anchor}`}
              onMouseDown={this._startResize.bind(this)}/>
         {
-          () => {
+          function() {
             let child = cm[this.props.type]
-            let props = this.props.data
+            let props = _.clone(this.props.data)
             props.edit = (this.state.boardState.mode === 'edit')
+            props.ref = 'content'
+            props.className = styles['box-content']
             return React.createElement(child, props)
-          }()
+          }.bind(this)()
         }
       </div>
     )
@@ -78,7 +83,7 @@ class Box extends React.Component {
       console.log('activating')
       this.setState({
         active: true
-      , classes: _.set(this.state.classes, 'active', true)
+      , classes: _.set(this.state.classes, styles.active, true)
       })
     }
   }
@@ -86,7 +91,7 @@ class Box extends React.Component {
   deactivate() {
     this.setState({
       active: false
-    , classes: _.set(this.state.classes, 'active', false)
+    , classes: _.set(this.state.classes, styles.active, false)
     })
   }
 
@@ -113,6 +118,17 @@ class Box extends React.Component {
     this.setState({
       z: (this.state.z + amount < 0) ? 0 : (this.state.z + amount)
     })
+  }
+
+  toJson() {
+    let j = _.pick(this.state, [
+      'x', 'y', 'z', 'h' , 'w', 'rotate'
+    ])
+    j.type = this.props.type
+    j.data = {}
+    if (this.refs.content.toJson)
+      j.data = this.refs.content.toJson()
+    return j
   }
 
   _getCenter() {

@@ -6,7 +6,7 @@ html, body {
   font-family: sans-serif;
 }
 .box{
-  border: solid;
+  /*border: solid;*/
   /*background-color: white;*/
   -webkit-user-select: none;
   position: absolute;
@@ -51,8 +51,10 @@ html, body {
 .active.box>.box-button {
   visibility: visible;
 }
-.box-content.text {
-  overflow-wrap: break-word;
+.box-content {
   height: 100%;
   width: 100%;
+}
+.box-content.text {
+  overflow-wrap: break-word;
 }
