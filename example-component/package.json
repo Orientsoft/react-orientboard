@@ -1,5 +1,5 @@
 {
-  "name": "example-component",
+  "name": "orientboard-component-example-component",
   "version": "1.0.0",
   "description": "",
   "main": "lib/component.js",
@@ -28,6 +28,7 @@
     "babel-runtime": "^6.3.13"
   },
   "orientboard": {
-    "css": "example.css"
+    "name": "example-component",
+    "assets": []
   }
 }

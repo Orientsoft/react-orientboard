@@ -88,6 +88,10 @@ gulp.task('watch', function () {
 gulp.task('new-component', () => {
   var name = `orientboard-component-${argv.n}`
   fs.copySync('example-component', path.join('..', name))
+  var p = fs.readJsonSync(path.join('..', name, 'package.json'))
+  p.name = name
+  p.orientboard.name = argv.n
+  fs.writeJsonSync(path.join('..', name, 'package.json'), p)
   console.log(name)
 })
 

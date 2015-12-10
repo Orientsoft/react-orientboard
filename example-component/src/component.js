@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import autobind from 'autobind-decorator'
-import styles from '../css/example.css'
+import styles from '../css/component.css'
 
 @autobind
 class ExampleComponent extends React.Component {
@@ -22,7 +22,7 @@ class ExampleComponent extends React.Component {
   }
 
   toJson() {
-    // retrun the data you want to save
+    // return the data you want to save as an object
     return {
 
     }
