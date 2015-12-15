@@ -122,6 +122,7 @@ gulp.task('gen', function() {
   var config = {
     components: utils.getComponents()
   }
+  fs.mkdirp('./config')
   fs.writeJsonSync('./config/components.json', config)
 })
 
