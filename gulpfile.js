@@ -7,19 +7,23 @@ var gulp = require('gulp')
   // , less = require('gulp-less')
   , path = require('path')
   , fs = require('fs-extra')
-  // , child_process = require('child_process')
-  // , exec = child_process.exec
+  , child_process = require('child_process')
+  , exec = child_process.exec
   // , spawn = child_process.spawn
   , uglify = {
       js: require('gulp-uglify')
   //   , css: require('gulp-uglifycss')
     }
   , cssModulesify = require('css-modulesify')
+  , gutil = require('gulp-util')
+  , _ = require('lodash')
+  , utils = require('./lib/util')
+  , sequence = require('gulp-sequence')
 
 var argv = require('minimist')(process.argv.slice(2))
 
 function printErrorStack(err) {
-  if (err) console.log(err.stack || err)
+  if (err) gutil.log(err.stack || err)
 }
 
 gulp.task('install', function () {
@@ -46,10 +50,8 @@ gulp.task('build', function () {
   .pipe(gulp.dest('./public/js'))
 })
 
-
-
 gulp.task('watch', function () {
-  var file = './app/main.js'
+  var file = argv.f || './app/main.js'
   var outdir = './public/js'
   var bundler = browserify({
     entries: [file]
@@ -60,15 +62,15 @@ gulp.task('watch', function () {
   // , fullPaths: true
   }).plugin(cssModulesify, {
     rootDir: __dirname
-  , output: './public/css/bundle.css'
+  , output: `./public/css/${path.basename(file, '.js')}.css`
   })
 
-  console.log('Start watching', file)
+  gutil.log('Start watching', file)
 
   var watcher = watchify(bundler)
 
   watcher.build = function () {
-    console.log('Start building')
+    gutil.log('Start building')
     watcher.bundle()
            .on('error', printErrorStack)
            .pipe(source(file))
@@ -79,20 +81,53 @@ gulp.task('watch', function () {
   watcher.on('error', printErrorStack)
          .on('update', watcher.build)
          .on('time', function (time) {
-           console.log('Finished building after', time, 'ms')
+           gutil.log('Finished building after', time, 'ms')
          })
 
   watcher.build()
 })
 
-gulp.task('new-component', () => {
+gulp.task('new', function() {
+  if (!argv.n)
+    return gutil.log(
+      gutil.colors.red('Error'), 'Name missing, use -n to name your component'
+    )
   var name = `orientboard-component-${argv.n}`
-  fs.copySync('example-component', path.join('..', name))
-  var p = fs.readJsonSync(path.join('..', name, 'package.json'))
+  var configPath = path.join('..', name, 'package.json')
+  var componentDir = path.join(__dirname, '..', name)
+  fs.copySync('example-component', componentDir)
+  var p = fs.readJsonSync(configPath)
   p.name = name
   p.orientboard.name = argv.n
-  fs.writeJsonSync(path.join('..', name, 'package.json'), p)
-  console.log(name)
+  fs.writeJsonSync(configPath, p)
+  fs.symlinkSync(componentDir, path.join('./node_modules', name))
+  gutil.log('Start npm install')
+  exec('npm i', { cwd: componentDir }, (err, stdout, stderr) => {
+    console.log(stderr)
+    gutil.log('Finished npm install')
+    sequence('gen')()
+  })
+})
+
+gulp.task('gen', function() {
+  gutil.log('Generating config...')
+  var devComponents = utils.getComponents()
+  var output = `export default {\n  ${
+    devComponents.map((dep, i) => {
+      var name = dep.substr(22)
+      return `${name}: require(\'${dep}\').default`
+    }).join('\n, ')
+  }\n}`
+  fs.writeFileSync('app/lib/components.js', output)
+  var config = {
+    components: utils.getComponents()
+  }
+  fs.writeJsonSync('./config/components.json', config)
+})
+
+// remove a component from node_modules
+gulp.task('rm', function() {
+
 })
 
 gulp.task('default', ['production'])

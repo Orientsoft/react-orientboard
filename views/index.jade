@@ -1,12 +1,12 @@
 extends layout
 
 block css
-  link(rel='stylesheet' href='css/bundle.css')
-  link(rel='stylesheet' href='vendor/bootstrap/css/bootstrap.min.css')
+  link(rel='stylesheet' href= main_css)
+  link(rel='stylesheet' href='/vendor/bootstrap/css/bootstrap.min.css')
 
 block content
   div#mount-app
 
 block js
-  script(src='vendor/babel-polyfill/polyfill.min.js')
-  script(src='js/main.js')
+  script(src='/vendor/babel-polyfill/polyfill.min.js')
+  script(src= main_script)

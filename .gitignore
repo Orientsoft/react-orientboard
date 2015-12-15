@@ -28,6 +28,9 @@ node_modules
 
 public/vendor
 public/js
-public/css/bundle.css
+public/css
 
 example-component/lib
+
+config/components.json
+lib/components.js

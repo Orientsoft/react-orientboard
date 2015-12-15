@@ -67,7 +67,7 @@ class Box extends React.Component {
         {
           function() {
             let child = cm[this.props.type]
-            let props = _.clone(this.props.data)
+            let props = _.clone(this.props)
             props.edit = (this.state.boardState.mode === 'edit')
             props.ref = 'content'
             props.className = styles['box-content']
