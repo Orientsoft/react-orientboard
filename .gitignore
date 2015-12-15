@@ -33,4 +33,4 @@ public/css
 example-component/lib
 
 config/components.json
-lib/components.js
+app/lib/components.js
