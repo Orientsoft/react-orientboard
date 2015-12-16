@@ -47,14 +47,14 @@ let layout = [
 //   , y: 80
 //   , rotate: 15
 //   }
-// , 
-{ type: 'text'
-  , data: {
-      text: 'hello'
-    }
-  , h: 200
-  , w: 200
-  }
+// ,
+// { type: 'text'
+//   , data: {
+//       text: 'hello'
+//     }
+//   , h: 200
+//   , w: 200
+//   }
 // , { type: 'counter'
 //   , data: {}
 //   , h: 100

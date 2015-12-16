@@ -33,17 +33,46 @@ gulp.task('install', function () {
     .pipe(gulp.dest('./public/vendor/babel-polyfill'))
 })
 
+var vendors = [
+  'react'
+, 'react-dom'
+, 'react-bootstrap'
+, 'classnames'
+, 'jquery'
+, 'lodash'
+, 'reflux'
+, 'autobind-decorator'
+]
 
-gulp.task('build', function () {
-  fs.mkdirSync('public/css')
-  browserify({
-    entries: ['./app/main.js']
+function getBrowserifyStream(opts) {
+  return browserify({
+    entries: [opts.file]
   , transform: [babelify]
-  , debug: false
+  , debug: opts.debug
+  , cache: {}
+  , packageCache: {}
   })
   .plugin(cssModulesify, {
     rootDir: __dirname
-  , output: './public/css/main.css'
+  , output: `./public/css/${path.basename(opts.file, '.js')}.css`
+  })
+  .external(vendors)
+}
+
+gulp.task('build-vendor', () => {
+  browserify()
+    .require(vendors)
+    .bundle()
+    .pipe(source('vendor.js'))
+    .pipe(streamify(uglify.js()))
+    .pipe(gulp.dest('./public/js'))
+})
+
+gulp.task('build', function () {
+  fs.mkdirpSync('public/css')
+  getBrowserifyStream({
+    file: './app/main.js'
+  , debug: false
   })
   .bundle()
   .pipe(source('main.js'))
@@ -53,17 +82,9 @@ gulp.task('build', function () {
 
 gulp.task('watch', function () {
   var file = argv.f || './app/main.js'
-  var outdir = './public/js'
-  var bundler = browserify({
-    entries: [file]
-  , transform: [babelify]
+  var bundler = getBrowserifyStream({
+    file: file
   , debug: true
-  , cache: {}
-  , packageCache: {}
-  // , fullPaths: true
-  }).plugin(cssModulesify, {
-    rootDir: __dirname
-  , output: `./public/css/${path.basename(file, '.js')}.css`
   })
 
   gutil.log('Start watching', file)
@@ -121,7 +142,7 @@ gulp.task('gen', function() {
   var output = `export default {\n  ${
     devComponents.map((dep, i) => {
       var name = dep.substr(22)
-      return `${name}: require(\'${dep}\').default`
+      return `\'${name}\': require(\'${dep}\').default`
     }).join('\n, ')
   }\n}`
   fs.writeFileSync('app/lib/components.js', output)

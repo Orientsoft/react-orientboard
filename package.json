@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "postinstall": "gulp install;gulp gen;gulp build"
+    "postinstall": "gulp install;gulp gen;gulp build-vendor;gulp build"
   },
   "dependencies": {
     "body-parser": "~1.12.4",
