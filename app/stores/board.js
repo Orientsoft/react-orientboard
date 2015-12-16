@@ -48,7 +48,7 @@ function getRotateAngle(x, y) {
   return vEnd.angleDeg() - vStart.angleDeg()
 }
 
-let boardStore = Reflux.createStore({
+let store = Reflux.createStore({
   listenables: boardActions
 , onInit: () => {
     if (state.ready) return
@@ -82,7 +82,7 @@ let boardStore = Reflux.createStore({
       state.box.deactivate()
     state.box = box
     box.activate()
-    this.trigger(state)
+    store.trigger(state)
   }
 , onStartRotate: (center, x, y, theta) => {
     state.action = ACTIONS.ROTATE
@@ -113,17 +113,20 @@ let boardStore = Reflux.createStore({
   }
 , onChangeMode: (mode) => {
     state.mode = mode
-    if (mode === 'publish')
+    if (mode === 'publish') {
       boardActions.deactivateAll()
-    this.trigger(state)
+    }
+    store.trigger(state)
   }
 , onDeactivateAll: () => {
     state.box.deactivate()
+    state.box = null
+    store.trigger(state)
   }
 })
 
-boardStore.getState = () => {
+store.getState = () => {
   return state
 }
 
-export default boardStore
+export default store
