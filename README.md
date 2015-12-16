@@ -1,8 +1,22 @@
 # react-orientboard
 
-## USAGE
+## Dependencies
 
-> Node 4.0 or later is needed
+**Node >= v4.0 is needed**
+
+You also need a global installation of gulp:
+
+```
+sudo npm i -g gulp
+```
+
+## Install
+
+```
+npm i
+```
+
+## Usage
 
 ```
 npm start
@@ -14,6 +28,8 @@ Open localhost:3000
 
 ### Setup
 
+Start the server with `npm start`, then use `gulp watch -f app/component-test.js` to watch changes in components. All changes will be applied without restarting server.
+
 To create a new component project, run:
 
 ```
@@ -21,6 +37,26 @@ gulp new -n your-component-name
 ```
 
 This will generate a boilerplate component project at `../orientboard-component-your-component-name`. The `npm install` process might take a while.
+
+### Building Component
+
+To build the component, run:
+
+```
+npm run build
+```
+
+To watch your source code and build on changes, run:
+
+```
+npm run watch
+```
+
+Transpiling options are in `.babelrc`, you can add new options as you like.
+
+### Debug
+
+Open `localhost:3000/dev/your-component-name`, you'll see your development page, the layout is defined in `test-layout.js`.
 
 ### Project Layout (PROPOSAL ONLY)
 
@@ -53,25 +89,9 @@ Other assets, like images and fonts, should be declared in your `package.json`. 
 }
 ```
 
-When your component is installed in `react-orientboard`, pictures under `images`, will be copied to `react-orientboard/public/components/your-component-name/images`. To access them in your code, use `components/your-component-name/images/example.png`
+When your component is installed in `react-orientboard`, pictures under `images`, will be copied to `react-orientboard/public/components/your-component-name/images`. To access them in your code, use `/components/your-component-name/images/example.png`
 
 `test-layout.js` exports an array which defines the board layout for your component's development page.
-
-### Building Component
-
-To build the component, run:
-
-```
-npm run build
-```
-
-To watch your source code and build on changes, run:
-
-```
-npm run watch
-```
-
-Transpiling options are in `.babelrc`, you can add new options as you like.
 
 ### Using CSS
 
@@ -115,9 +135,3 @@ Under the hood, css classes and ids are prefixed in order to avoid naming confli
 ```
 
 This makes sure the component fills the parent box, normally you don't need to change it.
-
-### Debug
-
-Start the server with `npm start`, then use `gulp watch -f app/component-test.js` to watch changes in components, which includes new components, changes to components, and changes to layout files. All changes will be applied without restarting server.
-
-Open `localhost:3000/dev/your-component-name`, you'll see your development page, the layout is defined in `test-layout.js`.
