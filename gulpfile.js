@@ -35,6 +35,7 @@ gulp.task('install', function () {
 
 
 gulp.task('build', function () {
+  fs.mkdirSync('public/css')
   browserify({
     entries: ['./app/main.js']
   , transform: [babelify]
@@ -42,7 +43,7 @@ gulp.task('build', function () {
   })
   .plugin(cssModulesify, {
     rootDir: __dirname
-  , output: './public/css/bundle.css'
+  , output: './public/css/main.css'
   })
   .bundle()
   .pipe(source('main.js'))
@@ -101,8 +102,13 @@ gulp.task('new', function() {
   p.orientboard.name = argv.n
   fs.writeJsonSync(configPath, p)
   fs.symlinkSync(componentDir, path.join('./node_modules', name))
-  gutil.log('Start npm install')
-  exec('npm i', { cwd: componentDir }, (err, stdout, stderr) => {
+
+  var cmd = argv.c ? 'cnpm i' : 'npm i'
+  gutil.log('Running', cmd)
+  exec(cmd, { cwd: componentDir }, (err, stdout, stderr) => {
+    if (err) {
+      return gutil.log(gutil.colors.red('Error'), err)
+    }
     console.log(stderr)
     gutil.log('Finished npm install')
     sequence('gen')()

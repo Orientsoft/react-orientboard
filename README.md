@@ -2,6 +2,8 @@
 
 ## USAGE
 
+> Node 4.0 or later is needed
+
 ```
 npm start
 ```
@@ -15,10 +17,10 @@ Open localhost:3000
 To create a new component project, run:
 
 ```
-gulp new-component -n your-component-name
+gulp new -n your-component-name
 ```
 
-This will generate a boilerplate component project at `../orientboard-component-your-component-name`. You can then `cd` to the directory and set it up with `npm i`.
+This will generate a boilerplate component project at `../orientboard-component-your-component-name`. The `npm install` process might take a while.
 
 ### Project Layout (PROPOSAL ONLY)
 
@@ -31,6 +33,7 @@ orientboard-component-your-component-name
   ├─┬ lib
   │ └── component.js
   ├── .babelrc
+  ├── test-layout.js
   └── package.json
 ```
 
@@ -51,6 +54,8 @@ Other assets, like images and fonts, should be declared in your `package.json`. 
 ```
 
 When your component is installed in `react-orientboard`, pictures under `images`, will be copied to `react-orientboard/public/components/your-component-name/images`. To access them in your code, use `components/your-component-name/images/example.png`
+
+`test-layout.js` exports an array which defines the board layout for your component's development page.
 
 ### Building Component
 
@@ -110,3 +115,9 @@ Under the hood, css classes and ids are prefixed in order to avoid naming confli
 ```
 
 This makes sure the component fills the parent box, normally you don't need to change it.
+
+### Debug
+
+Start the server with `npm start`, then use `gulp watch -f app/component-test.js` to watch changes in components, which includes new components, changes to components, and changes to layout files. All changes will be applied without restarting server.
+
+Open `localhost:3000/dev/your-component-name`, you'll see your development page, the layout is defined in `test-layout.js`.
