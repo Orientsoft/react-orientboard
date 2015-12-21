@@ -18,9 +18,13 @@ npm i
 
 ## Usage
 
+For deployment:
+
 ```
 npm start
 ```
+
+For development, see Setup section in **Component Development**
 
 Open localhost:3000
 
@@ -28,7 +32,11 @@ Open localhost:3000
 
 ### Setup
 
-Start the server with `npm start`, then use `gulp watch -f app/component-test.js` to watch changes in components. All changes will be applied without restarting server.
+Starts the server, and watches `app/main.js` and `app/component-test.js` for changes with the following script. If you're running on your own machine, make sure you have `tmux` installed.
+
+```bash
+. init-tmux.sh
+```
 
 To create a new component project, run:
 
@@ -36,7 +44,7 @@ To create a new component project, run:
 gulp new -n your-component-name
 ```
 
-This will generate a boilerplate component project at `../orientboard-component-your-component-name`. The `npm install` process might take a while.
+This will generate a boilerplate component project at `../orientboard-component-your-component-name`. The `npm install` process might take a while. If you'd like to use `cnpm` to install dependencies, add `-c` option.
 
 ### Building Component
 
@@ -46,7 +54,9 @@ To build the component, run:
 npm run build
 ```
 
-To watch your source code and build on changes, run:
+If you use [Atom](https://atom.io/), install the [language-babel](https://github.com/gandm/language-babel) plugin, and source code will be transpiled on changes.
+
+Or you can watch your source code and build on changes with:
 
 ```
 npm run watch
