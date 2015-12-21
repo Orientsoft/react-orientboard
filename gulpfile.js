@@ -97,7 +97,7 @@ gulp.task('watch', function () {
            .on('error', printErrorStack)
            .pipe(source(file))
            .pipe(require('gulp-rename')({dirname: ''}))
-           .pipe(gulp.dest(outdir))
+           .pipe(gulp.dest('./public/js'))
   }
 
   watcher.on('error', printErrorStack)

@@ -28,15 +28,15 @@ let chartConfig = {
 }
 
 let layout = [
-//   { type: 'highchart'
-//   , data: {
-//       config: chartConfig
-//     }
-//   , h: 300
-//   , w: 500
-//   , x: 200
-//   , y: 200
-//   }
+  { type: 'highcharts'
+  , data: {
+      config: chartConfig
+    }
+  , h: 300
+  , w: 500
+  , x: 0
+  , y: 0
+  }
 // , { type: 'image'
 //   , data: {
 //       src: 'images/cat.jpeg'

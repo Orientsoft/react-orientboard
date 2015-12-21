@@ -12,6 +12,7 @@ let boardActions = Reflux.createActions([
 , 'init'
 , 'getComponent'
 , 'changeMode'
+, 'setActiveBlock'
 ].reduce((pv, cv) => {
   pv[cv] = {asyncResult: true}
   return pv

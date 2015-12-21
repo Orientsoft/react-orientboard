@@ -7,6 +7,7 @@
     "postinstall": "gulp install;gulp gen;gulp build-vendor;gulp build"
   },
   "dependencies": {
+    "autobind-decorator": "^1.3.2",
     "body-parser": "~1.12.4",
     "bootstrap": "^3.3.6",
     "classnames": "^2.2.1",

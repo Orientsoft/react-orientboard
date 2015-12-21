@@ -7,6 +7,7 @@ import {Navbar, Nav, NavItem} from 'react-bootstrap'
 import boardActions from '../actions/board'
 
 import Box from './Box'
+import Block from './Block'
 
 let mew = _.range(0, 100).map(() => {
   return '喵'
@@ -49,11 +50,7 @@ class App extends React.Component {
           </Nav>
         </Navbar>
 
-      {
-        this.props.layout.map((info, i) => {
-          return <Box key={i} ref={`box-${i}`} {...info} />
-        })
-      }
+        <Block layout={this.props.layout} h={600} w={800}/>
 
       </div>
     )

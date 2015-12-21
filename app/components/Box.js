@@ -78,6 +78,14 @@ class Box extends React.Component {
     )
   }
 
+  get w() {
+    return this.state.w
+  }
+
+  get h() {
+    return this.state.h
+  }
+
   activate() {
     if (!this.state.active) {
       console.log('activating')

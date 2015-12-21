@@ -48,6 +48,21 @@ function getRotateAngle(x, y) {
   return vEnd.angleDeg() - vStart.angleDeg()
 }
 
+function pointInBlock(x, y) {
+  console.log(x, state.box.w, state.block.w)
+  console.log(y, state.box.h, state.block.h)
+  return x + state.box.w <= state.block.w && y + state.box.h <= state.block.h
+      && x >= 0 && y >= 0
+}
+
+function constrainDrag(x, y) {
+  x = x + state.box.w <= state.block.w ? x : state.block.w - state.box.w
+  x = x < 0 ? 0 : x
+  y = y + state.box.h <= state.block.h ? y : state.block.h - state.box.h
+  y = y < 0 ? 0 : y
+  return {x, y}
+}
+
 let store = Reflux.createStore({
   listenables: boardActions
 , onInit: () => {
@@ -56,8 +71,12 @@ let store = Reflux.createStore({
     document.documentElement.onmousemove = function (e) {
       switch (state.action) {
       case ACTIONS.DRAG:
-        state.box.moveTo( e.clientX - state.dragStart.x
-                        , e.clientY - state.dragStart.y)
+        let {x, y} = constrainDrag(
+          e.clientX - state.dragStart.x
+        , e.clientY - state.dragStart.y
+        )
+
+        state.box.moveTo(x, y)
         break
 
       case ACTIONS.ROTATE:
@@ -121,6 +140,11 @@ let store = Reflux.createStore({
 , onDeactivateAll: () => {
     state.box.deactivate()
     state.box = null
+    store.trigger(state)
+  }
+, onSetActiveBlock: (block) => {
+    if (state.block === block) return null
+    state.block = block
     store.trigger(state)
   }
 })
