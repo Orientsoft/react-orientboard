@@ -16,3 +16,4 @@ if [ $? != 0 ]; then
 fi
 
 $cmd att -t $session
+

@@ -15,6 +15,7 @@ Vagrant.configure(2) do |config|
     vb.name = "orient"
     # vb.cpus = 2
     vb.memory = "1024"
+    vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
   end
 
   config.vm.network :forwarded_port, guest: 3000, host: 3000
