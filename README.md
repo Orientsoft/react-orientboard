@@ -86,15 +86,33 @@ gulp watch -f app/component-test.js
 
 ### Create Component
 
-
-
 To create a new component project, run:
 
 ```
-gulp new -n your-component-name
+gulp new -n component-name
 ```
 
-This will generate a boilerplate component project at `../orientboard-component-your-component-name`. The `npm install` process might take a while. If you'd like to use `cnpm` to install dependencies, add `-c` option.
+This will generate a boilerplate component project at `../orientboard-component-component-name`. The `npm install` process might take a while. If you'd like to use `cnpm` to install dependencies, add `-c` option.
+
+To remove a component:
+
+```
+gulp rm -n component-name
+```
+
+This only removes the component's symlink, if you'd like to delete the source folder as well, add `-d` to the command.
+
+To link all component to `node_modules`:
+
+```
+gulp link
+```
+
+To see the list of installed components:
+
+```
+gulp ls
+```
 
 ### Building Component
 
@@ -113,6 +131,16 @@ npm run watch
 ```
 
 Transpiling options are in `.babelrc`, you can add new options as you like.
+
+### Assets
+
+Install components' assets with:
+
+```
+gulp assets
+```
+
+Details about how assets is managed, see **Project Layout** section.
 
 ### Debug
 

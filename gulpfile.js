@@ -153,9 +153,56 @@ gulp.task('gen', function() {
   fs.writeJsonSync('./config/components.json', config)
 })
 
+gulp.task('link', () => {
+  var components = fs.readdirSync('..').filter((dep) => {
+    return dep.match(/^orientboard-component-/)
+  })
+  for (var component of components) {
+    fs.ensureSymlinkSync(
+      path.join('..', component)
+    , path.join('node_modules', component)
+    )
+  }
+})
+
+gulp.task('assets', () => {
+  for (var component of utils.getComponents()) {
+    var assets = _.get(fs.readJsonSync(
+      path.join('..', component, 'package.json')
+    ), 'orientboard.assets')
+
+    var dst = path.join('public/components', utils.getComponentName(component))
+
+    if (assets instanceof Array)
+      for (var asset of assets)
+        gulp.src(path.join('..', component, asset))
+            .pipe(gulp.dest(dst))
+  }
+})
+
 // remove a component from node_modules
 gulp.task('rm', function() {
+  var name = argv.n
+  if (!name)
+    return gutil.log('Component name is needed.')
+  var components = utils.getComponents().map((fullname) => {
+    return utils.getComponentName(fullname)
+  })
+  if (_.contains(components, name)) {
+    fs.remove(path.join('node_modules', `orientboard-component-${name}`))
+    if (argv.d)
+      fs.remove(path.join('..', `orientboard-component-${name}`))
+    gutil.log(`Symlink for component ${name} removed`)
+  }
+  else {
+    gutil.log(`Component ${name} not found`)
+  }
+})
 
+gulp.task('ls', function () {
+  gutil.log('Installed components:')
+  for (var component of utils.getComponents())
+    console.log(`\t - ${utils.getComponentName(component)}`)
 })
 
 gulp.task('default', ['production'])

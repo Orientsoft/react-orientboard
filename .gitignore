@@ -29,6 +29,7 @@ node_modules
 public/vendor
 public/js
 public/css
+public/components
 
 example-component/lib
 
