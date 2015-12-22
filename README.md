@@ -2,13 +2,17 @@
 
 ## Dependencies
 
-**Node >= v4.0 is needed**
+If you want to use vagrant to set up development environment, you need to install [Vagrant](https://www.vagrantup.com/) and [Virtualbox](https://www.virtualbox.org/). If you're on windows, you also need a command line tool that have a ssh client, like **cygwin** or **Git bash**. Personally I'll recommend [Git bash](https://git-for-windows.github.io/) for its simple installation and usage.
 
-You also need a global installation of gulp:
+If you choose not to use vagrant, make sure you have **Node >= v4.0** and a global `gulp` on your machine.
+
+To install gulp:
 
 ```
 sudo npm i -g gulp
 ```
+
+Also, if you want simpler watching process, install `tmux` on your machine.
 
 ## Install
 
@@ -30,13 +34,59 @@ Open localhost:3000
 
 ## Component development
 
-### Setup
+### Setup Vagrant VM (OPTIONAL)
+
+You can use vagrant to set up a development environment. You need to download the development box and add it.
+
+If you have access to our internal server, use:
+
+```
+vagrant box add orientsoft-node-dev http://192.168.0.120/orientsoft-node-dev-0.1.box
+```
+
+If you have the box downloaded, use:
+
+```
+vagrant box add orientsoft-node-dev /path/to/box
+```
+
+On windows:
+
+```
+vagrant box add orientsotf-node-dev file:///path/to/box
+```
+
+After you add the box to vagrant, use `vagrant up` to start your virtual machine. On windows, make sure you're in Git bash with administrator permission.
+
+Then run `vagrant ssh` to login the VM. The parent folder of this project is mounted on `/vagrant`.
+
+**Symlink probably won't work on Windows for now, I'm looking for solution.**
+
+### Initiate Development Environment
 
 Starts the server, and watches `app/main.js` and `app/component-test.js` for changes with the following script. If you're running on your own machine, make sure you have `tmux` installed.
 
-```bash
+```
 . init-tmux.sh
 ```
+
+If you'd do it yourself, run following command in different session:
+
+```
+npm start
+```
+
+```
+gulp watch
+```
+
+```
+gulp watch -f app/component-test.js
+```
+
+### Create Component
+
+
 
 To create a new component project, run:
 
