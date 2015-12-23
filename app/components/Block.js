@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import autobind from 'autobind-decorator'
+import _ from 'lodash'
 
 import Box from './Box'
 import boardActions from '../actions/board'
@@ -8,7 +9,12 @@ import boardActions from '../actions/board'
 @autobind
 class Block extends React.Component {
   constructor(props) {
-    super(props)
+    var p = _.clone(props)
+    p.layout = p.layout.map((info, i) => {
+      info.id = i
+      return info
+    })
+    super(p)
     this.state = {
 
     }
@@ -36,6 +42,12 @@ class Block extends React.Component {
 
   get h() {
     return this.props.h
+  }
+
+  toJson() {
+    return _.map(this.refs, (box) => {
+      return box.toJson()
+    })
   }
 
   _getCss() {

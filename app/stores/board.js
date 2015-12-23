@@ -1,9 +1,9 @@
 import Reflux from 'reflux'
+import ReactDOM from 'react-dom'
+import _ from 'lodash'
+import Vector from 'victor'
 
 import boardActions from '../actions/board'
-
-import {Line} from '../lib/util'
-import Vector from 'victor'
 
 const ACTIONS = {
   NONE: 0
@@ -11,6 +11,8 @@ const ACTIONS = {
 , DRAG: 2
 , RESIZE: 3
 }
+
+const ROTATE_STEP = 15
 
 let state = {
   box: null
@@ -63,10 +65,29 @@ function constrainDrag(x, y) {
   return {x, y}
 }
 
+function ensureComponentInfo(info) {
+  const defaults = {
+    x: 0
+  , y: 0
+  , rotate: 0
+  , h: 100
+  , w: 100
+  , data: {}
+  }
+
+  _.map(defaults, (value, key) => {
+    info[key] = info[key] || value
+  })
+
+  return info
+}
+
 let store = Reflux.createStore({
   listenables: boardActions
-, onInit: () => {
+, onInit: (app) => {
     if (state.ready) return
+
+    state.app = app
 
     document.documentElement.onmousemove = function (e) {
       switch (state.action) {
@@ -80,7 +101,10 @@ let store = Reflux.createStore({
         break
 
       case ACTIONS.ROTATE:
-        state.box.rotate(state.rInit + getRotateAngle(e.clientX, e.clientY))
+        var angle = state.rInit + getRotateAngle(e.clientX, e.clientY)
+        if (e.altKey)
+          angle -= angle % ROTATE_STEP
+        state.box.rotate(angle)
         break
 
       case ACTIONS.RESIZE:
@@ -95,7 +119,12 @@ let store = Reflux.createStore({
       state.action = ACTIONS.NONE
     }
   }
-, onSetActiveBox: function (box) {
+, onLoadLayout: (layout) => {
+    console.log('loading layout')
+    state.layout = layout
+    store.trigger(state)
+  }
+, onSetActiveBox: (box) => {
     if (state.box === box) return
     if (state.box)
       state.box.deactivate()
@@ -146,6 +175,26 @@ let store = Reflux.createStore({
     if (state.block === block) return null
     state.block = block
     store.trigger(state)
+  }
+, onRemoveBox: (box) => {
+    if (state.box === box) {
+      state.box.deactivate()
+      state.box = null
+    }
+    var layout = state.app.getLayout()
+    var newLayout = layout.filter((info) => {
+      return info.id !== box.id
+    })
+    boardActions.loadLayout(newLayout)
+  }
+, onNewComponent: (newComponent) => {
+    var layout = state.app.getLayout()
+    layout.push(ensureComponentInfo(newComponent))
+    layout = layout.map((info, i) => {
+      info.id = i
+      return info
+    })
+    boardActions.loadLayout(layout)
   }
 })
 

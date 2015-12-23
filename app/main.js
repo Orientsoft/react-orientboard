@@ -37,6 +37,15 @@ let layout = [
   , x: 0
   , y: 0
   }
+, { type: 'highcharts'
+  , data: {
+      config: chartConfig
+    }
+  , h: 300
+  , w: 500
+  , x: 100
+  , y: 100
+  }
 // , { type: 'image'
 //   , data: {
 //       src: 'images/cat.jpeg'

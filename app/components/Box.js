@@ -5,11 +5,13 @@ import boardActions from '../actions/board'
 import boardStore from '../stores/board'
 import classnames from 'classnames'
 import cm from '../lib/components'
-import {Button, Glyphicon} from 'react-bootstrap'
+import {Button, ButtonGroup, Glyphicon} from 'react-bootstrap'
 import Reflux from 'reflux'
+import autobind from 'autobind-decorator'
 
 import styles from '../css/box.css'
 
+@autobind
 class Box extends React.Component {
   constructor(props) {
     super(props)
@@ -47,33 +49,46 @@ class Box extends React.Component {
             if (this.state.boardState.mode === 'edit')
               boardActions.setActiveBox(this)
           }}
-          onMouseDown={this._startDrag.bind(this)}
-          onMouseUp={this._stopDrag.bind(this)}
+          onMouseDown={this._startDrag}
+          onMouseUp={this._stopDrag}
           style={this._getCss()}>
-        <Button className={styles['box-button']}
-                bsStyle='success'
-                onClick={this.addZIndex.bind(this, 1)}>
-          <Glyphicon glyph='plus'/>
-        </Button>
-        <Button className={`${styles['box-button']} ${styles.zdown}`}
-                bsStyle='danger'
-                onClick={this.addZIndex.bind(this, -1)}>
-          <Glyphicon glyph='minus'/>
-        </Button>
+
+
+
         <div className={`${styles.rotate} ${styles.anchor}`}
-             onMouseDown={this._startRotate.bind(this)}/>
+             onMouseDown={this._startRotate}/>
         <div className={`${styles.scale} ${styles.anchor}`}
-             onMouseDown={this._startResize.bind(this)}/>
+             onMouseDown={this._startResize}/>
         {
           function() {
             let child = cm[this.props.type]
             let props = _.clone(this.props)
             props.edit = (this.state.boardState.mode === 'edit')
             props.ref = 'content'
-            props.className = styles['box-content']
+            props.className = styles.box_content
             return React.createElement(child, props)
           }.bind(this)()
         }
+
+        <ButtonGroup className={styles.box_toolbar}>
+          <Button className={styles.box_button}
+                  onClick={this.addZIndex.bind(this, 1)}>
+            <Glyphicon glyph='chevron-up'/>
+          </Button>
+          <Button className={styles.box_button}
+                  onClick={this.addZIndex.bind(this, -1)}>
+            <Glyphicon glyph='chevron-down'/>
+          </Button>
+          <Button className={styles.box_button}
+                  onClick={this.openConfig}>
+            <Glyphicon glyph='cog'/>
+          </Button>
+          <Button className={styles.box_button}
+                  onClick={this.destroy}>
+            <Glyphicon glyph='remove'/>
+          </Button>
+
+        </ButtonGroup>
       </div>
     )
   }
@@ -130,13 +145,27 @@ class Box extends React.Component {
 
   toJson() {
     let j = _.pick(this.state, [
-      'x', 'y', 'z', 'h' , 'w', 'rotate'
+      'x', 'y', 'z', 'h' , 'w', 'rotate', 'id'
     ])
+    j.id = this.props.id
     j.type = this.props.type
     j.data = {}
     if (this.refs.content.toJson)
       j.data = this.refs.content.toJson()
     return j
+  }
+
+  get id() {
+    return this.props.id
+  }
+
+  openConfig() {
+    if (this.refs.content.openConfig)
+      this.refs.content.openConfig()
+  }
+
+  destroy() {
+    boardActions.removeBox(this)
   }
 
   _getCenter() {

@@ -163,6 +163,7 @@ gulp.task('link', () => {
     , path.join('node_modules', component)
     )
   }
+  sequence('gen')()
 })
 
 gulp.task('assets', () => {
@@ -193,6 +194,7 @@ gulp.task('rm', function() {
     if (argv.d)
       fs.remove(path.join('..', `orientboard-component-${name}`))
     gutil.log(`Symlink for component ${name} removed`)
+    sequence('gen')()
   }
   else {
     gutil.log(`Component ${name} not found`)

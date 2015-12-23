@@ -14,23 +14,24 @@ html, body {
 .box.active {
   border: solid red;
 }
-.box-button {
+.box_toolbar {
   visibility: hidden;
-  position: absolute;
-  left: -40px;
+  position: absolute !important;
+  padding: 2px;
+  top: -45px;
+}
+.active.box>.box_toolbar {
+  visibility: visible;
+}
+.box-button {
   height: 30px;
   width: 30px;
-  padding: 2px;
-}
-.box-button.zdown {
-  top: 50px;
 }
 .anchor {
   height: 10px;
   width: 10px;
   border-radius: 5px;
   border: 1px solid;
-
   position: absolute;
   visibility: hidden;
 }
@@ -48,13 +49,10 @@ html, body {
   visibility: visible;
   display: block;
 }
-.active.box>.box-button {
-  visibility: visible;
-}
-.box-content {
+.box_content {
   height: 100%;
   width: 100%;
 }
-.box-content.text {
+.box_content.text {
   overflow-wrap: break-word;
 }

@@ -1,0 +1,16 @@
+.left_nav{
+  width: 200px;
+  height: 100%;
+  position: absolute;
+  background-color: gray;
+}
+
+.block{
+  position: absolute;
+  left: 200px;
+  height: 100%;
+}
+
+.navbar{
+  margin-bottom: 0 !important;
+}
