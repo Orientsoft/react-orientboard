@@ -33,13 +33,12 @@ class Box extends React.Component {
   }
 
   componentDidMount() {
-    // console.log(styles)
     this.setState({boardState: boardStore.getState()})
-    boardStore.listen((newState) => {
-      this.setState({
-        boardState: newState
-      })
-    })
+    this.unsubscribe = boardStore.listen(this._onStoreChange)
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
   }
 
   render() {
@@ -52,8 +51,6 @@ class Box extends React.Component {
           onMouseDown={this._startDrag}
           onMouseUp={this._stopDrag}
           style={this._getCss()}>
-
-
 
         <div className={`${styles.rotate} ${styles.anchor}`}
              onMouseDown={this._startRotate}/>
@@ -103,7 +100,7 @@ class Box extends React.Component {
 
   activate() {
     if (!this.state.active) {
-      console.log('activating')
+      console.log('activating', this.props.id)
       this.setState({
         active: true
       , classes: _.set(this.state.classes, styles.active, true)
@@ -166,6 +163,12 @@ class Box extends React.Component {
 
   destroy() {
     boardActions.removeBox(this)
+  }
+
+  _onStoreChange(newState) {
+    this.setState({
+      boardState: newState
+    })
   }
 
   _getCenter() {

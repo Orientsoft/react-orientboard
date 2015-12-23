@@ -65,9 +65,9 @@ class App extends React.Component {
             New Component
             <ButtonGroup vertical block>
             {
-              _.keys(cm).map((component) => {
+              _.keys(cm).map((component, i) => {
                 return (
-                    <Button onClick={() => {
+                    <Button key={i} onClick={() => {
                       boardActions.newComponent({
                         x: 0
                       , y: 0

@@ -60,8 +60,6 @@ After you add the box to vagrant, use `vagrant up` to start your virtual machine
 
 Then run `vagrant ssh` to login the VM. The parent folder of this project is mounted on `/vagrant`.
 
-**Symlink probably won't work on Windows for now, I'm looking for solution.**
-
 ### Initiate Development Environment
 
 Starts the server, and watches `app/main.js` and `app/component-test.js` for changes with the following script. If you're running on your own machine, make sure you have `tmux` installed.
@@ -132,54 +130,9 @@ npm run watch
 
 Transpiling options are in `.babelrc`, you can add new options as you like.
 
-### Assets
-
-Install components' assets with:
-
-```
-gulp assets
-```
-
-Details about how assets is managed, see **Project Layout** section.
-
 ### Debug
 
 Open `localhost:3000/dev/your-component-name`, you'll see your development page, the layout is defined in `test-layout.js`.
-
-### Project Layout (PROPOSAL ONLY)
-
-```
-orientboard-component-your-component-name
-  ├─┬ src
-  │ └── component.js
-  ├─┬ css
-  │ └── component.css
-  ├─┬ lib
-  │ └── component.js
-  ├── .babelrc
-  ├── test-layout.js
-  └── package.json
-```
-
-Your source code should be in the `src` directory, and the `css` directory will contain your css files. For details in using css in your component, see *Using Css* section.
-
-The component project use [babel](https://babeljs.io) to transpile source code in order to use es6, es7 and other new features. `.js` files under `src` will be transpiled to `lib`, you shouldn't put your source code in `lib`, nor check `lib` into your git repository.
-
-Other assets, like images and fonts, should be declared in your `package.json`. For example, if you have some pictures in `images` that you want to use, then in your `package.json`, it should be declared using glob pattern, in following format:
-
-```js
-{
-  "orientboard": {
-    "assets": [
-      "images/*"
-    ]
-  }
-}
-```
-
-When your component is installed in `react-orientboard`, pictures under `images`, will be copied to `react-orientboard/public/components/your-component-name/images`. To access them in your code, use `/components/your-component-name/images/example.png`
-
-`test-layout.js` exports an array which defines the board layout for your component's development page.
 
 ### Using CSS
 
@@ -223,3 +176,5 @@ Under the hood, css classes and ids are prefixed in order to avoid naming confli
 ```
 
 This makes sure the component fills the parent box, normally you don't need to change it.
+
+**For more on component development, read [doc/component-spec.md](doc/component-spec.md)**

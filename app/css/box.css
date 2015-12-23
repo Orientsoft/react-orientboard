@@ -6,9 +6,8 @@ html, body {
   font-family: sans-serif;
 }
 .box{
-  /*border: solid;*/
-  /*background-color: white;*/
   -webkit-user-select: none;
+  user-select: none;
   position: absolute;
 }
 .box.active {
@@ -22,6 +21,7 @@ html, body {
 }
 .active.box>.box_toolbar {
   visibility: visible;
+  z-index: 9999 !important;
 }
 .box-button {
   height: 30px;
