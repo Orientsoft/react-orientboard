@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import _ from 'lodash'
 import autobind from 'autobind-decorator'
-
 import {
   Navbar, Nav, NavItem, Button, Glyphicon, ButtonGroup
 } from 'react-bootstrap'
@@ -42,10 +41,10 @@ class App extends React.Component {
           </Navbar.Header>
           <Nav>
             <NavItem eventKey={1} onClick={()=>{boardActions.changeMode('publish')}}>
-              publish
+              Publish
             </NavItem>
             <NavItem eventKey={2} onClick={()=>{boardActions.changeMode('edit')}}>
-              edit
+              Edit
             </NavItem>
             <NavItem eventKey={3}
               onClick={()=>{
@@ -56,6 +55,9 @@ class App extends React.Component {
                 console.log(JSON.stringify(currentLayout, null, 2))
               }}>
               getjson
+            </NavItem>
+            <NavItem eventKey={4}>
+              Save
             </NavItem>
 
           </Nav>
@@ -70,19 +72,19 @@ class App extends React.Component {
             {
               _.keys(cm).map((component, i) => {
                 return (
-                    <Button key={i} onClick={() => {
-                      boardActions.newComponent({
-                        x: 0
-                      , y: 0
-                      , h: 100
-                      , w: 100
-                      , rotate: 0
-                      , type: component
-                      , data:{}
-                      })
-                    }}>
-                      {component}
-                    </Button>
+                  <Button key={i} onClick={() => {
+                    boardActions.newComponent({
+                      x: 0
+                    , y: 0
+                    , h: 100
+                    , w: 100
+                    , rotate: 0
+                    , type: component
+                    , data:{}
+                    })
+                  }}>
+                    {component}
+                  </Button>
                 )
               })
             }
@@ -114,9 +116,6 @@ class App extends React.Component {
             <Block ref='block_1' layout={this.state.layout} h={600} w={800}/>
           </div>
         </div>
-
-
-
       </div>
     )
   }

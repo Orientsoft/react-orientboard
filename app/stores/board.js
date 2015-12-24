@@ -14,6 +14,7 @@ const ACTIONS = {
 }
 
 const ROTATE_STEP = 15
+    , GRID_SIZE = 10
 
 let state = {
   box: null
@@ -91,6 +92,11 @@ let store = Reflux.createStore({
         , e.clientY - state.dragStart.y
         )
 
+        if (e.altKey) {
+          x -= x % GRID_SIZE
+          y -= y % GRID_SIZE
+        }
+
         state.box.moveTo(x, y)
         break
 
@@ -102,8 +108,14 @@ let store = Reflux.createStore({
         break
 
       case ACTIONS.RESIZE:
-        state.box.resize( state.resizeStart.h + e.clientY - state.resizeStart.y
-                        , state.resizeStart.w + e.clientX - state.resizeStart.x)
+        let h = state.resizeStart.h + e.clientY - state.resizeStart.y
+          , w = state.resizeStart.w + e.clientX - state.resizeStart.x
+
+        if (e.altKey) {
+          h -= h % GRID_SIZE
+          w -= w % GRID_SIZE
+        }
+        state.box.resize(h, w)
         break
 
       }

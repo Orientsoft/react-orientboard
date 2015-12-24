@@ -52,6 +52,11 @@ class Box extends React.Component {
           onMouseUp={this._stopDrag}
           style={this._getCss()}>
 
+        <span className={styles.pos_info}>
+          x: {this.state.x}, y: {this.state.y}, h: {this.state.h},
+          w: {this.state.w}, rotate: {this.state.rotate}
+        </span>
+
         <div className={`${styles.rotate} ${styles.anchor}`}
              onMouseDown={this._startRotate}/>
         <div className={`${styles.scale} ${styles.anchor}`}

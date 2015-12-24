@@ -50,3 +50,11 @@ html, body {
 .box_content.text {
   overflow-wrap: break-word;
 }
+.pos_info {
+  visibility: hidden;
+  position: absolute;
+  top: -30px;
+}
+.active.box>.pos_info {
+  visibility: visible;
+}
