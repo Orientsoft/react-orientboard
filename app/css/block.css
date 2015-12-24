@@ -1,0 +1,9 @@
+.block_toolbar {
+  position: absolute !important;
+  width: 40px;
+  left: 5px;
+}
+
+.block {
+  margin-left: 50px;
+}

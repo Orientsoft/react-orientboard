@@ -38,7 +38,6 @@ let state = {
 , mode: 'edit'
 }
 
-// let components = {}
 import cm from '../lib/components'
 
 // get the angle between vector(rotateStart.x - center.x,
@@ -51,13 +50,7 @@ function getRotateAngle(x, y) {
   return vEnd.angleDeg() - vStart.angleDeg()
 }
 
-function pointInBlock(x, y) {
-  console.log(x, state.box.w, state.block.w)
-  console.log(y, state.box.h, state.block.h)
-  return x + state.box.w <= state.block.w && y + state.box.h <= state.block.h
-      && x >= 0 && y >= 0
-}
-
+// ensures box being dragged stays in block
 function constrainDrag(x, y) {
   x = x + state.box.w <= state.block.w ? x : state.block.w - state.box.w
   x = x < 0 ? 0 : x
@@ -204,6 +197,21 @@ let store = Reflux.createStore({
     if (state.box) {
       state.box.openConfig()
     }
+  }
+, onOpenBlockConfig() {
+    state.showBlockConfig = true
+    store.trigger(state)
+  }
+, onCloseBlockConfig() {
+    state.showBlockConfig = false
+    store.trigger(state)
+  }
+, onSetBlockConfig(config) {
+    // state.block.setConfig(config)
+    state.blockConfig = config
+    store.trigger({
+      blockConfig: config
+    })
   }
 })
 

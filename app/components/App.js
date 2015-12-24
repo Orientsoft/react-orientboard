@@ -12,6 +12,7 @@ import boardStore from '../stores/board'
 
 import Box from './Box'
 import Block from './Block'
+import BlockConfigModal from './BlockConfig'
 
 import styles from '../css/app.css'
 
@@ -60,6 +61,8 @@ class App extends React.Component {
           </Nav>
         </Navbar>
 
+        <BlockConfigModal show={this.state.showBlockConfig}/>
+
         <div>
           <div className={styles.left_nav}>
             New Component
@@ -86,7 +89,7 @@ class App extends React.Component {
             </ButtonGroup>
 
           </div>
-          <div className={styles.block}>
+          <div className={styles.workspace}>
             <div >
             <ButtonGroup className={styles.box_toolbar}>
               <Button className={styles.box_button}
@@ -124,11 +127,12 @@ class App extends React.Component {
       boardActions.loadLayout(this.props.layout)
     }
     boardStore.listen((newState) => {
-      if (newState.layout !== this.state.layout) {
-        this.setState({
-          layout: newState.layout
-        })
-      }
+      // if (newState.layout !== this.state.layout) {
+      //   this.setState({
+      //     layout: newState.layout
+      //   })
+      // }
+      this.setState(newState)
     })
   }
 
