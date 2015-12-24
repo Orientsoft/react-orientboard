@@ -30,7 +30,6 @@
     "babel-runtime": "^6.3.13"
   },
   "orientboard": {
-    "name": "example",
-    "assets": []
+    "name": "example"
   }
 }

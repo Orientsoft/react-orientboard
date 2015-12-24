@@ -167,18 +167,9 @@ gulp.task('link', () => {
 })
 
 gulp.task('assets', () => {
-  for (var component of utils.getComponents()) {
-    var assets = _.get(fs.readJsonSync(
-      path.join('..', component, 'package.json')
-    ), 'orientboard.assets')
-
-    var dst = path.join('public/components', utils.getComponentName(component))
-
-    if (assets instanceof Array)
-      for (var asset of assets)
-        gulp.src(path.join('..', component, asset))
-            .pipe(gulp.dest(dst))
-  }
+  for (var component of utils.getComponents())
+    gulp.src(`../${component}/assets/**`)
+        .pipe(gulp.dest(`public/components/${component}`))
 })
 
 // remove a component from node_modules

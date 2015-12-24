@@ -10,6 +10,8 @@ orientboard-component-your-component-name
   │ └── component.css
   ├─┬ lib
   │ └── component.js
+  ├─┬ assets
+  │ └── ...
   ├── .babelrc
   ├── test-layout.js
   └── package.json
@@ -19,21 +21,7 @@ Your source code should be in the `src` directory, and the `css` directory will 
 
 The component project use [babel](https://babeljs.io) to transpile source code in order to use es6, es7 and other new features. `.js` files under `src` will be transpiled to `lib`, you shouldn't put your source code in `lib`, nor check `lib` into your git repository.
 
-Other assets, like images and fonts, should be declared in your `package.json`. For example, if you have some pictures in `images` that you want to use, then in your `package.json`, it should be declared using glob pattern, in following format:
-
-```js
-{
-  "orientboard": {
-    "assets": [
-      "images/*"
-    ]
-  }
-}
-```
-
-When your component is installed in `react-orientboard`, pictures under `images`, will be copied to `react-orientboard/public/components/your-component-name/images`. To access them in your code, use `/components/your-component-name/images/example.png`
-
-Install all your assets with `gulp assets` under `react-orientboard` directory.
+Other assets, like images and fonts, should be placed under `assets` folder. All these assets will be moved to `react-orientboard/public/components/your-component-name` when you run `gulp assets` under `react-orientboard` directory..
 
 `test-layout.js` exports an array which defines the board layout for your component's development page.
 
