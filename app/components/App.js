@@ -87,6 +87,27 @@ class App extends React.Component {
 
           </div>
           <div className={styles.block}>
+            <div >
+            <ButtonGroup className={styles.box_toolbar}>
+              <Button className={styles.box_button}
+                      onClick={boardActions.addZIndex.bind(null, 1)}>
+                <Glyphicon glyph='chevron-up'/>
+              </Button>
+              <Button className={styles.box_button}
+                      onClick={boardActions.addZIndex.bind(null, -11)}>
+                <Glyphicon glyph='chevron-down'/>
+              </Button>
+              <Button className={styles.box_button}
+                      onClick={boardActions.openConfig}>
+                <Glyphicon glyph='cog'/>
+              </Button>
+              <Button className={styles.box_button}
+                      onClick={boardActions.removeBox}>
+                <Glyphicon glyph='remove'/>
+              </Button>
+
+            </ButtonGroup>
+            </div>
             <Block ref='block_1' layout={this.state.layout} h={600} w={800}/>
           </div>
         </div>

@@ -13,12 +13,6 @@ html, body {
 .box.active {
   border: solid red;
 }
-.box_toolbar {
-  visibility: hidden;
-  position: absolute !important;
-  padding: 2px;
-  top: -45px;
-}
 .active.box>.box_toolbar {
   visibility: visible;
   z-index: 9999 !important;

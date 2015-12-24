@@ -66,26 +66,6 @@ class Box extends React.Component {
             return React.createElement(child, props)
           }.bind(this)()
         }
-
-        <ButtonGroup className={styles.box_toolbar}>
-          <Button className={styles.box_button}
-                  onClick={this.addZIndex.bind(this, 1)}>
-            <Glyphicon glyph='chevron-up'/>
-          </Button>
-          <Button className={styles.box_button}
-                  onClick={this.addZIndex.bind(this, -1)}>
-            <Glyphicon glyph='chevron-down'/>
-          </Button>
-          <Button className={styles.box_button}
-                  onClick={this.openConfig}>
-            <Glyphicon glyph='cog'/>
-          </Button>
-          <Button className={styles.box_button}
-                  onClick={this.destroy}>
-            <Glyphicon glyph='remove'/>
-          </Button>
-
-        </ButtonGroup>
       </div>
     )
   }

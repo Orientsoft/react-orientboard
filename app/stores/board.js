@@ -2,6 +2,7 @@ import Reflux from 'reflux'
 import ReactDOM from 'react-dom'
 import _ from 'lodash'
 import Vector from 'victor'
+import Box from '../components/Box'
 
 import boardActions from '../actions/board'
 
@@ -177,13 +178,16 @@ let store = Reflux.createStore({
     store.trigger(state)
   }
 , onRemoveBox: (box) => {
+    // console.log(state.box.id, box)
+    var boxId = box instanceof Box ? box.id : state.box.id
     if (state.box === box) {
       state.box.deactivate()
       state.box = null
     }
     var layout = state.app.getLayout()
+    console.log(boxId)
     var newLayout = layout.filter((info) => {
-      return info.id !== box.id
+      return info.id !== boxId
     })
     boardActions.loadLayout(newLayout)
   }
@@ -195,6 +199,11 @@ let store = Reflux.createStore({
       return info
     })
     boardActions.loadLayout(layout)
+  }
+, onOpenConfig() {
+    if (state.box) {
+      state.box.openConfig()
+    }
   }
 })
 
