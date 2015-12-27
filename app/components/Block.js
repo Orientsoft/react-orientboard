@@ -61,6 +61,10 @@ class Block extends React.Component {
         </Button>
         <Button className={styles.box_button} disabled
                 onClick={null}>
+          <Glyphicon glyph='plus'/>
+        </Button>
+        <Button className={styles.box_button} disabled
+                onClick={null}>
           <Glyphicon glyph='remove'/>
         </Button>
         </ButtonGroup>

@@ -30,9 +30,12 @@ public/vendor
 public/js
 public/css
 public/components
+public/doc
 
 example-component/lib
 
 config/components.json
 app/lib/components.js
 .vagrant
+
+doc/_book

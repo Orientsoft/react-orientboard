@@ -19,6 +19,7 @@ var gulp = require('gulp')
   , _ = require('lodash')
   , utils = require('./lib/util')
   , sequence = require('gulp-sequence')
+  , gitbook = require('gitbook')
 
 var argv = require('minimist')(process.argv.slice(2))
 
@@ -169,7 +170,7 @@ gulp.task('link', () => {
 gulp.task('assets', () => {
   for (var component of utils.getComponents())
     gulp.src(`../${component}/assets/**`)
-        .pipe(gulp.dest(`public/components/${component}`))
+      .pipe(gulp.dest(`public/components/${utils.getComponentName(component)}`))
 })
 
 // remove a component from node_modules
@@ -196,6 +197,25 @@ gulp.task('ls', function () {
   gutil.log('Installed components:')
   for (var component of utils.getComponents())
     console.log(`\t - ${utils.getComponentName(component)}`)
+})
+
+gulp.task('doc', (cb) => {
+  var book = new gitbook.Book('doc/', {
+    config: {
+      otuput: '_book'
+    }
+  })
+
+  book.parse().then(() => {
+    return book.generate('website')
+  }).then(() => {
+    gutil.log('Documentation built')
+    fs.ensureSymlink('doc/_book', 'public/doc', cb)
+  }, cb)
+})
+
+gulp.task('postinstall', () => {
+  sequence('install', 'gen', 'build-vendor', 'build', 'doc')()
 })
 
 gulp.task('default', ['production'])

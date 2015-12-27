@@ -56,7 +56,8 @@ class App extends React.Component {
               }}>
               getjson
             </NavItem>
-            <NavItem eventKey={4}>
+            <NavItem eventKey={4}
+                onClick={boardActions.saveBoard}>
               Save
             </NavItem>
 

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import _ from 'lodash'
 import Vector from 'victor'
 import Box from '../components/Box'
+import $ from 'jquery'
 
 import boardActions from '../actions/board'
 
@@ -75,6 +76,10 @@ function ensureComponentInfo(info) {
   })
 
   return info
+}
+
+function getBoard() {
+
 }
 
 let store = Reflux.createStore({
@@ -190,7 +195,6 @@ let store = Reflux.createStore({
       state.box = null
     }
     var layout = state.app.getLayout()
-    console.log(boxId)
     var newLayout = layout.filter((info) => {
       return info.id !== boxId
     })
@@ -224,6 +228,12 @@ let store = Reflux.createStore({
     store.trigger({
       blockConfig: config
     })
+  }
+, onSaveBoard() {
+
+    // $.post('/api/board', 'a', (res) => {
+    //   console.log(res)
+    // })
   }
 })
 

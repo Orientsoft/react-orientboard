@@ -1,4 +1,4 @@
-# Component Specification
+# Component Specs
 
 ## Project Layout
 
@@ -61,4 +61,47 @@ The following APIs are optional:
   }
   ```
 
-  If you don't implement this, new component will be created with an empty object as `data` field. In this case, make sure you handles initial values correctly.
+  If you don't implement this, new component will be created with an empty object as `data` field. In this case, make sure you handle initial values correctly.
+
+## CSS
+
+CSS in components is made modular by [css-modulesify](https://github.com/css-modules/css-modulesify), and will not have conflict with global css and css in other components. The usage is quite simple, as shown in the following example:
+
+Your css file:
+```css
+.ex-class {
+
+}
+
+#ex-id {
+
+}
+```
+
+Your js file:
+```js
+import styles from '../css/component.css'
+
+...
+
+  render() {
+    return (
+      <div {...this.props}>
+        <div id={styles['ex-id']}
+             className={styles['ex-class']}>
+        </div>
+      </div>
+    )
+  }
+```
+
+Under the hood, css classes and ids are prefixed in order to avoid naming conflicts. The outer div has a className supplied by the parent box component, which applies the following css style:
+
+```css
+{
+  height: 100%;
+  width: 100%;
+}
+```
+
+This makes sure the component fills the parent box, normally you don't need to change it. Make sure your component never overflow the outer box. If your component is outside the box, there may be problems in dragging, resizing and rotating.

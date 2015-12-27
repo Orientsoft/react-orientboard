@@ -1,5 +1,9 @@
+# 简单需求列表
+
 1. 内容  
-report, infograph, dashboard.
+  - report
+  - infograph
+  - dashboard
 
 2. 构成  
 ```
