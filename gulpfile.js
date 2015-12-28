@@ -4,22 +4,18 @@ var gulp = require('gulp')
   , watchify = require('watchify')
   , source = require('vinyl-source-stream')
   , streamify = require('gulp-streamify')
-  // , less = require('gulp-less')
   , path = require('path')
   , fs = require('fs-extra')
   , child_process = require('child_process')
   , exec = child_process.exec
-  // , spawn = child_process.spawn
-  , uglify = {
-      js: require('gulp-uglify')
-  //   , css: require('gulp-uglifycss')
-    }
+  , uglifyjs = require('gulp-uglify')
   , cssModulesify = require('css-modulesify')
   , gutil = require('gulp-util')
   , _ = require('lodash')
   , utils = require('./lib/util')
   , sequence = require('gulp-sequence')
   , gitbook = require('gitbook')
+  , eslint = require('gulp-eslint')
 
 var argv = require('minimist')(process.argv.slice(2))
 
@@ -65,7 +61,7 @@ gulp.task('build-vendor', () => {
     .require(vendors)
     .bundle()
     .pipe(source('vendor.js'))
-    .pipe(streamify(uglify.js()))
+    .pipe(streamify(uglifyjs()))
     .pipe(gulp.dest('./public/js'))
 })
 
@@ -77,7 +73,7 @@ gulp.task('build', function () {
   })
   .bundle()
   .pipe(source('main.js'))
-  .pipe(streamify(uglify.js()))
+  .pipe(streamify(uglifyjs()))
   .pipe(gulp.dest('./public/js'))
 })
 
@@ -216,6 +212,13 @@ gulp.task('doc', (cb) => {
 
 gulp.task('postinstall', () => {
   sequence('install', 'gen', 'build-vendor', 'build', 'doc')()
+})
+
+gulp.task('lint', () => {
+  return gulp.src(['**/*.js', '!node_modules/**', '!public/**'])
+      .pipe(eslint())
+      .pipe(eslint.format())
+      .pipe(eslint.failAfterError())
 })
 
 gulp.task('default', ['production'])
