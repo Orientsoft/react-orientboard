@@ -6,8 +6,8 @@ import App from './components/App'
 let chartConfig = {
   chart: {
     type: 'bar'
-  },
-  title: {
+  }
+, title: {
     text: 'Fruit Consumption'
   },
   xAxis: {

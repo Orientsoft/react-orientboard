@@ -64,7 +64,6 @@ class Box extends React.Component {
         {
           function() {
             let child = cm[this.props.type]
-            // let props = _.clone(this.props)
             let props = _.pick(this.state, ['x', 'y', 'h', 'w', 'rotate'])
             props.data = this.props.data
             props.edit = (this.state.boardState.mode === 'edit')
