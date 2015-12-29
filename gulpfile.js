@@ -106,7 +106,7 @@ gulp.task('watch', function () {
   watcher.build()
 })
 
-gulp.task('new', function() {
+gulp.task('new', function(cb) {
   if (!argv.n)
     return gutil.log(
       gutil.colors.red('Error'), 'Name missing, use -n to name your component'
@@ -125,11 +125,11 @@ gulp.task('new', function() {
   gutil.log('Running', cmd)
   exec(cmd, { cwd: componentDir }, (err, stdout, stderr) => {
     if (err) {
-      return gutil.log(gutil.colors.red('Error'), err)
+      return cb(err)
     }
     console.log(stderr)
     gutil.log('Finished npm install')
-    sequence('gen')()
+    sequence('gen')(cb)
   })
 })
 
@@ -146,11 +146,11 @@ gulp.task('gen', function() {
   var config = {
     components: utils.getComponents()
   }
-  fs.mkdirp('./config')
+  fs.mkdirpSync('./config')
   fs.writeJsonSync('./config/components.json', config)
 })
 
-gulp.task('link', () => {
+gulp.task('link', (cb) => {
   var components = fs.readdirSync('..').filter((dep) => {
     return dep.match(/^orientboard-component-/)
   })
@@ -160,7 +160,7 @@ gulp.task('link', () => {
     , path.join('node_modules', component)
     )
   }
-  sequence('gen')()
+  sequence('gen')(cb)
 })
 
 gulp.task('assets', () => {
@@ -170,7 +170,7 @@ gulp.task('assets', () => {
 })
 
 // remove a component from node_modules
-gulp.task('rm', function() {
+gulp.task('rm', function(cb) {
   var name = argv.n
   if (!name)
     return gutil.log('Component name is needed.')
@@ -182,10 +182,11 @@ gulp.task('rm', function() {
     if (argv.d)
       fs.remove(path.join('..', `orientboard-component-${name}`))
     gutil.log(`Symlink for component ${name} removed`)
-    sequence('gen')()
+    sequence('gen')(cb)
   }
   else {
     gutil.log(`Component ${name} not found`)
+    cb()
   }
 })
 
@@ -210,8 +211,8 @@ gulp.task('doc', (cb) => {
   }, cb)
 })
 
-gulp.task('postinstall', () => {
-  sequence('install', 'gen', 'build-vendor', 'build', 'doc')()
+gulp.task('postinstall', (cb) => {
+  sequence('install', 'gen', 'build-vendor', 'build', 'doc')(cb)
 })
 
 gulp.task('lint', () => {

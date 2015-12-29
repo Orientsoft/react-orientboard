@@ -1,7 +1,8 @@
 # Summary
 
 * [Development](dev/index.md)
-  * [Environment Setup](dev/vagrant.md)
+  * [Setup with Vagrant](dev/vagrant.md)
+  * [Setup with Docker](dev/docker.md)
   * [Requirement](dev/spec.md)
   * [Component Development](dev/component-dev.md)
   * [Component Specs](dev/component-spec.md)
