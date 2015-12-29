@@ -114,7 +114,7 @@ gulp.task('new', function(cb) {
   var name = `orientboard-component-${argv.n}`
   var configPath = path.join('..', name, 'package.json')
   var componentDir = path.join(__dirname, '..', name)
-  fs.copySync('example-component', componentDir)
+  fs.copySync('component-example', componentDir)
   var p = fs.readJsonSync(configPath)
   p.name = name
   p.orientboard.name = argv.n

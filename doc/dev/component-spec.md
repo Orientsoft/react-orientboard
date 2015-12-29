@@ -41,9 +41,9 @@ You have to implement the following APIs in your component:
 
 The following APIs are optional:
 
-1. `newComponent()` - static
+1. `NewComponentConfig` - static member, a react component
 
-  This method will open a modal to gather necessary information for a new instance, then create it by calling `boardActions.newComponent(componentInfo)`. `componentInfo` contains:
+  This sub component is a modal to gather necessary information for a new instance. This will appear when creating a new component. In this modal,  create a new component by calling `boardActions.newComponent(componentInfo)`. `componentInfo` contains:
 
   ```js
   {

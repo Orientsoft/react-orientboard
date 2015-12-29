@@ -1,0 +1,3 @@
+[submodule "component-example"]
+	path = component-example
+	url = https://github.com/Orientsoft/orientboard-component-example.git

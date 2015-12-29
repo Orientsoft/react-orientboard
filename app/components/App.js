@@ -64,6 +64,16 @@ class App extends React.Component {
           </Nav>
         </Navbar>
 
+        <div >
+          {
+            _.map(cm, (component, i) => {
+              if (component.NewComponentConfig)
+                return <component.NewComponentConfig
+                    key={i} ref={`new-${i}`} actions={boardActions}/>
+            })
+          }
+        </div>
+
         <BlockConfigModal show={this.state.showBlockConfig}/>
 
         <div>
@@ -74,15 +84,19 @@ class App extends React.Component {
               _.keys(cm).map((component, i) => {
                 return (
                   <Button key={i} onClick={() => {
-                    boardActions.newComponent({
-                      x: 0
-                    , y: 0
-                    , h: 100
-                    , w: 100
-                    , rotate: 0
-                    , type: component
-                    , data:{}
-                    })
+                    if (this.refs[`new-${component}`])
+                      this.refs[`new-${component}`].open()
+                    else {
+                      boardActions.newComponent({
+                        x: 0
+                      , y: 0
+                      , h: 100
+                      , w: 100
+                      , rotate: 0
+                      , type: component
+                      , data:{}
+                      })
+                    }
                   }}>
                     {component}
                   </Button>
