@@ -22,3 +22,11 @@ Once you're in, install the project dependencies:
 cd /ob/react-orientboard
 npm i
 ```
+
+## Hostname
+
+Since the project is running in a docker vm, for now you have to access the application from:
+
+```
+http://`docker-machine ip $DOCKER_MACHINE_NAME`:3000
+```

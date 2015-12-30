@@ -18,6 +18,8 @@ Also, if you want simpler watching process, install `tmux` on your machine.
 ## Install
 
 ```
+git clone --recursive https://github.com/Orientsoft/react-orientboard
+cd react-orientboard
 npm i
 ```
 

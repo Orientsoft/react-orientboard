@@ -52,6 +52,7 @@ function getBrowserifyStream(opts) {
   .plugin(cssModulesify, {
     rootDir: __dirname
   , output: `./public/css/${path.basename(opts.file, '.js')}.css`
+  , global: true
   })
   .external(vendors)
 }
@@ -161,6 +162,13 @@ gulp.task('link', (cb) => {
     )
   }
   sequence('gen')(cb)
+})
+
+gulp.task('unlink', () => {
+  var components = utils.getComponents()
+  console.log(components)
+  for (var component of components)
+    fs.removeSync(`node_modules/${component}`)
 })
 
 gulp.task('assets', () => {

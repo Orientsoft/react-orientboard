@@ -1,5 +1,7 @@
 # Component Specs
 
+> See source code in component-example for a working example.
+
 ## Project Layout
 
 ```
