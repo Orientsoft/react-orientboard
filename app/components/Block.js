@@ -24,6 +24,7 @@ class Block extends React.Component {
     this.state = {
       w: w || 800
     , h: h || 600
+    , img: null
     }
   }
 
@@ -92,10 +93,12 @@ class Block extends React.Component {
   }
 
   _getCss() {
+    console.log(this.state.img)
     return {
       border: 'solid'
     , width: this.state.w
     , height: this.state.h
+    , backgroundImage: this.state.img ? `url(${this.state.img})` : 'none'
     }
   }
 

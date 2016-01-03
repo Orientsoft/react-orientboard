@@ -30,6 +30,8 @@ class BlockConfigModal extends React.Component {
               defaultValue={this.state.w}/>
           <Input ref='height' type='text' label='height'
               defaultValue={this.state.h}/>
+          <Input ref='backimg' type='text' label='background image'
+              defaultValue={this.state.img}/>
         </Modal.Body>
         <Modal.Footer >
           <Button onClick={this.close}>Cancle</Button>
@@ -46,14 +48,17 @@ class BlockConfigModal extends React.Component {
   update() {
     let w = this.refs.width.getValue()
       , h = this.refs.height.getValue()
+      , img = this.refs.backimg.getValue()
     console.log(w, h)
     this.setState({
       w: w
     , h: h
+    , img: img
     })
     boardActions.setBlockConfig({
       w: w
     , h: h
+    , img: img
     })
     this.close()
   }

@@ -16,6 +16,9 @@ var gulp = require('gulp')
   , sequence = require('gulp-sequence')
   , gitbook = require('gitbook')
   , eslint = require('gulp-eslint')
+  , mocha = require('gulp-mocha')
+
+require('nodent')()
 
 var argv = require('minimist')(process.argv.slice(2))
 
@@ -228,6 +231,13 @@ gulp.task('lint', () => {
       .pipe(eslint())
       .pipe(eslint.format())
       .pipe(eslint.failAfterError())
+})
+
+gulp.task('test', () => {
+  return gulp.src('tests/board.js', {read: false})
+      .pipe(mocha())
+      .once('error', process.exit.bind(null, 1))
+      .once('end', process.exit)
 })
 
 gulp.task('default', ['production'])
