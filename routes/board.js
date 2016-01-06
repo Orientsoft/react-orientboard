@@ -19,7 +19,7 @@ router.put('/board', async (req, res) => {
 })
 
 // delete board
-router.del('/board', (req, res) => {
+router.delete('/board', (req, res) => {
 
 })
 
