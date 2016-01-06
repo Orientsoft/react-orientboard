@@ -3,6 +3,7 @@
 /**
  * Module dependencies.
  */
+require('nodent')()
 
 var app = require('../app')
 var debug = require('debug')('react-orientboard:server')
