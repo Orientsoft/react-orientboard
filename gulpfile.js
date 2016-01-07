@@ -234,7 +234,8 @@ gulp.task('lint', () => {
 })
 
 gulp.task('test', () => {
-  return gulp.src('tests/board.js', {read: false})
+  var file = argv.f || 'board.js'
+  return gulp.src(`tests/${file}`, {read: false})
       .pipe(mocha())
       .once('error', process.exit.bind(null, 1))
       .once('end', process.exit)

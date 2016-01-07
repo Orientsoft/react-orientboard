@@ -25,7 +25,13 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', routes)
 app.use('/users', users)
-app.use('/api', board)
+app.use('/api', board({
+  mongo: {
+    host: 'localhost'
+  , port: 27017
+  , db: 'orientboard'
+  }
+}))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

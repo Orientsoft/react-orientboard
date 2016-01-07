@@ -11,34 +11,61 @@ var bm
 router.put('/board', async (req, res) => {
   var user = 'test'
   try {
-    var res = await bm.create('test', req.body.board)
-    return req.json(res.ops[0])
+    var result = await bm.create(user, req.body.board)
+    return res.json(result.ops[0])
   } catch (e) {
-    return req.status(403).send(e.toString())
+    return res.send(e.toString())
   }
 })
 
 // delete board
-router.delete('/board', (req, res) => {
-
+router.delete('/board', async (req, res) => {
+  var user = 'test'
+  try {
+    var result = await bm.remove(user, req.body.board)
+    return res.json(result.result)
+  } catch (e) {
+    return res.send(e.toString())
+  }
 })
 
 // update board
-router.patch('/board', (req, res) => {
-
+router.patch('/board', async (req, res) => {
+  var user = 'test'
+  try {
+    var result = await bm.update(user, req.body.query, req.body.board)
+    console.log(result)
+    return res.json(result.result)
+  } catch (e) {
+    return res.send(e.toString())
+  }
 })
 
 // list boards
-router.get('/boards', (req, res) => {
-
+router.get('/boards', async (req, res) => {
+  var user = 'test'
+  try {
+    var result = await bm.list(user)
+    return res.json(result)
+  } catch (e) {
+    return res.send(e.toString())
+  }
 })
 
 // find board
-router.get('/board', (req, res) => {
+router.get('/board', async (req, res) => {
+  var user = 'test'
+  try {
+    var result = await bm.find(user, req.query)
+    return res.json(result)
+    return res.send(e.toString())
+  } catch (e) {
 
+  }
 })
 
-module.exports = (otps) => {
+module.exports = (opts) => {
   bm = bm || new BoardManager(opts)
+  bm.connect()
   return router
 }

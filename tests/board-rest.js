@@ -5,58 +5,93 @@ var expect = require('chai').expect
   , _ = require('lodash')
   , request = require('request')
 
-// var BoardManager = require('../lib/board-manager')
+// var BoardManager = require('../libboard-manager')
 
 var bm
   , board = {
-      name: 'test'
+      name: 'test' + Date.now()
     , owner: 'test'
     }
 
+function url(endpoint) {
+  return `http://localhost:3000/api/${endpoint}`
+}
+
 describe('Board Manager', () => {
-  it('should create a new board', async () => {
-
+  it('should create a new board', async (cb) => {
+    request.put(url('board'), {
+      body: {
+        board: board
+      }
+    , json: true
+  }, (e, r, b) => {
+      expect(e).to.not.exists
+      expect(b).to.have.property('_id')
+      cb(e)
+    })
   })
 
-  it('should throw an error if board with the same name exists', async () => {
-    var thrown = false
-    try {
-      await bm.create(board.owner, board)
-    }
-    catch (e) {
-      thrown = true
-      expect(e).to.deep.equal(
-        new Error('A board with the same name already exists')
-      )
-    }
-    expect(thrown).to.be.true
+  it('should get an error if board with the same name exists', async (cb) => {
+    request.put(url('board'), {
+      body: {
+        board: board
+      }
+    , json: true
+    }, (e, r, b) => {
+      console.log(e, b)
+      expect(e).to.not.exists
+      expect(b).to.equal('Error: A board with the same name already exists')
+      cb(e)
+    })
   })
 
-  it('should find the board created', async () => {
-    var res = await bm.find(board.owner, board)
-    expect(res).to.have.length(1)
+  it('should list boards', async (cb) => {
+    request.get(url('boards'), {json: true}, (e, r, b) => {
+      expect(e).to.not.exists
+      expect(b).to.be.an(Array)
+      console.log(_.pluck(b, '_id'))
+      cb(e)
+    })
   })
 
-  it('should list the boards belong to user test', async () => {
-    var res = await bm.list(board.owner)
-    expect(res).to.have.length(1)
+  it('should find the board', async (cb) => {
+    request.get(url('board'), {
+      qs: board
+    , json: true
+    }, (e, r, b) => {
+      expect(e).to.not.exists
+      expect(b).to.have.length(1)
+      cb(e)
+    })
   })
 
-  it('should update the board', async () => {
-    var newBoard = _.clone(board)
-    newBoard.new = 'yes'
-    var res = await bm.update(board.owner, board, {$set: newBoard})
-    expect(res.result.ok).to.equal(1)
-    expect(res.result.nModified).to.equal(1)
-    expect(res.result.n).to.equal(1)
-    res = await bm.find(board.owner, board)
-    expect(res).to.have.length(1)
-    expect(res[0].new).to.equal('yes')
+  it('should update the board', async (cb) => {
+    var nb = _.clone(board)
+    nb.change = 1
+    request.patch(url('board'), {
+      body: {
+        query: board
+      , board: nb
+      }
+    , json: true
+    }, (e, r, b) => {
+      expect(b.ok).to.equal(1)
+      expect(b.nModified).to.equal(1)
+      expect(b.n).to.equal(1)
+      expect(e).to.not.exists
+      cb(e)
+    })
   })
 
-  it('should remove the board', async () => {
-    var res = await bm.remove(board.owner, board)
-    expect(res.result.ok).to.equal(1)
-    expect(res.result.n).to.equal(1)
+  it('should remove the board', async (cb) => {
+    request.del(url('board'), {
+      body: {
+        board: board
+      }
+    , json: true
+    }, (e, r, b) => {
+      console.log(e, b)
+      cb(e)
+    })
   })
 })
