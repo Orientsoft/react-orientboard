@@ -31,6 +31,8 @@ gulp.task('install', function () {
     .pipe(gulp.dest('./public/vendor/bootstrap'))
   gulp.src(['./node_modules/babel-polyfill/dist/**'])
     .pipe(gulp.dest('./public/vendor/babel-polyfill'))
+  gulp.src(['./node_modules/mocha/mocha.*'])
+    .pipe(gulp.dest('./public/vendor/mocha'))
 })
 
 var vendors = [

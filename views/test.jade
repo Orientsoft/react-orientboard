@@ -1,0 +1,17 @@
+extends layout
+
+block css
+  link(rel='stylesheet' href='/vendor/mocha/mocha.css')
+    
+block content
+  div#mocha
+    
+block js
+  script(src='/vendor/babel-polyfill/polyfill.min.js')
+  script(src="/js/vendor.js")
+  script(src='/vendor/mocha/mocha.js')
+  script.
+    mocha.setup('bdd')
+  script(src='/js/#{test}.js')
+  script.
+    mocha.run()

@@ -58,4 +58,10 @@ router.get('/dev/:name', function (req, res) {
   })
 })
 
+router.get('/mocha/:test', function (req, res) {
+  res.render('test', {
+    test: req.params.test
+  })
+})
+
 module.exports = router

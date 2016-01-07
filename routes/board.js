@@ -14,7 +14,8 @@ router.put('/board', async (req, res) => {
     var result = await bm.create(user, req.body.board)
     return res.json(result.ops[0])
   } catch (e) {
-    return res.send(e.toString())
+    console.log(e.stack)
+    return res.status(500).send(e.toString())
   }
 })
 
@@ -34,7 +35,6 @@ router.patch('/board', async (req, res) => {
   var user = 'test'
   try {
     var result = await bm.update(user, req.body.query, req.body.board)
-    console.log(result)
     return res.json(result.result)
   } catch (e) {
     return res.send(e.toString())
