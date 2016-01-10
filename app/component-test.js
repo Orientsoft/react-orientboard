@@ -25,7 +25,7 @@ import $ from 'jquery'
 // console.log(utils.getTestLayout(document.title))
 utils.getTestLayout(document.title).then((layout) => {
   console.log(layout)
-  ReactDOM.render(<App layout={layout}/>, document.querySelector('#mount-app'))
+  ReactDOM.render(<App testComponent={layout}/>, document.querySelector('#mount-app'))
 })
 // var name = /(.*)-dev$/.exec(document.title)[1]
 // $.get(`/get-test-layout/${name}`, (data) => {

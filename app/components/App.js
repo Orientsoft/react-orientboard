@@ -1,25 +1,29 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import _ from 'lodash'
 import autobind from 'autobind-decorator'
 import {
-  Navbar, Nav, NavItem, Button, Glyphicon, ButtonGroup
+  Navbar, Nav, NavItem, Button, ButtonGroup, Input
 } from 'react-bootstrap'
 
 import boardActions from '../actions/board'
 import boardStore from '../stores/board'
+import blockActions from '../actions/block'
+import blockStore from '../stores/block'
+import boxActions from '../actions/box'
+import boxStore from '../stores/box'
 
-import Box from './Box'
-import Block from './Block'
+import Board from './Board'
 import BlockConfigModal from './BlockConfig'
+import BoardConfigModal from './BoardConfig'
+import BoxToolbar from './BoxToolbar'
 
 import styles from '../css/app.css'
 
+import BoardManager from '../../lib/client'
+
 import cm from '../lib/components'
 
-let mew = _.range(0, 100).map(() => {
-  return '喵'
-}).join('')
+let bm = new BoardManager()
 
 @autobind
 class App extends React.Component {
@@ -27,10 +31,23 @@ class App extends React.Component {
     super(props)
     this.state = {
       layout: this.props.layout || []
+    , boards: []
     }
   }
 
   render() {
+    console.log(this.props.testComponent)
+    let testBoard = {
+      name: `testboard-${this.props.testComponent[0].type}`
+    , blocks: [
+        {
+          w: 800
+        , h: 600
+        , boxes: this.props.testComponent
+        }
+      ]
+    }
+    console.log(testBoard)
     return (
       <div>
         <Navbar className={styles.navbar}>
@@ -49,17 +66,30 @@ class App extends React.Component {
             <NavItem eventKey={3}
               onClick={()=>{
                 let currentLayout = this.refs.block_1.toJson()
-                // for (var ref in this.refs) {
-                //   currentLayout.push(this.refs[ref].toJson())
-                // }
                 console.log(JSON.stringify(currentLayout, null, 2))
               }}>
               getjson
             </NavItem>
             <NavItem eventKey={4}
-                onClick={boardActions.saveBoard}>
+                disabled={this.props.testComponent?true:false}
+                onClick={() => {
+
+                  let board = this.refs.board.toJson()
+                  console.log('saving', board)
+                  bm.update(_.pick(board, ['name']), board)
+                }}>
               Save
             </NavItem>
+            <NavItem eventKey={5} onClick={boardActions.openBoardConfig}>
+              Create Board
+            </NavItem>
+            <Input type='select'>
+            {
+              this.state.boards.map((board, i) => {
+                return <option key={i} value={board.name}>{board.name}</option>
+              })
+            }
+            </Input>
 
           </Nav>
         </Navbar>
@@ -69,12 +99,13 @@ class App extends React.Component {
             _.map(cm, (component, i) => {
               if (component.NewComponentConfig)
                 return <component.NewComponentConfig
-                    key={i} ref={`new-${i}`} actions={boardActions}/>
+                    key={i} ref={`new-${i}`} actions={blockActions}/>
             })
           }
         </div>
 
         <BlockConfigModal show={this.state.showBlockConfig}/>
+        <BoardConfigModal show={this.state.showBoardConfig}/>
 
         <div>
           <div className={styles.left_nav}>
@@ -87,7 +118,7 @@ class App extends React.Component {
                     if (this.refs[`new-${component}`])
                       this.refs[`new-${component}`].open()
                     else {
-                      boardActions.newComponent({
+                      blockActions.createBox({
                         x: 0
                       , y: 0
                       , h: 100
@@ -107,28 +138,8 @@ class App extends React.Component {
 
           </div>
           <div className={styles.workspace}>
-            <div >
-            <ButtonGroup className={styles.box_toolbar}>
-              <Button className={styles.box_button}
-                      onClick={boardActions.addZIndex.bind(null, 1)}>
-                <Glyphicon glyph='chevron-up'/>
-              </Button>
-              <Button className={styles.box_button}
-                      onClick={boardActions.addZIndex.bind(null, -11)}>
-                <Glyphicon glyph='chevron-down'/>
-              </Button>
-              <Button className={styles.box_button}
-                      onClick={boardActions.openConfig}>
-                <Glyphicon glyph='cog'/>
-              </Button>
-              <Button className={styles.box_button}
-                      onClick={boardActions.removeBox}>
-                <Glyphicon glyph='remove'/>
-              </Button>
-
-            </ButtonGroup>
-            </div>
-            <Block ref='block_1' layout={this.state.layout} h={600} w={800}/>
+            <BoxToolbar />
+            <Board board={this.props.testComponent?testBoard:this.state.boards[0]} ref='board'/>
           </div>
         </div>
       </div>
@@ -136,10 +147,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    boardActions.init(this)
-    if (this.props.layout) {
-      boardActions.loadLayout(this.props.layout)
-    }
+    console.log('app did mount')
+    boxActions.init(this)
+    // if (this.props.layout) {
+    //   boardActions.loadLayout(this.props.layout)
+    // }
     boardStore.listen((newState) => {
       // if (newState.layout !== this.state.layout) {
       //   this.setState({
@@ -148,6 +160,7 @@ class App extends React.Component {
       // }
       this.setState(newState)
     })
+    boardActions.listBoards()
   }
 
   getLayout() {

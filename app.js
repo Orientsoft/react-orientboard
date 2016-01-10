@@ -23,9 +23,16 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+function nocache(req, res, next) {
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+  res.header('Expires', '-1')
+  res.header('Pragma', 'no-cache')
+  next()
+}
+
 app.use('/', routes)
 app.use('/users', users)
-app.use('/api', board({
+app.use('/api', nocache, board({
   mongo: {
     host: 'localhost'
   , port: 27017
@@ -48,8 +55,8 @@ if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500)
     res.render('error', {
-      message: err.message,
-      error: err
+      message: err.message
+    , error: err
     })
   })
 }
@@ -59,8 +66,8 @@ if (app.get('env') === 'development') {
 app.use(function(err, req, res, next) {
   res.status(err.status || 500)
   res.render('error', {
-    message: err.message,
-    error: {}
+    message: err.message
+  , error: {}
   })
 })
 

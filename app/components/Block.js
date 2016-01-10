@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import autobind from 'autobind-decorator'
 import _ from 'lodash'
 
@@ -8,6 +7,8 @@ import {Button, ButtonGroup, Glyphicon} from 'react-bootstrap'
 import Box from './Box'
 import boardActions from '../actions/board'
 import boardStore from '../stores/board'
+// import blockActions from '../actions/block'
+import selectActions from '../actions/select'
 
 import styles from '../css/block.css'
 
@@ -15,7 +16,7 @@ import styles from '../css/block.css'
 class Block extends React.Component {
   constructor(props) {
     var p = _.clone(props)
-    p.layout = p.layout.map((info, i) => {
+    p.boxes = p.boxes.map((info, i) => {
       info.id = i
       return info
     })
@@ -25,6 +26,7 @@ class Block extends React.Component {
       w: w || 800
     , h: h || 600
     , img: null
+    , boxes: this.props.boxes
     }
   }
 
@@ -39,10 +41,6 @@ class Block extends React.Component {
   componentWillUnmount() {
     this.unsub()
   }
-
-  // shouldComponentUpdate(newProps) {
-  //   return !_.isEqual(newProps.layout, this.props.layout)
-  // }
 
   render() {
     return (
@@ -70,7 +68,7 @@ class Block extends React.Component {
         </Button>
         </ButtonGroup>
       {
-        this.props.layout.map((info, i) => {
+        this.state.boxes.map((info, i) => {
           return <Box key={i} ref={`box-${i}`} {...info}/>
         })
       }
@@ -87,8 +85,18 @@ class Block extends React.Component {
   }
 
   toJson() {
-    return _.map(this.refs, (box) => {
-      return box.toJson()
+    return {
+      boxes: _.map(this.refs, box => { return box.toJson() })
+    , w: this.state.h
+    , h: this.state.w
+    , img: this.state.img
+    }
+  }
+
+  createBox(info) {
+    this.state.boxes.push(info)
+    this.setState({
+      boxes: this.state.boxes
     })
   }
 
@@ -102,8 +110,10 @@ class Block extends React.Component {
     }
   }
 
-  _handleMouseDown(e) {
+  _handleMouseDown() {
     boardActions.setActiveBlock(this)
+    // blockActions.setActiveBlock(this)
+    selectActions.setActiveBlock(this)
   }
 
   setConfig(config) {

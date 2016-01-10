@@ -1,11 +1,12 @@
 import Reflux from 'reflux'
-import ReactDOM from 'react-dom'
 import _ from 'lodash'
 import Vector from 'victor'
 import Box from '../components/Box'
-import $ from 'jquery'
 
 import boardActions from '../actions/board'
+import BoardManager from '../../lib/client'
+
+var bm = new BoardManager()
 
 const ACTIONS = {
   NONE: 0
@@ -38,9 +39,8 @@ let state = {
 , rInit: 0
 , action: ACTIONS.NONE
 , mode: 'edit'
+, boards: []
 }
-
-import cm from '../lib/components'
 
 // get the angle between vector(rotateStart.x - center.x,
 // rotateStart.y - center.y)
@@ -76,10 +76,6 @@ function ensureComponentInfo(info) {
   })
 
   return info
-}
-
-function getBoard() {
-
 }
 
 let store = Reflux.createStore({
@@ -157,7 +153,7 @@ let store = Reflux.createStore({
     state.action = ACTIONS.RESIZE
     state.resizeStart = {x, y, h, w}
   }
-, onStopDrag: (x, y) => {
+, onStopDrag: () => {
     state.action = ACTIONS.NONE
   }
 , onStopAll: () => {
@@ -235,10 +231,66 @@ let store = Reflux.createStore({
     //   console.log(res)
     // })
   }
+, onCreateBoard: async (board) => {
+    try {
+      var res = await bm.create(board)
+      state.boards.push(res)
+      store.trigger(state)
+      return boardActions.createBoard.completed()
+    } catch (e) {
+      return boardActions.createBoard.failed(e)
+    }
+  }
+, onCreateBoardFailed: () => {
+    console.log('create failed')
+  }
+, onListBoards: async () => {
+    var res = await bm.list()
+    state.boards = res
+    console.log(res)
+    console.log('listing')
+    store.trigger(state)
+    return boardActions.listBoards.completed()
+  }
+, onFindBoard: (board) => {
+    console.log(_.filter('this is it', state.boards, board))
+    return boardActions.findBoard.completed(_.filter(state.boards, board))
+  }
+, onRemoveBoard: async (board) => {
+    if (!_.filter(state.boards, board))
+      return boardActions.removeBoard.failed('Board not found')
+    await bm.remove(board)
+    state.boards = state.boards.filter((b) => {
+      return b.name === board.name
+    })
+    store.trigger(state)
+  }
+, onUpdateBoard: async (query, board) => {
+    console.log('inside update')
+    if (!_.filter(state.boards, board))
+      return boardActions.removeBoard.failed('Board not found')
+    await bm.update(query, board)
+    let target = _.find(state.boards, query)
+    target = board
+    store.trigger(state)
+    return boardActions.updateBoard.completed()
+  }
+, onOpenBoardConfig: () => {
+    state.showBoardConfig = true
+    store.trigger(state)
+  }
+, onCloseBoardConfig: () => {
+    state.showBoardConfig = false
+    store.trigger(state)
+  }
 })
 
 store.getState = () => {
-  return state
+  return _.clone(state)
+}
+
+store.findBoard = (board) => {
+  return _.find(state.boards, board)
 }
 
 export default store

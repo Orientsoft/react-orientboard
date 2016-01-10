@@ -1,11 +1,11 @@
 import Reflux from 'reflux'
 
 let boardActions = Reflux.createActions([
-  'createBoard'
-, 'listBoards'
-, 'findBoard'
-, 'removeBoard'
-, 'updateBoard'
+  'openConfig'
+, 'openBlockConfig'
+, 'closeBlockConfig'
+, 'openBoardConfig'
+, 'closeBoardConfig'
 ].reduce((pv, cv) => {
   pv[cv] = {asyncResult: true}
   return pv

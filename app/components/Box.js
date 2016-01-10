@@ -5,9 +5,10 @@ import boardActions from '../actions/board'
 import boardStore from '../stores/board'
 import classnames from 'classnames'
 import cm from '../lib/components'
-import {Button, ButtonGroup, Glyphicon} from 'react-bootstrap'
-import Reflux from 'reflux'
 import autobind from 'autobind-decorator'
+import boxActions from '../actions/box'
+import boxStore from '../stores/box'
+import selectActions from '../actions/select'
 
 import styles from '../css/box.css'
 
@@ -35,6 +36,9 @@ class Box extends React.Component {
   componentDidMount() {
     this.setState({boardState: boardStore.getState()})
     this.unsubscribe = boardStore.listen(this._onStoreChange)
+    boxStore.listen(() => {
+
+    })
   }
 
   componentWillUnmount() {
@@ -46,7 +50,7 @@ class Box extends React.Component {
       <div className={classnames(this.state.classes)}
           onClick={()=>{
             if (this.state.boardState.mode === 'edit')
-              boardActions.setActiveBox(this)
+              selectActions.setActiveBox(this)
           }}
           onMouseDown={this._startDrag}
           onMouseUp={this._stopDrag}
@@ -177,25 +181,25 @@ class Box extends React.Component {
 
   _startDrag(e) {
     if (this.state.active)
-      boardActions.startDrag( e.clientX - this.state.x
+      boxActions.startDrag( e.clientX - this.state.x
                             , e.clientY - this.state.y)
   }
 
   _stopDrag() {
     if (this.state.active)
-      boardActions.stopDrag()
+      boxActions.stopDrag()
   }
 
   _startRotate(e) {
     if (this.state.active)
-      boardActions.startRotate(
+      boxActions.startRotate(
         this._getCenter(), e.clientX, e.clientY, this.state.rotate
       )
     e.stopPropagation()
   }
 
   _startResize(e) {
-    boardActions.startResize(this.state.h, this.state.w, e.clientX, e.clientY)
+    boxActions.startResize(this.state.h, this.state.w, e.clientX, e.clientY)
     e.stopPropagation()
   }
 
