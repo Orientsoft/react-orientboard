@@ -5,10 +5,8 @@ import _ from 'lodash'
 import {Button, ButtonGroup, Glyphicon} from 'react-bootstrap'
 
 import Box from './Box'
-// import boardActions from '../actions/board'
-import boardStore from '../stores/board'
+// import boardStore from '../stores/board'
 import uiActions from '../actions/ui'
-// import blockActions from '../actions/block'
 import selectActions from '../actions/select'
 
 import styles from '../css/block.css'
@@ -22,25 +20,24 @@ class Block extends React.Component {
       return info
     })
     super(p)
-    let {w, h} = boardStore.getState().blockConfig || {w: 800, h: 600}
     this.state = {
-      w: w || 800
-    , h: h || 600
+      w: this.props.w || 800
+    , h: this.props.h || 600
     , img: null
     , boxes: this.props.boxes
     }
   }
 
   componentDidMount() {
-    this.unsub = boardStore.listen((newState) => {
-      if (newState.blockConfig) {
-        this.setState(newState.blockConfig)
-      }
-    })
+    // this.unsub = boardStore.listen((newState) => {
+    //   if (newState.blockConfig) {
+    //     this.setState(newState.blockConfig)
+    //   }
+    // })
   }
 
   componentWillUnmount() {
-    this.unsub()
+    // this.unsub()
   }
 
   render() {
@@ -93,8 +90,8 @@ class Block extends React.Component {
   toJson() {
     return {
       boxes: _.map(this.refs, box => { return box.toJson() })
-    , w: this.state.h
-    , h: this.state.w
+    , w: this.state.w
+    , h: this.state.h
     , img: this.state.img
     }
   }
@@ -107,7 +104,6 @@ class Block extends React.Component {
   }
 
   _getCss() {
-    console.log(this.state.img)
     return {
       border: 'solid'
     , width: this.state.w
@@ -117,8 +113,6 @@ class Block extends React.Component {
   }
 
   _handleMouseDown() {
-    // boardActions.setActiveBlock(this)
-    // blockActions.setActiveBlock(this)
     selectActions.setActiveBlock(this)
   }
 

@@ -12,14 +12,11 @@ import boxStore from '../stores/box'
 import uiStore from '../stores/ui'
 import selectActions from '../actions/select'
 import selectStore from '../stores/select'
-import tmpStore from '../stores/tmp'
-import tmpActions from '../actions/tmp'
 
 import Board from './Board'
 import BlockConfigModal from './BlockConfig'
 import BoardConfigModal from './BoardConfig'
 import BoxToolbar from './BoxToolbar'
-import TopNav from './TopNav'
 
 import styles from '../css/app.css'
 
@@ -30,17 +27,29 @@ class App extends React.Component {
   constructor(props) {
     super(props)
 
+    let testBoard
+    if (this.props.testComponent) {
+      testBoard = {
+        name: `testboard-${this.props.testComponent[0].type}`
+      , blocks: [
+          {
+            w: 800
+          , h: 600
+          , boxes: this.props.testComponent
+          }
+        ]
+      }
+    }
     this.state = {
       layout: this.props.layout || []
     , boards: []
-    , board: null
+    , board: this.props.testComponent ? testBoard : null
     }
   }
 
   render() {
     return (
       <div>
-        <TopNav boards={this.state.boards}/>
         <BlockConfigModal show={this.state.showBlockConfig}/>
         <BoardConfigModal show={this.state.showBoardConfig}/>
 
@@ -77,6 +86,7 @@ class App extends React.Component {
           <div className={styles.workspace}>
             <BoxToolbar />
             <Board
+              // board={this.props.testComponent?testBoard:this.state.boards[0]}
               board={this.state.board}
               ref='board'/>
           </div>
@@ -98,12 +108,7 @@ class App extends React.Component {
 
   componentDidMount() {
     boxActions.init(this)
-    tmpStore.listen((newState) => {
-      this.setState(newState)
-      if ((!this.state.board) && newState.boards[0]) {
-        selectActions.setActiveBoard(newState.boards[0])
-      }
-    })
+    selectActions.setActiveBoard(this.state.board)
     uiStore.listen((newState) => {
       this.setState(newState)
     })
@@ -111,7 +116,6 @@ class App extends React.Component {
       this.setState(newState)
     })
     selectActions.setApp(this)
-    tmpActions.listBoards()
   }
 }
 

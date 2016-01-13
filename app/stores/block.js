@@ -52,6 +52,9 @@ let store = Reflux.createStore({
     console.log('ready to create box', box)
     state.block.createBox(box)
   }
+, onSetBlockConfig: (config) => {
+    state.block.setConfig(config)
+  }
 
 })
 

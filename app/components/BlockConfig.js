@@ -3,7 +3,7 @@ import {Modal, Button, Input} from 'react-bootstrap'
 import autobind from 'autobind-decorator'
 import _ from 'lodash'
 
-import boardActions from '../actions/board'
+import blockActions from '../actions/block'
 import uiActions from '../actions/ui'
 import selectStore from '../stores/select'
 
@@ -59,7 +59,7 @@ class BlockConfigModal extends React.Component {
     , h: h
     , img: img
     })
-    boardActions.setBlockConfig({
+    blockActions.setBlockConfig({
       w: w
     , h: h
     , img: img
