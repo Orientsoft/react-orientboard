@@ -3,7 +3,6 @@ import {Navbar, NavItem, Nav, Input} from 'react-bootstrap'
 import autobind from 'autobind-decorator'
 import _ from 'lodash'
 
-import boardActions from '../actions/board'
 import uiActions from '../actions/ui'
 import styles from '../css/app.css'
 import selectActions from '../actions/select'
@@ -36,10 +35,10 @@ export default class TopNav extends React.Component {
         </Navbar.Header>
         <Nav>
           <NavItem eventKey={1}
-              onClick={()=>{boardActions.changeMode('publish')}}>
+              onClick={()=>{uiActions.setMode('publish')}}>
             Publish
           </NavItem>
-          <NavItem eventKey={2} onClick={()=>{boardActions.changeMode('edit')}}>
+          <NavItem eventKey={2} onClick={()=>{uiActions.setMode('edit')}}>
             Edit
           </NavItem>
           <NavItem eventKey={4}

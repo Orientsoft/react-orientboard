@@ -2,10 +2,12 @@ import Reflux from 'reflux'
 import _ from 'lodash'
 
 import uiActions from '../actions/ui'
+import selectActions from '../actions/select'
 
 let state = {
   showBlockConfig: false
 , showBoardConfig: false
+, mode: 'edit'
 }
 
 let store = Reflux.createStore({
@@ -24,6 +26,13 @@ let store = Reflux.createStore({
   }
 , onCloseBoardConfig: () => {
     state.showBoardConfig = false
+    store.trigger(state)
+  }
+, onSetMode: (mode) => {
+    if (state.mode === mode) return null
+    state.mode = mode
+    selectActions.setActiveBox(null)
+    selectActions.setActiveBlock(null)
     store.trigger(state)
   }
 })

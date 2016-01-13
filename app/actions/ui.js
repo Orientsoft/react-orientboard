@@ -5,6 +5,7 @@ let actions = Reflux.createActions([
 , 'closeBlockConfig'
 , 'openBoardConfig'
 , 'closeBoardConfig'
+, 'setMode'
 ].reduce((pv, cv) => {
   pv[cv] = {asyncResult: true}
   return pv

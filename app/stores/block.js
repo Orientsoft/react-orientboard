@@ -33,12 +33,6 @@ function ensureComponentInfo(info) {
 
 let store = Reflux.createStore({
   listenables: actions
-, onSetActiveBlock: (block) => {
-    if (state.block === block) return null
-    state.block = block
-    console.log('active block', block)
-    store.trigger(state)
-  }
 , onRemoveBox: (box) => {
     // console.log(state.box.id, box)
     // var boxId = box instanceof Box ? box.id : state.box.id

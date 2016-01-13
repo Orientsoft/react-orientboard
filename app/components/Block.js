@@ -86,6 +86,10 @@ class Block extends React.Component {
     return this.state.h
   }
 
+  get img() {
+    return this.state.img
+  }
+
   toJson() {
     return {
       boxes: _.map(this.refs, box => { return box.toJson() })

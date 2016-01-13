@@ -1,23 +1,27 @@
 import React from 'react'
 import {Modal, Button, Input} from 'react-bootstrap'
 import autobind from 'autobind-decorator'
+import _ from 'lodash'
 
 import boardActions from '../actions/board'
-import boardStore from '../stores/board'
+import uiActions from '../actions/ui'
+import selectStore from '../stores/select'
+
 
 @autobind
 class BlockConfigModal extends React.Component {
   constructor(props) {
     super(props)
-    let {w, h} = boardStore.getState().blockConfig || {w: 800, h: 600}
     this.state = {
-      w: w || 800
-    , h: h || 600
+      w: 800
+    , h: 600
     }
   }
 
   componentDidMount() {
-
+    selectStore.listen((newState) => {
+      this.setState(newState)
+    })
   }
 
   render() {
@@ -27,11 +31,11 @@ class BlockConfigModal extends React.Component {
         <Modal.Body >
           {/*validation needed*/}
           <Input ref='width' type='text' label='width'
-              defaultValue={this.state.w}/>
+              defaultValue={_.get(this.state, 'block.w')}/>
           <Input ref='height' type='text' label='height'
-              defaultValue={this.state.h}/>
+              defaultValue={_.get(this.state, 'block.h')}/>
           <Input ref='backimg' type='text' label='background image'
-              defaultValue={this.state.img}/>
+              defaultValue={_.get(this.state, 'block.img')}/>
         </Modal.Body>
         <Modal.Footer >
           <Button onClick={this.close}>Cancle</Button>
@@ -42,7 +46,7 @@ class BlockConfigModal extends React.Component {
   }
 
   close() {
-    boardActions.closeBlockConfig()
+    uiActions.closeBlockConfig()
   }
 
   update() {

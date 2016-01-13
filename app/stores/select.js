@@ -21,7 +21,7 @@ let store = Reflux.createStore({
     if (state.box)
       state.box.deactivate()
     state.box = box
-    box.activate()
+    if (box) box.activate()
     store.trigger(state)
   }
 , onSetActiveBoard: (board) => {

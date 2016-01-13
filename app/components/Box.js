@@ -9,6 +9,7 @@ import autobind from 'autobind-decorator'
 import boxActions from '../actions/box'
 import boxStore from '../stores/box'
 import selectActions from '../actions/select'
+import uiStore from '../stores/ui'
 
 import styles from '../css/box.css'
 
@@ -28,16 +29,17 @@ class Box extends React.Component {
     , z: props.z
     , active: false
     , classes: classes
-    , edit: true
+    , mode: 'edit'
     , boardState: {}
     }
   }
 
   componentDidMount() {
-    this.setState({boardState: boardStore.getState()})
     this.unsubscribe = boardStore.listen(this._onStoreChange)
-    boxStore.listen(() => {
-
+    uiStore.listen((newState) => {
+      // this.setState(newState)
+      console.log('mode!', newState.mode)
+      this.setState({mode: newState.mode})
     })
   }
 
@@ -49,7 +51,7 @@ class Box extends React.Component {
     return (
       <div className={classnames(this.state.classes)}
           onClick={()=>{
-            if (this.state.boardState.mode === 'edit')
+            if (this.state.mode === 'edit')
               selectActions.setActiveBox(this)
           }}
           onMouseDown={this._startDrag}
@@ -70,7 +72,7 @@ class Box extends React.Component {
             let child = cm[this.props.type]
             let props = _.pick(this.state, ['x', 'y', 'h', 'w', 'rotate'])
             props.data = this.props.data
-            props.edit = (this.state.boardState.mode === 'edit')
+            props.edit = (this.state.mode === 'edit')
             props.ref = 'content'
             props.className = styles.box_content
             return React.createElement(child, props)
