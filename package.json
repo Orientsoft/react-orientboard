@@ -24,6 +24,7 @@
     "mqtt": "^1.6.0",
     "nodent": "^2.3.10",
     "orientboard-component-example": "git+https://github.com/Orientsoft/orientboard-component-example.git",
+    "pubsub-js": "^1.5.3",
     "react": "^0.14.3",
     "react-bootstrap": "^0.28.1",
     "react-dom": "^0.14.2",

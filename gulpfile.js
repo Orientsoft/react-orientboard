@@ -44,6 +44,7 @@ var vendors = [
 , 'lodash'
 , 'reflux'
 , 'autobind-decorator'
+, 'pubsub-js'
 ]
 
 function getBrowserifyStream(opts) {
@@ -143,7 +144,7 @@ gulp.task('gen', function() {
   gutil.log('Generating config...')
   var devComponents = utils.getComponents()
   var output = `export default {\n  ${
-    devComponents.map((dep, i) => {
+    devComponents.map((dep) => {
       var name = dep.substr(22)
       return `\'${name}\': require(\'${dep}\').default`
     }).join('\n, ')
@@ -229,7 +230,10 @@ gulp.task('postinstall', (cb) => {
 })
 
 gulp.task('lint', () => {
-  return gulp.src(['**/*.js', '!node_modules/**', '!public/**'])
+  return gulp.src([
+        '**/*.js', '!node_modules/**', '!public/**', '!doc/**'
+      , '!component-example/lib/**'
+      ])
       .pipe(eslint())
       .pipe(eslint.format())
       .pipe(eslint.failAfterError())

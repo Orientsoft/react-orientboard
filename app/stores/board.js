@@ -163,9 +163,6 @@ let store = Reflux.createStore({
     if (state.box)
       state.box.addZIndex(amount)
   }
-, onGetComponent: (name) => {
-    return components[name]
-  }
 , onChangeMode: (mode) => {
     state.mode = mode
     if (mode === 'publish') {
@@ -226,10 +223,7 @@ let store = Reflux.createStore({
     })
   }
 , onSaveBoard() {
-
-    // $.post('/api/board', 'a', (res) => {
-    //   console.log(res)
-    // })
+    
   }
 , onCreateBoard: async (board) => {
     try {

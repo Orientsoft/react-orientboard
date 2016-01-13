@@ -12,6 +12,10 @@ import blockStore from '../stores/block'
 import boxActions from '../actions/box'
 import boxStore from '../stores/box'
 import uiStore from '../stores/ui'
+import selectActions from '../actions/select'
+import selectStore from '../stores/select'
+import tmpStore from '../stores/tmp'
+import tmpActions from '../actions/tmp'
 
 import Board from './Board'
 import BlockConfigModal from './BlockConfig'
@@ -27,13 +31,7 @@ import cm from '../lib/components'
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      layout: this.props.layout || []
-    , boards: []
-    }
-  }
 
-  render() {
     let testBoard
     if (this.props.testComponent) {
       testBoard = {
@@ -47,21 +45,17 @@ class App extends React.Component {
         ]
       }
     }
+    this.state = {
+      layout: this.props.layout || []
+    , boards: []
+    , board: this.props.testComponent ? testBoard : null
+    }
+  }
 
+  render() {
     return (
       <div>
         <TopNav boards={this.state.boards}/>
-
-        <div >
-          {
-            _.map(cm, (component, i) => {
-              if (component.NewComponentConfig)
-                return <component.NewComponentConfig
-                    key={i} ref={`new-${i}`} actions={blockActions}/>
-            })
-          }
-        </div>
-
         <BlockConfigModal show={this.state.showBlockConfig}/>
         <BoardConfigModal show={this.state.showBoardConfig}/>
 
@@ -97,8 +91,22 @@ class App extends React.Component {
           </div>
           <div className={styles.workspace}>
             <BoxToolbar />
-            <Board board={this.props.testComponent?testBoard:this.state.boards[0]} ref='board'/>
+            <Board
+              // board={this.props.testComponent?testBoard:this.state.boards[0]}
+              board={this.state.board}
+              ref='board'/>
           </div>
+        </div>
+
+        {/* Modals for creating new boxes */}
+        <div >
+        {
+          _.map(cm, (component, i) => {
+            if (component.NewComponentConfig)
+              return <component.NewComponentConfig
+                  key={i} ref={`new-${i}`} actions={blockActions}/>
+          })
+        }
         </div>
       </div>
     )
@@ -106,13 +114,20 @@ class App extends React.Component {
 
   componentDidMount() {
     boxActions.init(this)
-    boardStore.listen((newState) => {
+    tmpStore.listen((newState) => {
       this.setState(newState)
+      if ((!this.state.board) && newState.boards[0]) {
+        selectActions.setActiveBoard(newState.boards[0])
+      }
     })
     uiStore.listen((newState) => {
       this.setState(newState)
     })
-    boardActions.listBoards()
+    selectStore.listen((newState) => {
+      this.setState(newState)
+    })
+    selectActions.setApp(this)
+    tmpActions.listBoards()
   }
 }
 

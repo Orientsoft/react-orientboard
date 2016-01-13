@@ -5,7 +5,7 @@ import _ from 'lodash'
 import {Button, ButtonGroup, Glyphicon} from 'react-bootstrap'
 
 import Box from './Box'
-import boardActions from '../actions/board'
+// import boardActions from '../actions/board'
 import boardStore from '../stores/board'
 import uiActions from '../actions/ui'
 // import blockActions from '../actions/block'
@@ -45,7 +45,8 @@ class Block extends React.Component {
 
   render() {
     return (
-      <div {...this.props} style={this._getCss()} className={styles.block} onMouseDown={this._handleMouseDown}>
+      <div {...this.props} style={this._getCss()} className={styles.block}
+          onMouseDown={this._handleMouseDown}>
         <ButtonGroup className={styles.block_toolbar} vertical>
         <Button className={styles.box_button} disabled
                 onClick={null}>
@@ -112,7 +113,7 @@ class Block extends React.Component {
   }
 
   _handleMouseDown() {
-    boardActions.setActiveBlock(this)
+    // boardActions.setActiveBlock(this)
     // blockActions.setActiveBlock(this)
     selectActions.setActiveBlock(this)
   }

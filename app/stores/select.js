@@ -6,6 +6,7 @@ import actions from '../actions/select'
 let state = {
   box: null
 , block: null
+, board: null
 }
 
 let store = Reflux.createStore({
@@ -21,6 +22,19 @@ let store = Reflux.createStore({
       state.box.deactivate()
     state.box = box
     box.activate()
+    store.trigger(state)
+  }
+, onSetActiveBoard: (board) => {
+    if (_.get(state, 'board.name') === board.name) return null
+    if (state.box) state.box.deactivate()
+    state.box = null
+    state.block = null
+    state.board = board
+    store.trigger(state)
+  }
+, onSetApp: (app) => {
+    console.log('set app', app)
+    state.app = app
     store.trigger(state)
   }
 })

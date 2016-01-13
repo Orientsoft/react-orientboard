@@ -22,7 +22,10 @@ export default class Board extends React.Component {
         ?
         this.props.board.blocks.map((block, i) => {
           return <Block
-              boxes={block.boxes} w={block.w} h={block.h} key={i}
+              boxes={block.boxes} w={block.w} h={block.h}
+              // adding board name to key attribute distinguishes blocks of
+              // diffrent boards for correct rendering
+              key={`${this.props.board.name}-${i}`}
               ref={`box-${i}`}/>
         })
         :

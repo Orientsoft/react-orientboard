@@ -14,11 +14,13 @@
     "no-unused-vars": 2,
     "no-console": 0,
     "no-undef": 2,
-    "react/jsx-uses-react": 1
+    "react/jsx-uses-react": 1,
+    "max-len": [2, 80, 2]
   },
   "env": {
     "es6": true,
     "node": true,
-    "browser": true
+    "browser": true,
+    "mocha": true
   }
 }
