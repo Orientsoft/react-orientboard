@@ -4,6 +4,7 @@ import _ from 'lodash'
 import actions from '../actions/block'
 
 import selectStore from '../stores/select'
+import selectActions from '../actions/select'
 
 let state = {
 
@@ -33,23 +34,14 @@ function ensureComponentInfo(info) {
 
 let store = Reflux.createStore({
   listenables: actions
-, onRemoveBox: (box) => {
-    // console.log(state.box.id, box)
-    // var boxId = box instanceof Box ? box.id : state.box.id
-    // if (state.box === box) {
-    //   state.box.deactivate()
-    //   state.box = null
-    // }
-    // var layout = state.app.getLayout()
-    // var newLayout = layout.filter((info) => {
-    //   return info.id !== boxId
-    // })
-    // boardActions.loadLayout(newLayout)
+, onRemoveBox: () => {
+    // var boxId = box.id || state.box.id
+    // selectActions.setActiveBox(null)
+    state.block.removeBox(state.box)
+
   }
 , onNewComponent: (box) => {
-    console.log('oh!!!!', box)
     box = ensureComponentInfo(box)
-    console.log('ready to create box', box)
     state.block.createBox(box)
   }
 , onSetBlockConfig: (config) => {

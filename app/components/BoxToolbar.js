@@ -4,6 +4,7 @@ import {ButtonGroup, Glyphicon, Button} from 'react-bootstrap'
 
 import boxActions from '../actions/box'
 import styles from '../css/app.css'
+import blockActions from '../actions/block'
 
 @autobind
 export default class BoxToolbar extends React.Component {
@@ -30,7 +31,7 @@ export default class BoxToolbar extends React.Component {
           <Glyphicon glyph='cog'/>
         </Button>
         <Button className={styles.box_button}
-                onClick={boxActions.removeBox}>
+                onClick={blockActions.removeBox}>
           <Glyphicon glyph='remove'/>
         </Button>
 

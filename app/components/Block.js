@@ -5,7 +5,6 @@ import _ from 'lodash'
 import {Button, ButtonGroup, Glyphicon} from 'react-bootstrap'
 
 import Box from './Box'
-// import boardStore from '../stores/board'
 import uiActions from '../actions/ui'
 import selectActions from '../actions/select'
 
@@ -73,6 +72,12 @@ class Block extends React.Component {
         }
       </div>
     )
+  }
+
+  removeBox(target) {
+    this.setState({boxes: this.state.boxes.filter((box) => {
+      return box.id !== target.id
+    })})
   }
 
   get w() {

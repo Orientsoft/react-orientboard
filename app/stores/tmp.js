@@ -21,6 +21,7 @@ let store = Reflux.createStore({
   listenables: actions
 , onSaveBoard: () => {
     let nb = state.app.refs.board.toJson()
+    console.log(nb)
     actions.updateBoard({name: nb.name}, nb)
   }
 , onCreateBoard: async (board) => {

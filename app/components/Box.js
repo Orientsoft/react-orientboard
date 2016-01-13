@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import _ from 'lodash'
-import boardActions from '../actions/board'
-import boardStore from '../stores/board'
+import blockActions from '../actions/block'
 import classnames from 'classnames'
 import cm from '../lib/components'
 import autobind from 'autobind-decorator'
@@ -35,7 +34,7 @@ class Box extends React.Component {
   }
 
   componentDidMount() {
-    this.unsubscribe = boardStore.listen(this._onStoreChange)
+    // this.unsubscribe = boardStore.listen(this._onStoreChange)
     uiStore.listen((newState) => {
       // this.setState(newState)
       console.log('mode!', newState.mode)
@@ -44,7 +43,7 @@ class Box extends React.Component {
   }
 
   componentWillUnmount() {
-    this.unsubscribe()
+    // this.unsubscribe()
   }
 
   render() {
@@ -154,7 +153,7 @@ class Box extends React.Component {
   }
 
   destroy() {
-    boardActions.removeBox(this)
+    blockActions.removeBox(this)
   }
 
   _onStoreChange(newState) {

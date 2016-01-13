@@ -7,8 +7,8 @@ import uiActions from '../actions/ui'
 import styles from '../css/app.css'
 import selectActions from '../actions/select'
 import selectStore from '../stores/select'
-import tmpStore from '../stores/tmp'
-import tmpActions from '../actions/tmp'
+import boardStore from '../stores/tmp'
+import boardActions from '../actions/tmp'
 
 @autobind
 export default class TopNav extends React.Component {
@@ -42,7 +42,7 @@ export default class TopNav extends React.Component {
             Edit
           </NavItem>
           <NavItem eventKey={4}
-              onClick={tmpActions.saveBoard}>
+              onClick={boardActions.saveBoard}>
             Save
           </NavItem>
           <NavItem eventKey={5} onClick={uiActions.openBoardConfig}>
@@ -50,7 +50,7 @@ export default class TopNav extends React.Component {
           </NavItem>
           <NavItem eventKey={6}
             onClick={() => {
-              tmpActions.removeBoard({name: _.get(this.state, 'board.name')})
+              boardActions.removeBoard({name: _.get(this.state, 'board.name')})
             }}>
             Remove Board
           </NavItem>
@@ -69,7 +69,7 @@ export default class TopNav extends React.Component {
   }
 
   _hangleChange(e) {
-    let board = tmpStore.findBoard({name: e.target.value})
+    let board = boardStore.findBoard({name: e.target.value})
     selectActions.setActiveBoard(board)
   }
 }

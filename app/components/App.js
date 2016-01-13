@@ -12,8 +12,8 @@ import boxStore from '../stores/box'
 import uiStore from '../stores/ui'
 import selectActions from '../actions/select'
 import selectStore from '../stores/select'
-import tmpStore from '../stores/tmp'
-import tmpActions from '../actions/tmp'
+import boardStore from '../stores/tmp'
+import boardActions from '../actions/tmp'
 
 import Board from './Board'
 import BlockConfigModal from './BlockConfig'
@@ -55,7 +55,7 @@ class App extends React.Component {
                     if (this.refs[`new-${component}`])
                       this.refs[`new-${component}`].open()
                     else {
-                      blockActions.createBox({
+                      blockActions.newComponent({
                         x: 0
                       , y: 0
                       , h: 100
@@ -98,7 +98,7 @@ class App extends React.Component {
 
   componentDidMount() {
     boxActions.init(this)
-    tmpStore.listen((newState) => {
+    boardStore.listen((newState) => {
       this.setState(newState)
       if ((!this.state.board) && newState.boards[0]) {
         selectActions.setActiveBoard(newState.boards[0])
@@ -111,7 +111,7 @@ class App extends React.Component {
       this.setState(newState)
     })
     selectActions.setApp(this)
-    tmpActions.listBoards()
+    boardActions.listBoards()
   }
 }
 
