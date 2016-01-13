@@ -1,6 +1,6 @@
 import Reflux from 'reflux'
 
-let boardActions = Reflux.createActions([
+let actions = Reflux.createActions([
   'startDrag'
 , 'stopDrag'
 , 'startRotate'
@@ -9,9 +9,10 @@ let boardActions = Reflux.createActions([
 , 'addZIndex'
 , 'removeBox'
 , 'init'
+, 'openConfig'
 ].reduce((pv, cv) => {
   pv[cv] = {asyncResult: true}
   return pv
 }, {}))
 
-export default boardActions
+export default actions

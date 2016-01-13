@@ -2,7 +2,7 @@ import React from 'react'
 import autobind from 'autobind-decorator'
 import {ButtonGroup, Glyphicon, Button} from 'react-bootstrap'
 
-import boardActions from '../actions/board'
+import boxActions from '../actions/box'
 import styles from '../css/app.css'
 
 @autobind
@@ -18,19 +18,19 @@ export default class BoxToolbar extends React.Component {
     return (
       <ButtonGroup className={styles.box_toolbar}>
         <Button className={styles.box_button}
-                onClick={boardActions.addZIndex.bind(null, 1)}>
+                onClick={boxActions.addZIndex.bind(null, 1)}>
           <Glyphicon glyph='chevron-up'/>
         </Button>
         <Button className={styles.box_button}
-                onClick={boardActions.addZIndex.bind(null, -11)}>
+                onClick={boxActions.addZIndex.bind(null, -11)}>
           <Glyphicon glyph='chevron-down'/>
         </Button>
         <Button className={styles.box_button}
-                onClick={boardActions.openConfig}>
+                onClick={boxActions.openConfig}>
           <Glyphicon glyph='cog'/>
         </Button>
         <Button className={styles.box_button}
-                onClick={boardActions.removeBox}>
+                onClick={boxActions.removeBox}>
           <Glyphicon glyph='remove'/>
         </Button>
 

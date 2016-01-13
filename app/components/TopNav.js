@@ -1,11 +1,15 @@
 import React from 'react'
 import {Navbar, NavItem, Nav, Input} from 'react-bootstrap'
 
+import boardActions from '../actions/board'
+import uiActions from '../actions/ui'
+import styles from '../css/app.css'
+
 export default class TopNav extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-
+      boards: this.props.boards
     }
   }
 
@@ -35,7 +39,7 @@ export default class TopNav extends React.Component {
               onClick={boardActions.saveBoard}>
             Save
           </NavItem>
-          <NavItem eventKey={5} onClick={boardActions.openBoardConfig}>
+          <NavItem eventKey={5} onClick={uiActions.openBoardConfig}>
             Create Board
           </NavItem>
           <Input type='select'>

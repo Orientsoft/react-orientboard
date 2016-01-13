@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import autobind from 'autobind-decorator'
 import {
-  Navbar, Nav, NavItem, Button, ButtonGroup, Input
+  Button, ButtonGroup
 } from 'react-bootstrap'
 
 import boardActions from '../actions/board'
@@ -11,19 +11,17 @@ import blockActions from '../actions/block'
 import blockStore from '../stores/block'
 import boxActions from '../actions/box'
 import boxStore from '../stores/box'
+import uiStore from '../stores/ui'
 
 import Board from './Board'
 import BlockConfigModal from './BlockConfig'
 import BoardConfigModal from './BoardConfig'
 import BoxToolbar from './BoxToolbar'
+import TopNav from './TopNav'
 
 import styles from '../css/app.css'
 
-import BoardManager from '../../lib/client'
-
 import cm from '../lib/components'
-
-let bm = new BoardManager()
 
 @autobind
 class App extends React.Component {
@@ -36,63 +34,23 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.props.testComponent)
-    let testBoard = {
-      name: `testboard-${this.props.testComponent[0].type}`
-    , blocks: [
-        {
-          w: 800
-        , h: 600
-        , boxes: this.props.testComponent
-        }
-      ]
+    let testBoard
+    if (this.props.testComponent) {
+      testBoard = {
+        name: `testboard-${this.props.testComponent[0].type}`
+      , blocks: [
+          {
+            w: 800
+          , h: 600
+          , boxes: this.props.testComponent
+          }
+        ]
+      }
     }
-    console.log(testBoard)
+
     return (
       <div>
-        <Navbar className={styles.navbar}>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="#">OrientSoft</a>
-            </Navbar.Brand>
-          </Navbar.Header>
-          <Nav>
-            <NavItem eventKey={1} onClick={()=>{boardActions.changeMode('publish')}}>
-              Publish
-            </NavItem>
-            <NavItem eventKey={2} onClick={()=>{boardActions.changeMode('edit')}}>
-              Edit
-            </NavItem>
-            <NavItem eventKey={3}
-              onClick={()=>{
-                let currentLayout = this.refs.block_1.toJson()
-                console.log(JSON.stringify(currentLayout, null, 2))
-              }}>
-              getjson
-            </NavItem>
-            <NavItem eventKey={4}
-                disabled={this.props.testComponent?true:false}
-                onClick={() => {
-
-                  let board = this.refs.board.toJson()
-                  console.log('saving', board)
-                  bm.update(_.pick(board, ['name']), board)
-                }}>
-              Save
-            </NavItem>
-            <NavItem eventKey={5} onClick={boardActions.openBoardConfig}>
-              Create Board
-            </NavItem>
-            <Input type='select'>
-            {
-              this.state.boards.map((board, i) => {
-                return <option key={i} value={board.name}>{board.name}</option>
-              })
-            }
-            </Input>
-
-          </Nav>
-        </Navbar>
+        <TopNav boards={this.state.boards}/>
 
         <div >
           {
@@ -147,25 +105,14 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log('app did mount')
     boxActions.init(this)
-    // if (this.props.layout) {
-    //   boardActions.loadLayout(this.props.layout)
-    // }
     boardStore.listen((newState) => {
-      // if (newState.layout !== this.state.layout) {
-      //   this.setState({
-      //     layout: newState.layout
-      //   })
-      // }
+      this.setState(newState)
+    })
+    uiStore.listen((newState) => {
       this.setState(newState)
     })
     boardActions.listBoards()
-  }
-
-  getLayout() {
-    let currentLayout = this.refs.block_1.toJson()
-    return currentLayout
   }
 }
 

@@ -34,6 +34,7 @@ router.delete('/board', async (req, res) => {
 router.patch('/board', async (req, res) => {
   var user = 'test'
   try {
+    console.log(req.body.query, req.body.boa)
     var result = await bm.update(user, req.body.query, req.body.board)
     return res.json(result.result)
   } catch (e) {
@@ -58,9 +59,8 @@ router.get('/board', async (req, res) => {
   try {
     var result = await bm.find(user, req.query)
     return res.json(result)
-    return res.send(e.toString())
   } catch (e) {
-
+    return res.send(e.toString())
   }
 })
 

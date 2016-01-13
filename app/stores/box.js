@@ -6,7 +6,6 @@ import actions from '../actions/box'
 
 import selectStore from '../stores/select'
 
-
 const ACTIONS = {
   NONE: 0
 , ROTATE: 1
@@ -141,6 +140,12 @@ let store = Reflux.createStore({
 , onAddZIndex: (amount) => {
     if (state.box)
       state.box.addZIndex(amount)
+  }
+, onOpenConfig() {
+    console.log('openning config', state.box)
+    if (state.box) {
+      state.box.openConfig()
+    }
   }
 
 })

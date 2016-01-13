@@ -1,8 +1,7 @@
 import Reflux from 'reflux'
 
-let boardActions = Reflux.createActions([
-  'openConfig'
-, 'openBlockConfig'
+let actions = Reflux.createActions([
+  'openBlockConfig'
 , 'closeBlockConfig'
 , 'openBoardConfig'
 , 'closeBoardConfig'
@@ -11,4 +10,4 @@ let boardActions = Reflux.createActions([
   return pv
 }, {}))
 
-export default boardActions
+export default actions

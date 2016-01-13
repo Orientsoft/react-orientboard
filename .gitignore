@@ -37,5 +37,6 @@ example-component/lib
 config/components.json
 app/lib/components.js
 .vagrant
+.imdone
 
 doc/_book

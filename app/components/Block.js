@@ -7,6 +7,7 @@ import {Button, ButtonGroup, Glyphicon} from 'react-bootstrap'
 import Box from './Box'
 import boardActions from '../actions/board'
 import boardStore from '../stores/board'
+import uiActions from '../actions/ui'
 // import blockActions from '../actions/block'
 import selectActions from '../actions/select'
 
@@ -55,7 +56,7 @@ class Block extends React.Component {
           <Glyphicon glyph='chevron-down'/>
         </Button>
         <Button className={styles.box_button}
-                onClick={boardActions.openBlockConfig}>
+                onClick={uiActions.openBlockConfig}>
           <Glyphicon glyph='cog'/>
         </Button>
         <Button className={styles.box_button} disabled
@@ -67,11 +68,11 @@ class Block extends React.Component {
           <Glyphicon glyph='remove'/>
         </Button>
         </ButtonGroup>
-      {
-        this.state.boxes.map((info, i) => {
-          return <Box key={i} ref={`box-${i}`} {...info}/>
-        })
-      }
+        {
+          this.state.boxes.map((info, i) => {
+            return <Box key={i} ref={`box-${i}`} {...info}/>
+          })
+        }
       </div>
     )
   }

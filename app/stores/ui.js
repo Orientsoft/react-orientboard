@@ -10,11 +10,6 @@ let state = {
 
 let store = Reflux.createStore({
   listenables: uiActions
-, onOpenConfig() {
-    if (state.box) {
-      state.box.openConfig()
-    }
-  }
 , onOpenBlockConfig() {
     state.showBlockConfig = true
     store.trigger(state)
@@ -23,12 +18,13 @@ let store = Reflux.createStore({
     state.showBlockConfig = false
     store.trigger(state)
   }
-, onSetBlockConfig(config) {
-    // state.block.setConfig(config)
-    state.blockConfig = config
-    store.trigger({
-      blockConfig: config
-    })
+, onOpenBoardConfig: () => {
+    state.showBoardConfig = true
+    store.trigger(state)
+  }
+, onCloseBoardConfig: () => {
+    state.showBoardConfig = false
+    store.trigger(state)
   }
 })
 

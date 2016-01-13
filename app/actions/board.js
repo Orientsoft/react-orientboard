@@ -1,5 +1,6 @@
 import Reflux from 'reflux'
 
+// TODO: split this pile of crap
 let boardActions = Reflux.createActions([
   'startDrag'
 , 'stopDrag'
