@@ -1,11 +1,13 @@
 import React from 'react'
 import {Navbar, NavItem, Nav, Input} from 'react-bootstrap'
 import autobind from 'autobind-decorator'
+import _ from 'lodash'
 
 import boardActions from '../actions/board'
 import uiActions from '../actions/ui'
 import styles from '../css/app.css'
 import selectActions from '../actions/select'
+import selectStore from '../stores/select'
 import tmpStore from '../stores/tmp'
 import tmpActions from '../actions/tmp'
 
@@ -14,9 +16,14 @@ export default class TopNav extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      // boards: this.props.boards
-      board: ''
+      board: {}
     }
+  }
+
+  componentDidMount() {
+    selectStore.listen((newState) => {
+      this.setState(newState)
+    })
   }
 
   render() {
@@ -42,7 +49,13 @@ export default class TopNav extends React.Component {
           <NavItem eventKey={5} onClick={uiActions.openBoardConfig}>
             Create Board
           </NavItem>
-          <Input type='select' value={this.state.board}
+          <NavItem eventKey={6}
+            onClick={() => {
+              tmpActions.removeBoard({name: _.get(this.state, 'board.name')})
+            }}>
+            Remove Board
+          </NavItem>
+          <Input type='select' value={_.get(this.state, 'board.name')}
               onChange={this._hangleChange}>
           {
             this.props.boards.map((board, i) => {
@@ -57,10 +70,7 @@ export default class TopNav extends React.Component {
   }
 
   _hangleChange(e) {
-    console.log('change', e.target.value)
-    this.setState({board: e.target.value})
     let board = tmpStore.findBoard({name: e.target.value})
-    console.log(board)
     selectActions.setActiveBoard(board)
   }
 }

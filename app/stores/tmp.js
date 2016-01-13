@@ -3,6 +3,7 @@ import _ from 'lodash'
 
 import actions from '../actions/tmp'
 
+import selectActions from '../actions/select'
 import selectStore from '../stores/select'
 import BoardManager from '../../lib/client'
 
@@ -27,7 +28,7 @@ let store = Reflux.createStore({
       let res = await bm.create(board)
       state.boards.push(res)
       store.trigger(state)
-      return actions.createBoard.completed()
+      return actions.createBoard.completed(board)
     } catch (e) {
       return actions.createBoard.failed(e)
     }
@@ -35,11 +36,12 @@ let store = Reflux.createStore({
 , onCreateBoardFailed: () => {
     console.log('create failed')
   }
+, onCreateBoardCompleted: (board) => {
+    selectActions.setActiveBoard(board)
+  }
 , onListBoards: async () => {
     let res = await bm.list()
     state.boards = res
-    console.log(res)
-    console.log('listing')
     store.trigger(state)
     return actions.listBoards.completed()
   }
@@ -51,8 +53,9 @@ let store = Reflux.createStore({
       return actions.removeBoard.failed('Board not found')
     await bm.remove(board)
     state.boards = state.boards.filter((b) => {
-      return b.name === board.name
+      return b.name !== board.name
     })
+    selectActions.setActiveBoard(state.boards[0])
     store.trigger(state)
   }
 , onUpdateBoard: async (query, board) => {

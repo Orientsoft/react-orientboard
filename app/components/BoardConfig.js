@@ -2,8 +2,8 @@ import React from 'react'
 import {Modal, Button, Input} from 'react-bootstrap'
 import autobind from 'autobind-decorator'
 
-import boardActions from '../actions/board'
-import boardStore from '../stores/board'
+import uiActions from '../actions/ui'
+import tmpActions from '../actions/tmp'
 
 @autobind
 class BoardConfigModal extends React.Component {
@@ -36,11 +36,11 @@ class BoardConfigModal extends React.Component {
   }
 
   close() {
-    boardActions.closeBoardConfig()
+    uiActions.closeBoardConfig()
   }
 
   create() {
-    boardActions.createBoard({
+    tmpActions.createBoard({
       name: this.refs.name.getValue()
     , blocks: [
         {
@@ -48,7 +48,7 @@ class BoardConfigModal extends React.Component {
         , w: 800
         , h: 600
         , boxes: [
-            
+
           ]
         }
       ]
