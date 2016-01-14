@@ -4,7 +4,6 @@ import _ from 'lodash'
 import actions from '../actions/block'
 
 import selectStore from '../stores/select'
-import selectActions from '../actions/select'
 
 let state = {
 
@@ -13,7 +12,6 @@ let state = {
 selectStore.listen((newState) => {
   state = _.assign(state, newState)
 })
-
 
 function ensureComponentInfo(info) {
   const defaults = {
@@ -35,10 +33,7 @@ function ensureComponentInfo(info) {
 let store = Reflux.createStore({
   listenables: actions
 , onRemoveBox: () => {
-    // var boxId = box.id || state.box.id
-    // selectActions.setActiveBox(null)
     state.block.removeBox(state.box)
-
   }
 , onNewComponent: (box) => {
     box = ensureComponentInfo(box)

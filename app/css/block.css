@@ -6,4 +6,17 @@
 
 .block {
   margin-left: 50px;
+  border: solid
+}
+
+.block.active {
+  border: solid red;
+}
+
+.block>.block_toolbar {
+  visibility: hidden;
+}
+
+.block.active>.block_toolbar {
+  visibility: visible;
 }

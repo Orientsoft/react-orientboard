@@ -7,6 +7,8 @@ let actions = Reflux.createActions([
 , 'findBoard'
 , 'removeBoard'
 , 'updateBoard'
+, 'addBlock'
+, 'moveBlock'
 ].reduce((pv, cv) => {
   pv[cv] = {asyncResult: true}
   return pv

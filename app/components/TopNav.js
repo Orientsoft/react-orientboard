@@ -7,8 +7,8 @@ import uiActions from '../actions/ui'
 import styles from '../css/app.css'
 import selectActions from '../actions/select'
 import selectStore from '../stores/select'
-import boardStore from '../stores/tmp'
-import boardActions from '../actions/tmp'
+import boardStore from '../stores/board'
+import boardActions from '../actions/board'
 
 @autobind
 export default class TopNav extends React.Component {

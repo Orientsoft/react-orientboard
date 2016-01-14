@@ -3,7 +3,7 @@ import {Modal, Button, Input} from 'react-bootstrap'
 import autobind from 'autobind-decorator'
 
 import uiActions from '../actions/ui'
-import boardActions from '../actions/tmp'
+import boardActions from '../actions/board'
 
 @autobind
 class BoardConfigModal extends React.Component {
@@ -44,9 +44,10 @@ class BoardConfigModal extends React.Component {
       name: this.refs.name.getValue()
     , blocks: [
         {
-          id: 1
+          id: Date.now()
         , w: 800
         , h: 600
+        , img: null
         , boxes: [
 
           ]

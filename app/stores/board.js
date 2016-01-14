@@ -1,7 +1,7 @@
 import Reflux from 'reflux'
 import _ from 'lodash'
 
-import actions from '../actions/tmp'
+import actions from '../actions/board'
 
 import selectActions from '../actions/select'
 import selectStore from '../stores/select'
@@ -21,7 +21,6 @@ let store = Reflux.createStore({
   listenables: actions
 , onSaveBoard: () => {
     let nb = state.app.refs.board.toJson()
-    console.log(nb)
     actions.updateBoard({name: nb.name}, nb)
   }
 , onCreateBoard: async (board) => {
@@ -66,6 +65,23 @@ let store = Reflux.createStore({
     state.boards[_.findIndex(state.boards, query)] = board
     store.trigger(state)
     return actions.updateBoard.completed()
+  }
+, onAddBlock: () => {
+    state.board.blocks.push({
+      boxes: []
+      // use timestamp as id to distinguish blocks in the same board
+    , id: Date.now().toString()
+    , w: _.get(state, 'board.blocks[0].w') || 800
+    , h: _.get(state, 'board.blocks[0].h') || 600
+    , img: null
+    })
+    store.trigger(state)
+  }
+, onRemoveBlock: () => {
+
+  }
+, onMoveBlock: () => {
+
   }
 })
 

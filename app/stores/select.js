@@ -13,7 +13,10 @@ let store = Reflux.createStore({
   listenables: actions
 , onSetActiveBlock: (block) => {
     if (state.block === block) return null
+    actions.setActiveBox(null)
+    if (state.block) state.block.deactivate()
     state.block = block
+    if (block) block.activate()
     store.trigger(state)
   }
 , onSetActiveBox: (box) => {
