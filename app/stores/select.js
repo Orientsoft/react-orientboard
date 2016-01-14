@@ -3,43 +3,43 @@ import _ from 'lodash'
 
 import actions from '../actions/select'
 
-let state = {
-  box: null
-, block: null
-, board: null
+const state = {
+  box: null,
+  block: null,
+  board: null,
 }
 
-let store = Reflux.createStore({
-  listenables: actions
-, onSetActiveBlock: (block) => {
+const store = Reflux.createStore({
+  listenables: actions,
+  onSetActiveBlock: (block) => {
     if (state.block === block) return null
     actions.setActiveBox(null)
     if (state.block) state.block.deactivate()
     state.block = block
     if (block) block.activate()
     store.trigger(state)
-  }
-, onSetActiveBox: (box) => {
+  },
+  onSetActiveBox: (box) => {
     if (state.box === box) return null
     if (state.box)
       state.box.deactivate()
     state.box = box
     if (box) box.activate()
     store.trigger(state)
-  }
-, onSetActiveBoard: (board) => {
+  },
+  onSetActiveBoard: (board) => {
     if (_.get(state, 'board.name') === board.name) return null
     if (state.box) state.box.deactivate()
     state.box = null
     state.block = null
     state.board = board
     store.trigger(state)
-  }
-, onSetApp: (app) => {
+  },
+  onSetApp: (app) => {
     console.log('set app', app)
     state.app = app
     store.trigger(state)
-  }
+  },
 })
 
 store.getState = () => {

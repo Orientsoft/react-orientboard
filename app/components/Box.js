@@ -6,7 +6,7 @@ import classnames from 'classnames'
 import cm from '../lib/components'
 import autobind from 'autobind-decorator'
 import boxActions from '../actions/box'
-import boxStore from '../stores/box'
+// import boxStore from '../stores/box'
 import selectActions from '../actions/select'
 import uiStore from '../stores/ui'
 
@@ -16,20 +16,20 @@ import styles from '../css/box.css'
 class Box extends React.Component {
   constructor(props) {
     super(props)
-    let classes = {}
+    const classes = Object.create(null)
     classes[styles.active] = false
     classes[styles.box] = true
     this.state = {
-      h: props.h
-    , w: props.w
-    , x: props.x
-    , y: props.y
-    , rotate: props.rotate
-    , z: props.z
-    , active: false
-    , classes: classes
-    , mode: 'edit'
-    , boardState: {}
+      h: props.h,
+      w: props.w,
+      x: props.x,
+      y: props.y,
+      rotate: props.rotate,
+      z: props.z,
+      active: false,
+      classes,
+      mode: 'edit',
+      boardState: {},
     }
   }
 
@@ -38,7 +38,7 @@ class Box extends React.Component {
     uiStore.listen((newState) => {
       // this.setState(newState)
       console.log('mode!', newState.mode)
-      this.setState({mode: newState.mode})
+      this.setState({ mode: newState.mode })
     })
   }
 
@@ -93,16 +93,16 @@ class Box extends React.Component {
     if (!this.state.active) {
       console.log('activating', this.props.id)
       this.setState({
-        active: true
-      , classes: _.set(this.state.classes, styles.active, true)
+        active: true,
+        classes: _.set(this.state.classes, styles.active, true),
       })
     }
   }
 
   deactivate() {
     this.setState({
-      active: false
-    , classes: _.set(this.state.classes, styles.active, false)
+      active: false,
+      classes: _.set(this.state.classes, styles.active, false),
     })
   }
 
@@ -113,27 +113,22 @@ class Box extends React.Component {
   }
 
   rotate(theta) {
-    this.setState({
-      rotate: theta
-    })
+    this.setState({rotate: theta})
   }
 
   resize(h, w) {
-    this.setState({
-      h: h
-    , w: w
-    })
+    this.setState({h: h, w: w})
   }
 
   addZIndex(amount) {
     this.setState({
-      z: (this.state.z + amount < 0) ? 0 : (this.state.z + amount)
+      z: (this.state.z + amount < 0) ? 0 : (this.state.z + amount),
     })
   }
 
   toJson() {
     let j = _.pick(this.state, [
-      'x', 'y', 'z', 'h' , 'w', 'rotate', 'id'
+      'x', 'y', 'z', 'h' , 'w', 'rotate', 'id',
     ])
     j.id = this.props.id
     j.type = this.props.type
@@ -157,26 +152,24 @@ class Box extends React.Component {
   }
 
   _onStoreChange(newState) {
-    this.setState({
-      boardState: newState
-    })
+    this.setState({boardState: newState})
   }
 
   _getCenter() {
     let rect = ReactDOM.findDOMNode(this).getBoundingClientRect()
     return {
-      x: (rect.left + rect.right) / 2
-    , y: (rect.bottom + rect.top) / 2
+      x: (rect.left + rect.right) / 2,
+      y: (rect.bottom + rect.top) / 2,
     }
   }
 
   _getCss() {
     return {
-      height: this.state.h
-    , width: this.state.w
-    , zIndex: this.state.z
-    , WebkitTransform: `translate(${this.state.x}px, ${this.state.y}px)`
-      + ` rotate(${this.state.rotate}deg)`
+      height: this.state.h,
+      width: this.state.w,
+      zIndex: this.state.z,
+      WebkitTransform: `translate(${this.state.x}px, ${this.state.y}px)`
+      + ` rotate(${this.state.rotate}deg)`,
     }
   }
 
@@ -207,21 +200,21 @@ class Box extends React.Component {
 }
 
 Box.propTypes = {
-  h: React.PropTypes.number
-, w: React.PropTypes.number
-, x: React.PropTypes.number
-, y: React.PropTypes.number
-, z: React.PropTypes.number
-, rotate: React.PropTypes.number
+  h: React.PropTypes.number,
+  w: React.PropTypes.number,
+  x: React.PropTypes.number,
+  y: React.PropTypes.number,
+  z: React.PropTypes.number,
+  rotate: React.PropTypes.number,
 }
 
 Box.defaultProps = {
-  h: 100
-, w: 100
-, x: 0
-, y: 0
-, z: 0
-, rotate: 0
+  h: 100,
+  w: 100,
+  x: 0,
+  y: 0,
+  z: 0,
+  rotate: 0,
 }
 
 export default Box

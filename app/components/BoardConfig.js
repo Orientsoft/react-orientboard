@@ -41,18 +41,14 @@ class BoardConfigModal extends React.Component {
 
   create() {
     boardActions.createBoard({
-      name: this.refs.name.getValue()
-    , blocks: [
-        {
-          id: Date.now()
-        , w: 800
-        , h: 600
-        , img: null
-        , boxes: [
-
-          ]
-        }
-      ]
+      name: this.refs.name.getValue(),
+      blocks: [{
+          id: Date.now(),
+          w: 800,
+          h: 600,
+          img: null,
+          boxes: [],
+      }],
     })
     this.close()
   }

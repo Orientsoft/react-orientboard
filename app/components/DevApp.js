@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import autobind from 'autobind-decorator'
 import {
-  Button, ButtonGroup
+  Button, ButtonGroup,
 } from 'react-bootstrap'
 
 import blockActions from '../actions/block'
@@ -30,20 +30,18 @@ class App extends React.Component {
     let testBoard
     if (this.props.testComponent) {
       testBoard = {
-        name: `testboard-${this.props.testComponent[0].type}`
-      , blocks: [
-          {
-            w: 800
-          , h: 600
-          , boxes: this.props.testComponent
-          }
-        ]
+        name: `testboard-${this.props.testComponent[0].type}`,
+        blocks: [{
+            w: 800,
+            h: 600,
+            boxes: this.props.testComponent,
+        }],
       }
     }
     this.state = {
-      layout: this.props.layout || []
-    , boards: []
-    , board: this.props.testComponent ? testBoard : null
+      layout: this.props.layout || [],
+      boards: [],
+      board: this.props.testComponent ? testBoard : null,
     }
   }
 
@@ -65,13 +63,13 @@ class App extends React.Component {
                       this.refs[`new-${component}`].open()
                     else {
                       blockActions.createBox({
-                        x: 0
-                      , y: 0
-                      , h: 100
-                      , w: 100
-                      , rotate: 0
-                      , type: component
-                      , data:{}
+                        x: 0,
+                        y: 0,
+                        h: 100,
+                        w: 100,
+                        rotate: 0,
+                        type: component,
+                        data:{},
                       })
                     }
                   }}>

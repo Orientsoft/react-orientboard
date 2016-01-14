@@ -13,8 +13,8 @@ class BlockConfigModal extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      w: 800
-    , h: 600
+      w: 800,
+      h: 600,
     }
   }
 
@@ -50,19 +50,19 @@ class BlockConfigModal extends React.Component {
   }
 
   update() {
-    let w = this.refs.width.getValue()
-      , h = this.refs.height.getValue()
-      , img = this.refs.backimg.getValue()
-    console.log(w, h)
+    let w = this.refs.width.getValue(),
+        h = this.refs.height.getValue(),
+        img = this.refs.backimg.getValue()
+
     this.setState({
-      w: w
-    , h: h
-    , img: img
+      w: w,
+      h: h,
+      img: img,
     })
     blockActions.setBlockConfig({
-      w: w
-    , h: h
-    , img: img
+      w: w,
+      h: h,
+      img: img,
     })
     this.close()
   }

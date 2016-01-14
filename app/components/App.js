@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import autobind from 'autobind-decorator'
 import {
-  Button, ButtonGroup
+  Button, ButtonGroup,
 } from 'react-bootstrap'
 
 import blockActions from '../actions/block'
@@ -29,11 +29,10 @@ import cm from '../lib/components'
 class App extends React.Component {
   constructor(props) {
     super(props)
-
     this.state = {
-      layout: this.props.layout || []
-    , boards: []
-    , board: null
+      layout: this.props.layout || [],
+      boards: [],
+      board: null,
     }
   }
 
@@ -56,13 +55,13 @@ class App extends React.Component {
                       this.refs[`new-${component}`].open()
                     else {
                       blockActions.newComponent({
-                        x: 0
-                      , y: 0
-                      , h: 100
-                      , w: 100
-                      , rotate: 0
-                      , type: component
-                      , data:{}
+                        x: 0,
+                        y: 0,
+                        h: 100,
+                        w: 100,
+                        rotate: 0,
+                        type: component,
+                        data:{},
                       })
                     }
                   }}>

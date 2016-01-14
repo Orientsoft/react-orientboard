@@ -15,33 +15,35 @@ selectStore.listen((newState) => {
 
 function ensureComponentInfo(info) {
   const defaults = {
-    x: 0
-  , y: 0
-  , rotate: 0
-  , h: 100
-  , w: 100
-  , data: {}
+    x: 0,
+    y: 0,
+    rotate: 0,
+    h: 100,
+    w: 100,
+    data: {},
   }
 
-  _.map(defaults, (value, key) => {
-    info[key] = info[key] || value
-  })
+  // let valid = _.clone(info)
+  //
+  // _.map(defaults, (value, key) => {
+  //   valid[key] = valid[key] || value
+  // })
 
-  return info
+  return _.assign(defaults, info)
 }
 
-let store = Reflux.createStore({
-  listenables: actions
-, onRemoveBox: () => {
+const store = Reflux.createStore({
+  listenables: actions,
+  onRemoveBox: () => {
     state.block.removeBox(state.box)
-  }
-, onNewComponent: (box) => {
+  },
+  onNewComponent: (box) => {
     box = ensureComponentInfo(box)
     state.block.createBox(box)
-  }
-, onSetBlockConfig: (config) => {
+  },
+  onSetBlockConfig: (config) => {
     state.block.setConfig(config)
-  }
+  },
 
 })
 

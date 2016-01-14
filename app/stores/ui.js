@@ -4,37 +4,37 @@ import _ from 'lodash'
 import uiActions from '../actions/ui'
 import selectActions from '../actions/select'
 
-let state = {
-  showBlockConfig: false
-, showBoardConfig: false
-, mode: 'edit'
+const state = {
+  showBlockConfig: false,
+  showBoardConfig: false,
+  mode: 'edit',
 }
 
-let store = Reflux.createStore({
-  listenables: uiActions
-, onOpenBlockConfig() {
+const store = Reflux.createStore({
+  listenables: uiActions,
+  onOpenBlockConfig() {
     state.showBlockConfig = true
     store.trigger(state)
-  }
-, onCloseBlockConfig() {
+  },
+  onCloseBlockConfig() {
     state.showBlockConfig = false
     store.trigger(state)
-  }
-, onOpenBoardConfig: () => {
+  },
+  onOpenBoardConfig: () => {
     state.showBoardConfig = true
     store.trigger(state)
-  }
-, onCloseBoardConfig: () => {
+  },
+  onCloseBoardConfig: () => {
     state.showBoardConfig = false
     store.trigger(state)
-  }
-, onSetMode: (mode) => {
+  },
+  onSetMode: (mode) => {
     if (state.mode === mode) return null
     state.mode = mode
     selectActions.setActiveBox(null)
     selectActions.setActiveBlock(null)
     store.trigger(state)
-  }
+  },
 })
 
 store.getState = () => {

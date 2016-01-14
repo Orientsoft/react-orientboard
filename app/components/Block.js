@@ -26,12 +26,12 @@ class Block extends React.Component {
     classes[styles.active] = false
 
     this.state = {
-      w: this.props.w || 800
-    , h: this.props.h || 600
-    , img: this.props.img || null
-    , boxes: this.props.boxes
-    , active: false
-    , classes: classes
+      w: this.props.w || 800,
+      h: this.props.h || 600,
+      img: this.props.img || null,
+      boxes: this.props.boxes,
+      active: false,
+      classes: classes,
     }
   }
 
@@ -99,25 +99,25 @@ class Block extends React.Component {
 
   toJson() {
     return {
-      boxes: _.map(this.refs, box => { return box.toJson() })
-    , w: this.state.w
-    , h: this.state.h
-    , img: this.state.img
+      boxes: _.map(this.refs, box => { return box.toJson() }),
+      w: this.state.w,
+      h: this.state.h,
+      img: this.state.img,
     }
   }
 
   createBox(info) {
     this.state.boxes.push(info)
     this.setState({
-      boxes: this.state.boxes
+      boxes: this.state.boxes,
     })
   }
 
   _getCss() {
     return {
-      width: this.state.w
-    , height: this.state.h
-    , backgroundImage: this.state.img ? `url(${this.state.img})` : 'none'
+      width: this.state.w,
+      height: this.state.h,
+      backgroundImage: this.state.img ? `url(${this.state.img})` : 'none',
     }
   }
 
@@ -131,15 +131,15 @@ class Block extends React.Component {
 
   activate() {
     this.setState({
-      active: true
-    , classes: _.set(this.state.classes, styles.active, true)
+      active: true,
+      classes: _.set(this.state.classes, styles.active, true),
     })
   }
 
   deactivate() {
     this.setState({
-      active: false
-    , classes: _.set(this.state.classes, styles.active, false)
+      active: false,
+      classes: _.set(this.state.classes, styles.active, false),
     })
   }
 }
