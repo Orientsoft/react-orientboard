@@ -79,7 +79,7 @@ export default class TopNav extends React.Component {
 }
 
 TopNav.propTypes = {
-  boards: React.PropTypes.object,
+  boards: React.PropTypes.array,
 }
 
 TopNav.defaultProps = {

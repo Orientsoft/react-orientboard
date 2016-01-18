@@ -232,7 +232,10 @@ function isFixed(file) {
 
 gulp.task('lint', () => {
   return gulp.src(['**/*.js'])
-    .pipe(eslint({ fix: true }))
+    .pipe(eslint({
+      fix: true,
+      quiet: argv.q,
+    }))
     .pipe(eslint.format())
     .pipe(gulpIf(isFixed, gulp.dest((file) => { return file.base })))
     .pipe(eslint.failAfterError())
@@ -246,4 +249,4 @@ gulp.task('test', () => {
       .once('end', process.exit)
 })
 
-gulp.task('default', ['production'])
+gulp.task('default', ['lint'])

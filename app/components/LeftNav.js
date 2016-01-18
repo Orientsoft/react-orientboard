@@ -3,13 +3,32 @@ import { ButtonGroup, Button } from 'react-bootstrap'
 import cm from '../lib/components'
 import _ from 'lodash'
 import blockActions from '../actions/block'
+import autobind from 'autobind-decorator'
 
+@autobind
 export default class LeftNav extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
 
     }
+    this._newComponentFuns = Object.create(null)
+    _.keys(cm).map((component) => {
+      this._newComponentFuns[component] = () => {
+        if (this.props.modals[`new-${component}`])
+          this.props.modals[`new-${component}`].open()
+        else
+          blockActions.newComponent({
+            x: 0,
+            y: 0,
+            h: 100,
+            w: 100,
+            rotate: 0,
+            type: component,
+            data: {},
+          })
+      }
+    })
   }
 
   _newComponent(component) {
@@ -36,8 +55,7 @@ export default class LeftNav extends React.Component {
           _.keys(cm).map((component, i) => {
             return (
               <Button key={i}
-                // TODO: make _newComponent for components static
-                onClick={this._newComponent.bind(this, component)}
+                onClick={this._newComponentFuns[component]}
               >
                 {component}
               </Button>
@@ -51,7 +69,7 @@ export default class LeftNav extends React.Component {
 }
 
 LeftNav.propTypes = {
-
+  modals: React.PropTypes.object,
 }
 
 LeftNav.defaultProps = {

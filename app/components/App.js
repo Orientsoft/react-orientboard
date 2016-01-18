@@ -58,7 +58,7 @@ class App extends React.Component {
         <BoardConfigModal show={this.state.showBoardConfig}/>
 
         <div>
-          <LeftNav className={styles.left_nav}/>
+          <LeftNav className={styles.left_nav} modals={this.refs}/>
           <div className={styles.workspace}>
             <BoxToolbar />
             <Board board={this.state.board} ref='board'/>

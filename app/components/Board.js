@@ -26,7 +26,6 @@ export default class Board extends React.Component {
   }
 
   render() {
-    console.log('board', this.props.board)
     return (
       <div >
       {
@@ -34,14 +33,10 @@ export default class Board extends React.Component {
         ?
         this.props.board.blocks.map((block, i) => {
           return (
-            <Block
-              // boxes={block.boxes} w={block.w} h={block.h} id={block.id}
-              // img={block.img}
-              config={block}
+            <Block config={block} ref={`box-${i}`}
               // adding board name to key attribute distinguishes blocks of
               // diffrent boards for correct rendering
               key={`${this.props.board.name}-${i}`}
-              ref={`box-${i}`}
             />
           )
         })

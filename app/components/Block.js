@@ -47,13 +47,9 @@ class Block extends React.Component {
     // this.unsub()
   }
 
-  get w() { return this.state.w }
-
-  get h() { return this.state.h }
-
-  get img() { return this.state.img }
-
-  get id() { return this.props.id }
+  setConfig(config) {
+    this.setState(config)
+  }
 
   toJson() {
     return {
@@ -83,10 +79,6 @@ class Block extends React.Component {
     selectActions.setActiveBlock(this)
   }
 
-  setConfig(config) {
-    this.setState(config)
-  }
-
   removeBox(target) {
     this.setState({
       boxes: this.state.boxes.filter((box) => {
@@ -108,6 +100,14 @@ class Block extends React.Component {
       classes: _.set(this.state.classes, styles.active, false),
     })
   }
+
+  get w() { return this.state.w }
+
+  get h() { return this.state.h }
+
+  get img() { return this.state.img }
+
+  get id() { return this.props.id }
 
   render() {
     return (
