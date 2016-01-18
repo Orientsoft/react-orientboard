@@ -6,5 +6,6 @@
   * [Requirement](dev/spec.md)
   * [Component Development](dev/component-dev.md)
   * [Component Specs](dev/component-spec.md)
+  * [Conventions](dev/conventions.md)
 * [Usage](usage/index.md)
   * Coming soon...

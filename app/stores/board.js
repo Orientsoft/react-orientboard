@@ -77,10 +77,10 @@ const store = Reflux.createStore({
     store.trigger(state)
   },
   onRemoveBlock: () => {
-
+    // TODO add removeBlock
   },
   onMoveBlock: () => {
-
+    // TODO: add moveBlock
   },
 })
 
