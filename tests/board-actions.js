@@ -1,13 +1,13 @@
-import {expect} from 'chai'
+import { expect } from 'chai'
 import _ from 'lodash'
 import boardActions from '../app/actions/board'
 import boardStore from '../app/stores/board'
 
 var bm
   , board = {
-      name: 'test' + Date.now()
+    name: 'test' + Date.now()
     , owner: 'test'
-    }
+  }
 
 boardStore.listen((state) => {
   console.log('update', state)

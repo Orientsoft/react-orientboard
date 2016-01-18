@@ -1,13 +1,13 @@
 import Reflux from 'reflux'
 
-let actions = Reflux.createActions([
+const actions = Reflux.createActions([
   'openBlockConfig',
   'closeBlockConfig',
   'openBoardConfig',
   'closeBoardConfig',
   'setMode',
 ].reduce((pv, cv) => {
-  pv[cv] = {asyncResult: true}
+  pv[cv] = { asyncResult: true }
   return pv
 }, {}))
 

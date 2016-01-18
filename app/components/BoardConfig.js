@@ -1,5 +1,5 @@
 import React from 'react'
-import {Modal, Button, Input} from 'react-bootstrap'
+import { Modal, Button, Input } from 'react-bootstrap'
 import autobind from 'autobind-decorator'
 
 import uiActions from '../actions/ui'
@@ -18,23 +18,6 @@ class BoardConfigModal extends React.Component {
 
   }
 
-  render() {
-    return (
-      <Modal show={this.props.show}>
-        <Modal.Header >Block Config</Modal.Header>
-        <Modal.Body >
-          {/*validation needed*/}
-          <Input ref='name' type='text' label='name'
-              defaultValue={this.state.name}/>
-        </Modal.Body>
-        <Modal.Footer >
-          <Button onClick={this.close}>Cancle</Button>
-          <Button onClick={this.create}>Confirm</Button>
-        </Modal.Footer>
-      </Modal>
-    )
-  }
-
   close() {
     uiActions.closeBoardConfig()
   }
@@ -43,19 +26,37 @@ class BoardConfigModal extends React.Component {
     boardActions.createBoard({
       name: this.refs.name.getValue(),
       blocks: [{
-          id: Date.now(),
-          w: 800,
-          h: 600,
-          img: null,
-          boxes: [],
+        id: Date.now(),
+        w: 800,
+        h: 600,
+        img: null,
+        boxes: [],
       }],
     })
     this.close()
   }
+
+  render() {
+    return (
+      <Modal show={this.props.show}>
+        <Modal.Header >Block Config</Modal.Header>
+        <Modal.Body >
+          {/* validation needed */}
+          <Input ref='name' type='text' label='name'
+            defaultValue={this.state.name}
+          />
+        </Modal.Body>
+        <Modal.Footer >
+          <Button onClick={this.close}>Cancle</Button>
+          <Button onClick={this.create}>Confirm</Button>
+        </Modal.Footer>
+      </Modal>
+    )
+  }
 }
 
 BoardConfigModal.propTypes = {
-
+  show: React.PropTypes.bool,
 }
 
 BoardConfigModal.defaultProps = {

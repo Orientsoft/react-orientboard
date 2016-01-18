@@ -46,41 +46,6 @@ class Box extends React.Component {
     // this.unsubscribe()
   }
 
-  render() {
-    return (
-      <div className={classnames(this.state.classes)}
-          onClick={()=>{
-            if (this.state.mode === 'edit')
-              selectActions.setActiveBox(this)
-          }}
-          onMouseDown={this._startDrag}
-          onMouseUp={this._stopDrag}
-          style={this._getCss()}>
-
-        <span className={styles.pos_info}>
-          x: {this.state.x}, y: {this.state.y}, h: {this.state.h},
-          w: {this.state.w}, rotate: {this.state.rotate}
-        </span>
-
-        <div className={`${styles.rotate} ${styles.anchor}`}
-             onMouseDown={this._startRotate}/>
-        <div className={`${styles.scale} ${styles.anchor}`}
-             onMouseDown={this._startResize}/>
-        {
-          function() {
-            let child = cm[this.props.type]
-            let props = _.pick(this.state, ['x', 'y', 'h', 'w', 'rotate'])
-            props.data = this.props.data
-            props.edit = (this.state.mode === 'edit')
-            props.ref = 'content'
-            props.className = styles.box_content
-            return React.createElement(child, props)
-          }.bind(this)()
-        }
-      </div>
-    )
-  }
-
   get w() {
     return this.state.w
   }
@@ -113,11 +78,11 @@ class Box extends React.Component {
   }
 
   rotate(theta) {
-    this.setState({rotate: theta})
+    this.setState({ rotate: theta })
   }
 
   resize(h, w) {
-    this.setState({h: h, w: w})
+    this.setState({ h, w })
   }
 
   addZIndex(amount) {
@@ -127,8 +92,8 @@ class Box extends React.Component {
   }
 
   toJson() {
-    let j = _.pick(this.state, [
-      'x', 'y', 'z', 'h' , 'w', 'rotate', 'id',
+    const j = _.pick(this.state, [
+      'x', 'y', 'z', 'h', 'w', 'rotate', 'id',
     ])
     j.id = this.props.id
     j.type = this.props.type
@@ -138,9 +103,7 @@ class Box extends React.Component {
     return j
   }
 
-  get id() {
-    return this.props.id
-  }
+  get id() { return this.props.id }
 
   openConfig() {
     if (this.refs.content.openConfig)
@@ -152,11 +115,11 @@ class Box extends React.Component {
   }
 
   _onStoreChange(newState) {
-    this.setState({boardState: newState})
+    this.setState({ boardState: newState })
   }
 
   _getCenter() {
-    let rect = ReactDOM.findDOMNode(this).getBoundingClientRect()
+    const rect = ReactDOM.findDOMNode(this).getBoundingClientRect()
     return {
       x: (rect.left + rect.right) / 2,
       y: (rect.bottom + rect.top) / 2,
@@ -175,8 +138,9 @@ class Box extends React.Component {
 
   _startDrag(e) {
     if (this.state.active)
-      boxActions.startDrag( e.clientX - this.state.x
-                            , e.clientY - this.state.y)
+      boxActions.startDrag(
+        e.clientX - this.state.x, e.clientY - this.state.y
+      )
   }
 
   _stopDrag() {
@@ -197,6 +161,43 @@ class Box extends React.Component {
     e.stopPropagation()
   }
 
+  render() {
+    return (
+      <div className={classnames(this.state.classes)}
+        onClick={() => {
+          if (this.state.mode === 'edit')
+            selectActions.setActiveBox(this)
+        }}
+        onMouseDown={this._startDrag}
+        onMouseUp={this._stopDrag}
+        style={this._getCss()}
+      >
+
+        <span className={styles.pos_info}>
+          x: {this.state.x}, y: {this.state.y}, h: {this.state.h},
+          w: {this.state.w}, rotate: {this.state.rotate}
+        </span>
+
+        <div className={`${styles.rotate} ${styles.anchor}`}
+          onMouseDown={this._startRotate}
+        />
+        <div className={`${styles.scale} ${styles.anchor}`}
+          onMouseDown={this._startResize}
+        />
+        {
+          function () {
+            const child = cm[this.props.type]
+            const props = _.pick(this.state, ['x', 'y', 'h', 'w', 'rotate'])
+            props.data = this.props.data
+            props.edit = (this.state.mode === 'edit')
+            props.ref = 'content'
+            props.className = styles.box_content
+            return React.createElement(child, props)
+          }.bind(this)()
+        }
+      </div>
+    )
+  }
 }
 
 Box.propTypes = {
@@ -206,6 +207,8 @@ Box.propTypes = {
   y: React.PropTypes.number,
   z: React.PropTypes.number,
   rotate: React.PropTypes.number,
+  data: React.PropTypes.object,
+  type: React.PropTypes.string,
 }
 
 Box.defaultProps = {

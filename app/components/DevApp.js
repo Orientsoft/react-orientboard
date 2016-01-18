@@ -32,9 +32,9 @@ class App extends React.Component {
       testBoard = {
         name: `testboard-${this.props.testComponent[0].type}`,
         blocks: [{
-            w: 800,
-            h: 600,
-            boxes: this.props.testComponent,
+          w: 800,
+          h: 600,
+          boxes: this.props.testComponent,
         }],
       }
     }

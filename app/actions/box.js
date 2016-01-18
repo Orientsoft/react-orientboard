@@ -1,6 +1,6 @@
 import Reflux from 'reflux'
 
-let actions = Reflux.createActions([
+const actions = Reflux.createActions([
   'startDrag',
   'stopDrag',
   'startRotate',
@@ -11,7 +11,7 @@ let actions = Reflux.createActions([
   'init',
   'openConfig',
 ].reduce((pv, cv) => {
-  pv[cv] = {asyncResult: true}
+  pv[cv] = { asyncResult: true }
   return pv
 }, {}))
 

@@ -1,12 +1,12 @@
 import Reflux from 'reflux'
 
-let actions = Reflux.createActions([
+const actions = Reflux.createActions([
   'setActiveBlock',
   'setActiveBox',
   'setActiveBoard',
   'setApp',
 ].reduce((pv, cv) => {
-  pv[cv] = {asyncResult: true}
+  pv[cv] = { asyncResult: true }
   return pv
 }, {}))
 

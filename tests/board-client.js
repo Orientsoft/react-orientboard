@@ -1,5 +1,5 @@
 import BoardManager from '../lib/client'
-import {expect} from 'chai'
+import { expect } from 'chai'
 import _ from 'lodash'
 
 var bm

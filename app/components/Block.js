@@ -16,7 +16,7 @@ import styles from '../css/block.css'
 class Block extends React.Component {
   constructor(props) {
     const p = _.clone(props)
-    p.boxes = p.boxes.map((info, i) => {
+    p.config.boxes = p.config.boxes.map((info, i) => {
       info.id = i
       return info
     })
@@ -26,10 +26,10 @@ class Block extends React.Component {
     classes[styles.active] = false
 
     this.state = {
-      w: this.props.w || 800,
-      h: this.props.h || 600,
-      img: this.props.img || null,
-      boxes: this.props.boxes,
+      w: this.props.config.w || 800,
+      h: this.props.config.h || 600,
+      img: this.props.config.img || null,
+      boxes: this.props.config.boxes,
       active: false,
       classes,
     }
@@ -53,7 +53,7 @@ class Block extends React.Component {
 
   get img() { return this.state.img }
 
-  get id () { return this.props.id }
+  get id() { return this.props.id }
 
   toJson() {
     return {
@@ -153,7 +153,7 @@ class Block extends React.Component {
 }
 
 Block.propTypes = {
-
+  config: React.PropTypes.object,
 }
 
 Block.defaultProps = {

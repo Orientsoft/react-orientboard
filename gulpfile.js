@@ -16,7 +16,8 @@ const gulp = require('gulp'),
       sequence = require('gulp-sequence'),
       gitbook = require('gitbook'),
       eslint = require('gulp-eslint'),
-      mocha = require('gulp-mocha')
+      mocha = require('gulp-mocha'),
+      gulpIf = require('gulp-if')
 
 require('nodent')()
 
@@ -225,12 +226,15 @@ gulp.task('postinstall', (cb) => {
   sequence('install', 'gen', 'build-vendor', 'build', 'doc')(cb)
 })
 
+function isFixed(file) {
+  return _.get(file, 'eslint.fixed')
+}
+
 gulp.task('lint', () => {
-  return gulp.src([
-    '**/*.js', '!node_modules/**', '!public/**', '!doc/**',
-    '!component-example/lib/**',
-  ]).pipe(eslint())
+  return gulp.src(['**/*.js'])
+    .pipe(eslint({ fix: true }))
     .pipe(eslint.format())
+    .pipe(gulpIf(isFixed, gulp.dest((file) => { return file.base })))
     .pipe(eslint.failAfterError())
 })
 

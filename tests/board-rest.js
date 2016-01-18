@@ -9,9 +9,9 @@ var expect = require('chai').expect
 
 var bm
   , board = {
-      name: 'test' + Date.now()
+    name: 'test' + Date.now()
     , owner: 'test'
-    }
+  }
 
 function url(endpoint) {
   return `http://localhost:3000/api/${endpoint}`
@@ -24,7 +24,7 @@ describe('Board Manager', () => {
         board: board
       }
     , json: true
-  }, (e, r, b) => {
+    }, (e, r, b) => {
       expect(e).to.not.exists
       expect(b).to.have.property('_id')
       cb(e)
@@ -46,7 +46,7 @@ describe('Board Manager', () => {
   })
 
   it('should list boards', async (cb) => {
-    request.get(url('boards'), {json: true}, (e, r, b) => {
+    request.get(url('boards'), { json: true }, (e, r, b) => {
       expect(e).to.not.exists
       expect(b).to.be.an(Array)
       console.log(_.pluck(b, '_id'))

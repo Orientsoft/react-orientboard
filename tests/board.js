@@ -8,9 +8,9 @@ var BoardManager = require('../lib/board-manager')
 
 var bm
   , board = {
-      name: 'test'
+    name: 'test'
     , owner: 'test'
-    }
+  }
 
 describe('Board Manager', () => {
   it('should create a board manager instance', () => {
@@ -59,7 +59,7 @@ describe('Board Manager', () => {
   it('should update the board', async () => {
     var newBoard = _.clone(board)
     newBoard.new = 'yes'
-    var res = await bm.update(board.owner, board, {$set: newBoard})
+    var res = await bm.update(board.owner, board, { $set: newBoard })
     expect(res.result.ok).to.equal(1)
     expect(res.result.nModified).to.equal(1)
     expect(res.result.n).to.equal(1)

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Navbar, NavItem, Nav, Input} from 'react-bootstrap'
+import { Navbar, NavItem, Nav, Input } from 'react-bootstrap'
 import autobind from 'autobind-decorator'
 import _ from 'lodash'
 
@@ -25,24 +25,28 @@ export default class TopNav extends React.Component {
     })
   }
 
+
+  _hangleChange(e) {
+    const board = boardStore.findBoard({ name: e.target.value })
+    selectActions.setActiveBoard(board)
+  }
+
   render() {
     return (
       <Navbar className={styles.navbar}>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#">OrientSoft</a>
+            <a href='#'>OrientSoft</a>
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>
-          <NavItem eventKey={1}
-              onClick={()=>{uiActions.setMode('publish')}}>
+          <NavItem eventKey={1} onClick={() => {uiActions.setMode('publish')}}>
             Publish
           </NavItem>
-          <NavItem eventKey={2} onClick={()=>{uiActions.setMode('edit')}}>
+          <NavItem eventKey={2} onClick={() => {uiActions.setMode('edit')}}>
             Edit
           </NavItem>
-          <NavItem eventKey={4}
-              onClick={boardActions.saveBoard}>
+          <NavItem eventKey={4} onClick={boardActions.saveBoard}>
             Save
           </NavItem>
           <NavItem eventKey={5} onClick={uiActions.openBoardConfig}>
@@ -50,12 +54,16 @@ export default class TopNav extends React.Component {
           </NavItem>
           <NavItem eventKey={6}
             onClick={() => {
-              boardActions.removeBoard({name: _.get(this.state, 'board.name')})
-            }}>
+              boardActions.removeBoard({
+                name: _.get(this.state, 'board.name'),
+              })
+            }}
+          >
             Remove Board
           </NavItem>
           <Input type='select' value={_.get(this.state, 'board.name')}
-              onChange={this._hangleChange}>
+            onChange={this._hangleChange}
+          >
           {
             this.props.boards.map((board, i) => {
               return <option key={i} value={board.name}>{board.name}</option>
@@ -68,14 +76,10 @@ export default class TopNav extends React.Component {
     )
   }
 
-  _hangleChange(e) {
-    let board = boardStore.findBoard({name: e.target.value})
-    selectActions.setActiveBoard(board)
-  }
 }
 
 TopNav.propTypes = {
-
+  boards: React.PropTypes.object,
 }
 
 TopNav.defaultProps = {

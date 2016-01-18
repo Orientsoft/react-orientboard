@@ -1,6 +1,6 @@
 import Reflux from 'reflux'
 
-let actions = Reflux.createActions([
+const actions = Reflux.createActions([
   'saveBoard',
   'createBoard',
   'listBoards',
@@ -10,7 +10,7 @@ let actions = Reflux.createActions([
   'addBlock',
   'moveBlock',
 ].reduce((pv, cv) => {
-  pv[cv] = {asyncResult: true}
+  pv[cv] = { asyncResult: true }
   return pv
 }, {}))
 
