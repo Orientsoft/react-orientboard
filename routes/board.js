@@ -2,16 +2,16 @@
 'use nodent-es7'
 'use strict'
 
-var BoardManager = require('../lib/board-manager')
-var router = require('express').Router()
+const BoardManager = require('../lib/board-manager'),
+      router = require('express').Router()
 
-var bm
+let bm
 
 // create board
 router.put('/board', async (req, res) => {
-  var user = 'test'
+  const user = 'test'
   try {
-    var result = await bm.create(user, req.body.board)
+    const result = await bm.create(user, req.body.board)
     return res.json(result.ops[0])
   } catch (e) {
     console.log(e.stack)
@@ -21,9 +21,9 @@ router.put('/board', async (req, res) => {
 
 // delete board
 router.delete('/board', async (req, res) => {
-  var user = 'test'
+  const user = 'test'
   try {
-    var result = await bm.remove(user, req.body.board)
+    const result = await bm.remove(user, req.body.board)
     return res.json(result.result)
   } catch (e) {
     return res.send(e.toString())
@@ -32,11 +32,11 @@ router.delete('/board', async (req, res) => {
 
 // update board
 router.patch('/board', async (req, res) => {
-  var user = 'test'
+  const user = 'test'
   try {
     console.log(req.body.query, req.body.board)
     req.body.board.owner = user
-    var result = await bm.update(user, req.body.query, req.body.board)
+    const result = await bm.update(user, req.body.query, req.body.board)
     return res.json(result.result)
   } catch (e) {
     return res.send(e.toString())
@@ -45,9 +45,9 @@ router.patch('/board', async (req, res) => {
 
 // list boards
 router.get('/boards', async (req, res) => {
-  var user = 'test'
+  const user = 'test'
   try {
-    var result = await bm.list(user)
+    const result = await bm.list(user)
     return res.json(result)
   } catch (e) {
     return res.send(e.toString())
@@ -56,9 +56,9 @@ router.get('/boards', async (req, res) => {
 
 // find board
 router.get('/board', async (req, res) => {
-  var user = 'test'
+  const user = 'test'
   try {
-    var result = await bm.find(user, req.query)
+    const result = await bm.find(user, req.query)
     return res.json(result)
   } catch (e) {
     return res.send(e.toString())

@@ -1,46 +1,42 @@
-var express = require('express')
-var router = express.Router()
-var fs = require('fs-extra')
-var path = require('path')
-var layouts = {}
+const express = require('express'),
+      router = express.Router(),
+      fs = require('fs-extra'),
+      path = require('path'),
+      layouts = {}
 
 
 const COMPONENTS_CONFIG = path.join(__dirname, '../config/components.json')
 
-for (var component of fs.readJsonSync(COMPONENTS_CONFIG).components) {
+for (const component of fs.readJsonSync(COMPONENTS_CONFIG).components)
   layouts[component] = loadLayout(component)
-}
 
 function loadLayout(component) {
-  var layoutPath = require.resolve(path.join(component, 'test-layout.js'))
+  const layoutPath = require.resolve(path.join(component, 'test-layout.js'))
   fs.watch(layoutPath, function () {
     console.log('layout change', component)
     delete require.cache[layoutPath]
     layouts[component] = require(layoutPath)
   })
-  return require(layoutPath )
+  return require(layoutPath)
 }
 
 fs.watch(COMPONENTS_CONFIG, function () {
   try {
-    var cc = fs.readJsonSync(COMPONENTS_CONFIG)
-    for (var component of cc.components) {
-      if (!layouts[component]) {
+    const cc = fs.readJsonSync(COMPONENTS_CONFIG)
+    for (const component of cc.components)
+      if (!layouts[component])
         layouts[component] = loadLayout(component)
-      }
-    }
   } catch (e) {
     console.log(e.stack)
   }
-
 })
 
 /* GET home page. */
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
   res.render('index', {
-    title: 'board demo'
-  , main_script: '/js/main.js'
-  , main_css: '/css/main.css'
+    title: 'board demo',
+    main_script: '/js/main.js',
+    main_css: '/css/main.css',
   })
 })
 
@@ -54,16 +50,14 @@ router.get('/get-test-layout/:name', function (req, res) {
 
 router.get('/dev/:name', function (req, res) {
   res.render('index', {
-    title: `${req.params.name}-dev`
-  , main_script: '/js/component-test.js'
-  , main_css: '/css/component-test.css'
+    title: `${req.params.name}-dev`,
+    main_script: '/js/component-test.js',
+    main_css: '/css/component-test.css',
   })
 })
 
 router.get('/mocha/:test', function (req, res) {
-  res.render('test', {
-    test: req.params.test
-  })
+  res.render('test', { test: req.params.test })
 })
 
 module.exports = router
