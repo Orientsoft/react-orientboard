@@ -26,7 +26,7 @@ function printErrorStack(err) {
   if (err) gutil.log(err.stack || err)
 }
 
-gulp.task('install', function () {
+gulp.task('install', () => {
   gulp.src(['./node_modules/bootstrap/dist/**'])
     .pipe(gulp.dest('./public/vendor/bootstrap'))
   gulp.src(['./node_modules/babel-polyfill/dist/**'])
@@ -72,7 +72,7 @@ gulp.task('build-vendor', () => {
     .pipe(gulp.dest('./public/js'))
 })
 
-gulp.task('build', function () {
+gulp.task('build', () => {
   fs.mkdirpSync('public/css')
   getBrowserifyStream({
     file: './app/main.js',
@@ -84,7 +84,7 @@ gulp.task('build', function () {
   .pipe(gulp.dest('./public/js'))
 })
 
-gulp.task('watch', function () {
+gulp.task('watch', () => {
   const file = argv.f || './app/main.js'
   const bundler = getBrowserifyStream({
     file,
@@ -95,7 +95,7 @@ gulp.task('watch', function () {
 
   const watcher = watchify(bundler)
 
-  watcher.build = function () {
+  watcher.build = () => {
     gutil.log('Start building')
     watcher.bundle()
            .on('error', printErrorStack)
@@ -106,14 +106,14 @@ gulp.task('watch', function () {
 
   watcher.on('error', printErrorStack)
          .on('update', watcher.build)
-         .on('time', function (time) {
+         .on('time', (time) => {
            gutil.log('Finished building after', time, 'ms')
          })
 
   watcher.build()
 })
 
-gulp.task('new', function (cb) {
+gulp.task('new', (cb) => {
   if (!argv.n)
     return gutil.log(
       gutil.colors.red('Error'), 'Name missing, use -n to name your component'
@@ -138,7 +138,7 @@ gulp.task('new', function (cb) {
   })
 })
 
-gulp.task('gen', function () {
+gulp.task('gen', () => {
   gutil.log('Generating config...')
   const devComponents = utils.getComponents()
   const output = `export default {\n  ${
@@ -181,7 +181,7 @@ gulp.task('assets', () => {
 })
 
 // remove a component from node_modules
-gulp.task('rm', function (cb) {
+gulp.task('rm', (cb) => {
   const name = argv.n
   if (!name)
     return gutil.log('Component name is needed.')
@@ -200,7 +200,7 @@ gulp.task('rm', function (cb) {
   }
 })
 
-gulp.task('ls', function () {
+gulp.task('ls', () => {
   gutil.log('Installed components:')
   for (const component of utils.getComponents())
     console.log(`\t - ${utils.getComponentName(component)}`)
