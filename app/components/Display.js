@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Board from './Board'
+import uiAction from '../actions/ui'
 
 export default class Display extends React.Component {
   constructor(props) {
@@ -8,6 +9,10 @@ export default class Display extends React.Component {
     this.state = {
 
     }
+  }
+
+  componentDidMount() {
+    uiAction.setMode('publish')
   }
 
   render() {

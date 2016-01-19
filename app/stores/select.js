@@ -3,15 +3,23 @@ import _ from 'lodash'
 
 import actions from '../actions/select'
 
+import uiStore from './ui'
+
 const state = {
   box: null,
   block: null,
   board: null,
 }
 
+uiStore.listen((newState) => {
+  console.log(newState)
+  _.assign(state, newState)
+})
+
 const store = Reflux.createStore({
   listenables: actions,
   onSetActiveBlock: (block) => {
+    if (state.mode === 'publish') return null
     if (state.block === block) return null
     actions.setActiveBox(null)
     if (state.block) state.block.deactivate()
@@ -20,6 +28,7 @@ const store = Reflux.createStore({
     store.trigger(state)
   },
   onSetActiveBox: (box) => {
+    if (state.mode === 'publish') return null
     if (state.box === box) return null
     if (state.box)
       state.box.deactivate()
@@ -28,6 +37,7 @@ const store = Reflux.createStore({
     store.trigger(state)
   },
   onSetActiveBoard: (board) => {
+    if (state.mode === 'publish') return null
     if (_.get(state, 'board.name') === board.name) return null
     if (state.box) state.box.deactivate()
     state.box = null
