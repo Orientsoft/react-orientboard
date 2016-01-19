@@ -10,6 +10,7 @@ const actions = Reflux.createActions([
   'addBlock',
   'moveBlock',
   'removeBlock',
+  'getDisplayLink',
 ].reduce((pv, cv) => {
   pv[cv] = { asyncResult: true }
   return pv

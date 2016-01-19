@@ -5,6 +5,8 @@ import DevApp from './components/DevApp'
 
 import * as utils from './lib/util'
 
+utils.initStores()
+
 utils.getTestLayout(document.title).then((layout) => {
   console.log(layout)
   ReactDOM.render(

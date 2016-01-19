@@ -5,5 +5,8 @@
   ],
   "extends": [
     "orientsoft/react"
-  ]
+  ],
+  "globals": {
+    "gBoard": true
+  }
 }

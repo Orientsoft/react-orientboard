@@ -2,8 +2,8 @@ const express = require('express'),
       router = express.Router()
 
 /* GET users listing. */
-router.all('*', function (req, res, next) {
-
+router.all('*', (req, res, next) => {
+  next()
 })
 
 module.exports = router

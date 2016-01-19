@@ -52,6 +52,9 @@ export default class TopNav extends React.Component {
           <NavItem eventKey={5} onClick={uiActions.openBoardConfig}>
             Create Board
           </NavItem>
+          <NavItem eventKey={6} onClick={boardActions.getDisplayLink}>
+            Get Link
+          </NavItem>
           <NavItem eventKey={6}
             onClick={() => {
               boardActions.removeBoard({

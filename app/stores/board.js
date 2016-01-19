@@ -7,7 +7,7 @@ import selectActions from '../actions/select'
 import selectStore from '../stores/select'
 import BoardManager from '../../lib/client'
 
-import { swapElements } from '../lib/util'
+import { swapElements, copyToClipboard } from '../lib/util'
 
 const bm = new BoardManager()
 let state = {
@@ -90,6 +90,10 @@ const store = Reflux.createStore({
       swapElements(state.board.blocks, idx, idx + step)
       store.trigger(state)
     }
+  },
+  onGetDisplayLink: () => {
+    const link = window.location.origin + `/api/display/${state.board._id}`
+    copyToClipboard(link)
   },
 })
 

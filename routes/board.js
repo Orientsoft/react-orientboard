@@ -3,7 +3,8 @@
 'use strict'
 
 const BoardManager = require('../lib/board-manager'),
-      router = require('express').Router()
+      router = require('express').Router(),
+      objectId = require('mongodb').ObjectId
 
 let bm
 
@@ -62,6 +63,24 @@ router.get('/board', async (req, res) => {
     return res.json(result)
   } catch (e) {
     return res.send(e.toString())
+  }
+})
+
+router.get('/display/:id', async (req, res) => {
+  console.log('oh')
+  try {
+    const result = await bm.find(null, { _id: objectId(req.params.id) })
+    // res.json(result)
+    console.log(result[0])
+    res.render('display', {
+      title: result[0].name || 'Not Found',
+      main_script: '/js/display.js',
+      main_css: '/css/main.css',
+      // HACK: add board json to html
+      board: escape(JSON.stringify(result[0])),
+    })
+  } catch (e) {
+    res.status(404)
   }
 })
 
