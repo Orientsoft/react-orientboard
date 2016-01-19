@@ -79,7 +79,10 @@ const store = Reflux.createStore({
     store.trigger(state)
   },
   onRemoveBlock: () => {
-    // TODO add removeBlock
+    state.board.blocks.splice(
+      _.findIndex(state.board.blocks, { id: state.block.id }), 1
+    )
+    store.trigger(state)
   },
   onMoveBlock: (step) => {
     const idx = _.findIndex(state.board.blocks, { id: state.block.id })

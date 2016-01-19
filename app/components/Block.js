@@ -140,8 +140,8 @@ class Block extends React.Component {
         >
           <Glyphicon glyph='plus'/>
         </Button>
-        <Button className={styles.box_button} disabled
-          onClick={null}
+        <Button className={styles.box_button}
+          onClick={boardActions.removeBlock}
         >
           <Glyphicon glyph='remove'/>
         </Button>
