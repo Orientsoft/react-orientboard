@@ -3,3 +3,5 @@ public/**
 doc/**
 component-example/lib/**
 app/lib/components.js
+
+tests

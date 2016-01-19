@@ -33,6 +33,9 @@ class Block extends React.Component {
       active: false,
       classes,
     }
+
+    this._moveUp = boardActions.moveBlock.bind(boardActions, -1)
+    this._moveDown = boardActions.moveBlock.bind(boardActions, 1)
   }
 
   componentDidMount() {
@@ -57,6 +60,7 @@ class Block extends React.Component {
       w: this.state.w,
       h: this.state.h,
       img: this.state.img,
+      id: this.props.config.id,
     }
   }
 
@@ -107,7 +111,7 @@ class Block extends React.Component {
 
   get img() { return this.state.img }
 
-  get id() { return this.props.id }
+  get id() { return this.props.config.id }
 
   render() {
     return (
@@ -116,13 +120,13 @@ class Block extends React.Component {
         onMouseDown={this._handleMouseDown}
       >
         <ButtonGroup className={styles.block_toolbar} vertical>
-        <Button className={styles.box_button} disabled
-          onClick={null}
+        <Button className={styles.box_button}
+          onClick={this._moveUp}
         >
           <Glyphicon glyph='chevron-up'/>
         </Button>
-        <Button className={styles.box_button} disabled
-          onClick={null}
+        <Button className={styles.box_button}
+          onClick={this._moveDown}
         >
           <Glyphicon glyph='chevron-down'/>
         </Button>

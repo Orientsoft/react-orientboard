@@ -10,3 +10,7 @@ export function getTestLayout(title, cb) {
     })
   return null
 }
+
+export function swapElements(list, x, y) {
+  list[x] = [list[y], list[y] = list[x]][0]
+}

@@ -35,8 +35,9 @@ export default class Board extends React.Component {
           return (
             <Block config={block} ref={`box-${i}`}
               // adding board name to key attribute distinguishes blocks of
-              // diffrent boards for correct rendering
-              key={`${this.props.board.name}-${i}`}
+              // diffrent boards, and block id distinguishes blocks in the
+              // same board. These are necessary for correct rendering
+              key={`${this.props.board.name}-${block.id}`}
             />
           )
         })

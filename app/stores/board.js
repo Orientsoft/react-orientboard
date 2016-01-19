@@ -7,6 +7,8 @@ import selectActions from '../actions/select'
 import selectStore from '../stores/select'
 import BoardManager from '../../lib/client'
 
+import { swapElements } from '../lib/util'
+
 const bm = new BoardManager()
 let state = {
   boards: [],
@@ -79,8 +81,12 @@ const store = Reflux.createStore({
   onRemoveBlock: () => {
     // TODO add removeBlock
   },
-  onMoveBlock: () => {
-    // TODO: add moveBlock
+  onMoveBlock: (step) => {
+    const idx = _.findIndex(state.board.blocks, { id: state.block.id })
+    if (state.board.blocks[idx + step]) {
+      swapElements(state.board.blocks, idx, idx + step)
+      store.trigger(state)
+    }
   },
 })
 
