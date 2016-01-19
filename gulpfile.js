@@ -1,3 +1,5 @@
+'use strict'
+
 const gulp = require('gulp'),
       browserify = require('browserify'),
       babelify = require('babelify'),
@@ -75,14 +77,20 @@ gulp.task('build-vendor', () => {
 
 gulp.task('build', () => {
   fs.mkdirpSync('public/css')
-  getBrowserifyStream({
-    file: './app/main.js',
-    debug: false,
-  })
-  .bundle()
-  .pipe(source('main.js'))
-  .pipe(streamify(uglifyjs()))
-  .pipe(gulp.dest('./public/js'))
+  const files = [
+    './app/main.js',
+    './app/component-test.js',
+    './app/display.js',
+  ]
+  for (const file of files)
+    getBrowserifyStream({
+      file,
+      debug: false,
+    })
+    .bundle()
+    .pipe(source(path.basename(file)))
+    .pipe(streamify(uglifyjs()))
+    .pipe(gulp.dest('./public/js'))
 })
 
 gulp.task('watch', () => {
