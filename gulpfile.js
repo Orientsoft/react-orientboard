@@ -19,7 +19,8 @@ const gulp = require('gulp'),
       gitbook = require('gitbook'),
       eslint = require('gulp-eslint'),
       mocha = require('gulp-mocha'),
-      gulpIf = require('gulp-if')
+      gulpIf = require('gulp-if'),
+      rimraf = require('gulp-rimraf')
 
 require('nodent')()
 
@@ -75,22 +76,33 @@ gulp.task('build-vendor', () => {
     .pipe(gulp.dest('./public/js'))
 })
 
-gulp.task('build', () => {
+function buildJsAndCss(file) {
   fs.mkdirpSync('public/css')
-  const files = [
-    './app/main.js',
-    './app/component-test.js',
-    './app/display.js',
-  ]
-  for (const file of files)
-    getBrowserifyStream({
-      file,
-      debug: false,
-    })
-    .bundle()
-    .pipe(source(path.basename(file)))
-    .pipe(streamify(uglifyjs()))
-    .pipe(gulp.dest('./public/js'))
+  return getBrowserifyStream({
+    file,
+    debug: false,
+  })
+  .bundle()
+  .pipe(source(path.basename(file)))
+  .pipe(streamify(uglifyjs()))
+  .pipe(gulp.dest('./public/js'))
+}
+
+gulp.task('build', () => {
+  return buildJsAndCss('./app/main.js')
+})
+
+gulp.task('build-dev', () => {
+  return buildJsAndCss('./app/component-test.js')
+})
+
+gulp.task('build-display', () => {
+  return buildJsAndCss('./app/display.js')
+})
+
+// run builds in sequence, so css-modulesify will not encounter race condition
+gulp.task('build-all', (cb) => {
+  sequence('build-vendor', 'build', 'build-display', 'build-dev')(cb)
 })
 
 gulp.task('watch', () => {
@@ -231,7 +243,7 @@ gulp.task('doc', (cb) => {
 })
 
 gulp.task('postinstall', (cb) => {
-  sequence('install', 'gen', 'build-vendor', 'build', 'doc')(cb)
+  sequence('install', 'gen', 'build-all', 'doc')(cb)
 })
 
 function isFixed(file) {
@@ -255,6 +267,14 @@ gulp.task('test', () => {
       .pipe(mocha())
       .once('error', process.exit.bind(null, 1))
       .once('end', process.exit)
+})
+
+gulp.task('clean', () => {
+  return gulp.src([
+    'public/js/**',
+    'public/css/**',
+  ], { read: false })
+    .pipe(rimraf())
 })
 
 gulp.task('default', ['lint'])
