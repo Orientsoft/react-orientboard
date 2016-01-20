@@ -32,6 +32,7 @@
     "react-dom": "^0.14.2",
     "reflux": "^0.3.0",
     "serve-favicon": "~2.2.1",
+    "socket.io-client": "^1.4.4",
     "victor": "^1.1.0"
   },
   "devDependencies": {
