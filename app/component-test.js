@@ -8,9 +8,9 @@ import * as utils from './lib/util'
 utils.initStores()
 
 utils.getTestLayout(document.title).then((layout) => {
-  console.log(layout)
+  console.log('test layout:', layout)
   ReactDOM.render(
-    <DevApp testComponent={layout}/>
-  , document.querySelector('#mount-app')
+    <DevApp testComponent={layout}/>,
+    document.querySelector('#mount-app')
   )
 })

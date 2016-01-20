@@ -31,7 +31,7 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     boxActions.init(this)
     boardStore.listen((newState) => {
       this.setState(newState)

@@ -1,3 +1,5 @@
+'use strict'
+
 const express = require('express'),
       router = express.Router(),
       fs = require('fs-extra'),
@@ -5,9 +7,6 @@ const express = require('express'),
       layouts = {}
 
 const COMPONENTS_CONFIG = path.join(__dirname, '../config/components.json')
-
-for (const component of fs.readJsonSync(COMPONENTS_CONFIG).components)
-  layouts[component] = loadLayout(component)
 
 function loadLayout(component) {
   const layoutPath = require.resolve(path.join(component, 'test-layout.js'))
@@ -18,6 +17,9 @@ function loadLayout(component) {
   })
   return require(layoutPath)
 }
+
+for (const component of fs.readJsonSync(COMPONENTS_CONFIG).components)
+  layouts[component] = loadLayout(component)
 
 fs.watch(COMPONENTS_CONFIG, () => {
   try {

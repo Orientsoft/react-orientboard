@@ -20,14 +20,44 @@ const gulp = require('gulp'),
       eslint = require('gulp-eslint'),
       mocha = require('gulp-mocha'),
       gulpIf = require('gulp-if'),
-      rimraf = require('gulp-rimraf')
+      rimraf = require('gulp-rimraf'),
+      PrettyError = require('pretty-error'),
+      chalk = require('chalk')
 
 require('nodent')()
+
+const pe = new PrettyError()
+
+pe.appendStyle({
+  'pretty-error > trace > item': {
+    marginTop: 0,
+    marginBottom: 0,
+  },
+  'pretty-error > trace > item > header': {
+    display: 'inline',
+  },
+  'pretty-error > trace > item > footer': {
+    display: 'inline',
+    marginLeft: 2,
+  },
+  'pretty-error > trace > item > footer > addr': {
+    display: 'inline',
+    color: 'grey',
+  },
+  'pretty-error > trace > item > footer > extra': {
+    display: 'inline',
+    color: 'grey',
+  },
+})
+
+pe.start()
+pe.skipNodeFiles()
 
 const argv = require('minimist')(process.argv.slice(2))
 
 function printErrorStack(err) {
-  if (err) gutil.log(err.stack || err)
+  if (err) gutil.log(pe.render(err))
+  // if (err) console.log(err.stack || err)
 }
 
 gulp.task('install', () => {
@@ -82,6 +112,9 @@ function buildJsAndCss(file) {
     file,
     debug: false,
   })
+  .on('error', (err) => {
+    gutil.log(pe.render(err))
+  })
   .bundle()
   .pipe(source(path.basename(file)))
   .pipe(streamify(uglifyjs()))
@@ -105,8 +138,7 @@ gulp.task('build-all', (cb) => {
   sequence('build-vendor', 'build', 'build-display', 'build-dev')(cb)
 })
 
-gulp.task('watch', () => {
-  const file = argv.f || './app/main.js'
+function watchFile(file) {
   const bundler = getBrowserifyStream({
     file,
     debug: true,
@@ -117,7 +149,7 @@ gulp.task('watch', () => {
   const watcher = watchify(bundler)
 
   watcher.build = () => {
-    gutil.log('Start building')
+    gutil.log('Building', chalk.yellow(path.basename(file)))
     watcher.bundle()
            .on('error', printErrorStack)
            .pipe(source(file))
@@ -126,12 +158,32 @@ gulp.task('watch', () => {
   }
 
   watcher.on('error', printErrorStack)
-         .on('update', watcher.build)
-         .on('time', (time) => {
-           gutil.log('Finished building after', time, 'ms')
-         })
+    .on('update', watcher.build)
+    .on('time', (time) => {
+      gutil.log(
+        'Buillt %s in %s %s',
+        chalk.yellow(path.basename(file)),
+        chalk.magenta(time > 1000 ? +((time / 1000).toFixed(2)) : time),
+        chalk.magenta(time > 1000 ? 's' : 'ms')
+      )
+    })
 
   watcher.build()
+}
+
+gulp.task('watch', () => {
+  const file = argv.f || './app/main.js'
+  watchFile(file)
+})
+
+gulp.task('watch-all', () => {
+  const files = [
+    './app/main.js',
+    './app/component-test.js',
+    './app/display.js',
+  ]
+  for (const file of files)
+    watchFile(file)
 })
 
 gulp.task('new', (cb) => {

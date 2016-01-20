@@ -23,7 +23,9 @@ export function swapElements(list, x, y) {
 
 export function initStores() {
   // HACK: import all stores and bypass eslint no-unused rules
-  (() => {})(blockStore, boardStore, boxStore, selectStore, uiStore)
+  (() => {})(
+    blockStore, boardStore, boxStore, selectStore, uiStore
+  )
 }
 
 export function copyToClipboard(text) {
