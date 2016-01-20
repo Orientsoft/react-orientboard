@@ -12,7 +12,6 @@ const state = {
 }
 
 uiStore.listen((newState) => {
-  console.log(newState)
   _.assign(state, newState)
 })
 
