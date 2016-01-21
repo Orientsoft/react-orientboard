@@ -5,6 +5,7 @@ html, body {
   margin: 0;
   font-family: sans-serif;
 }
+/* TODO: l1 better box apprearence */
 .box{
   -webkit-user-select: none;
   user-select: none;

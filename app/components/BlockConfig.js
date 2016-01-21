@@ -43,7 +43,7 @@ class BlockConfigModal extends React.Component {
       <Modal show={this.props.show}>
         <Modal.Header >Block Config</Modal.Header>
         <Modal.Body >
-          {/* TODO: add validation needed */}
+          {/* TODO: l3 add validation needed */}
           <Input ref='width' type='text' label='width'
             defaultValue={_.get(this.state, 'block.w')}
           />

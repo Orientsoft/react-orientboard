@@ -16,7 +16,7 @@ class SocketioConn {
 
   on(event, listener) {
     this.eventsCount[event] = this.eventsCount[event] || 0
-    // TODO: manage diffrent listeners for one event here
+    // TODO: l3 manage diffrent listeners for one event here
     // Prevent too many listeners on the socket.io instance
     this.io.on(event, listener)
     this.eventsCount[event]++

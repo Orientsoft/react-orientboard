@@ -117,6 +117,7 @@ const store = Reflux.createStore({
 
     state.ready = true
   },
+  // TODO: l2 prevent too many renders
   onStartRotate: (center, x, y, theta) => {
     state.action = ACTIONS.ROTATE
     state.center = center

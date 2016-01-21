@@ -7,7 +7,7 @@ describe('Pool', () => {
     console.log(socketioPool)
   })
   it('should get an connection', () => {
-    // TODO: find/write a stable backend for testing
+    // TODO: l3 find/write a stable backend for testing
     socket = socketioPool.get('http://127.0.0.1:3003')
     console.log(socket)
   })
