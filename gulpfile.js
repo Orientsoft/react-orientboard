@@ -176,15 +176,16 @@ gulp.task('watch', () => {
   watchFile(file)
 })
 
-gulp.task('watch-all', () => {
-  const files = [
-    './app/main.js',
-    './app/component-test.js',
-    './app/display.js',
-  ]
-  for (const file of files)
-    watchFile(file)
-})
+// TODO: check https://github.com/css-modules/css-modulesify/pull/77
+// gulp.task('watch-all', () => {
+//   const files = [
+//     './app/main.js',
+//     './app/component-test.js',
+//     './app/display.js',
+//   ]
+//   for (const file of files)
+//     watchFile(file)
+// })
 
 gulp.task('new', (cb) => {
   if (!argv.n)
