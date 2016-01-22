@@ -15,27 +15,27 @@ export default class BoxToolbar extends React.Component {
     }
   }
 
+  _zIndexUp() {
+    boxActions.addZIndex(1)
+  }
+
+  _zIndexDown() {
+    boxActions.addZIndex(-1)
+  }
+
   render() {
     return (
       <ButtonGroup className={styles.box_toolbar}>
-        <Button className={styles.box_button}
-          onClick={boxActions.addZIndex.bind(null, 1)}
-        >
+        <Button className={styles.box_button} onClick={this._zIndexUp}>
           <Glyphicon glyph='chevron-up'/>
         </Button>
-        <Button className={styles.box_button}
-          onClick={boxActions.addZIndex.bind(null, -11)}
-        >
+        <Button className={styles.box_button} onClick={this._zIndexDown}>
           <Glyphicon glyph='chevron-down'/>
         </Button>
-        <Button className={styles.box_button}
-          onClick={boxActions.openConfig}
-        >
+        <Button className={styles.box_button} onClick={boxActions.openConfig}>
           <Glyphicon glyph='cog'/>
         </Button>
-        <Button className={styles.box_button}
-          onClick={blockActions.removeBox}
-        >
+        <Button className={styles.box_button} onClick={blockActions.removeBox}>
           <Glyphicon glyph='remove'/>
         </Button>
 

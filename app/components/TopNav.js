@@ -31,6 +31,14 @@ export default class TopNav extends React.Component {
     selectActions.setActiveBoard(board)
   }
 
+  _setPublishMode() {
+    uiActions.setMode('publish')
+  }
+
+  _setEditMode() {
+    uiActions.setMode('edit')
+  }
+
   render() {
     return (
       <Navbar className={styles.navbar}>
@@ -40,10 +48,10 @@ export default class TopNav extends React.Component {
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>
-          <NavItem eventKey={1} onClick={() => {uiActions.setMode('publish')}}>
+          <NavItem eventKey={1} onClick={this._setPublishMode}>
             Publish
           </NavItem>
-          <NavItem eventKey={2} onClick={() => {uiActions.setMode('edit')}}>
+          <NavItem eventKey={2} onClick={this._setEditMode}>
             Edit
           </NavItem>
           <NavItem eventKey={4} onClick={boardActions.saveBoard}>

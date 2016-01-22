@@ -6,9 +6,7 @@ import {
 } from 'react-bootstrap'
 
 import blockActions from '../actions/block'
-import blockStore from '../stores/block'
 import boxActions from '../actions/box'
-import boxStore from '../stores/box'
 import uiStore from '../stores/ui'
 import selectActions from '../actions/select'
 import selectStore from '../stores/select'
@@ -28,7 +26,7 @@ class App extends React.Component {
     super(props)
 
     let testBoard
-    if (this.props.testComponent) {
+    if (this.props.testComponent)
       testBoard = {
         name: `testboard-${this.props.testComponent[0].type}`,
         blocks: [{
@@ -37,12 +35,23 @@ class App extends React.Component {
           boxes: this.props.testComponent,
         }],
       }
-    }
+
     this.state = {
-      layout: this.props.layout || [],
       boards: [],
       board: this.props.testComponent ? testBoard : null,
     }
+  }
+
+  componentDidMount() {
+    boxActions.init(this)
+    selectActions.setActiveBoard(this.state.board)
+    uiStore.listen((newState) => {
+      this.setState(newState)
+    })
+    selectStore.listen((newState) => {
+      this.setState(newState)
+    })
+    selectActions.setApp(this)
   }
 
   render() {
@@ -58,21 +67,22 @@ class App extends React.Component {
             {
               _.keys(cm).map((component, i) => {
                 return (
-                  <Button key={i} onClick={() => {
-                    if (this.refs[`new-${component}`])
-                      this.refs[`new-${component}`].open()
-                    else {
-                      blockActions.createBox({
-                        x: 0,
-                        y: 0,
-                        h: 100,
-                        w: 100,
-                        rotate: 0,
-                        type: component,
-                        data:{},
-                      })
-                    }
-                  }}>
+                  <Button key={i}
+                    onClick={() => {
+                      if (this.refs[`new-${component}`])
+                        this.refs[`new-${component}`].open()
+                      else
+                        blockActions.createBox({
+                          x: 0,
+                          y: 0,
+                          h: 100,
+                          w: 100,
+                          rotate: 0,
+                          type: component,
+                          data: {},
+                        })
+                    }}
+                  >
                     {component}
                   </Button>
                 )
@@ -83,10 +93,7 @@ class App extends React.Component {
           </div>
           <div className={styles.workspace}>
             <BoxToolbar />
-            <Board
-              // board={this.props.testComponent?testBoard:this.state.boards[0]}
-              board={this.state.board}
-              ref='board'/>
+            <Board board={this.state.board} ref='board'/>
           </div>
         </div>
 
@@ -95,8 +102,11 @@ class App extends React.Component {
         {
           _.map(cm, (component, i) => {
             if (component.NewComponentConfig)
-              return <component.NewComponentConfig
-                  key={i} ref={`new-${i}`} actions={blockActions}/>
+              return (
+                <component.NewComponentConfig
+                  key={i} ref={`new-${i}`} actions={blockActions}
+                />
+              )
           })
         }
         </div>
@@ -104,21 +114,10 @@ class App extends React.Component {
     )
   }
 
-  componentDidMount() {
-    boxActions.init(this)
-    selectActions.setActiveBoard(this.state.board)
-    uiStore.listen((newState) => {
-      this.setState(newState)
-    })
-    selectStore.listen((newState) => {
-      this.setState(newState)
-    })
-    selectActions.setApp(this)
-  }
 }
 
 App.propTypes = {
-
+  testComponent: React.PropTypes.object,
 }
 
 App.defaultProps = {
