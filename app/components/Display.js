@@ -19,7 +19,7 @@ export default class Display extends React.Component {
 
   render() {
     return (
-      <div >
+      <div>
         <Board board={this.props.board}/>
       </div>
     )

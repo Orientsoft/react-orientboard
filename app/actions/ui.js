@@ -6,6 +6,7 @@ const actions = Reflux.createActions([
   'openBoardConfig',
   'closeBoardConfig',
   'setMode',
+  'setTheme',
 ].reduce((pv, cv) => {
   pv[cv] = { asyncResult: true }
   return pv

@@ -8,6 +8,7 @@ const state = {
   showBlockConfig: false,
   showBoardConfig: false,
   mode: 'edit',
+  theme: 'default',
 }
 
 const store = Reflux.createStore({
@@ -33,6 +34,11 @@ const store = Reflux.createStore({
     state.mode = mode
     selectActions.setActiveBox(null)
     selectActions.setActiveBlock(null)
+    store.trigger(state)
+  },
+  onSetTheme: (theme) => {
+    if (state.theme === theme) return null
+    state.theme = theme
     store.trigger(state)
   },
 })

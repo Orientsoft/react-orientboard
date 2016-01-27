@@ -6,7 +6,6 @@ import classnames from 'classnames'
 import cm from '../lib/components'
 import autobind from 'autobind-decorator'
 import boxActions from '../actions/box'
-// import boxStore from '../stores/box'
 import selectActions from '../actions/select'
 import uiStore from '../stores/ui'
 
@@ -34,16 +33,16 @@ class Box extends React.Component {
   }
 
   componentDidMount() {
-    // this.unsubscribe = boardStore.listen(this._onStoreChange)
-    uiStore.listen((newState) => {
-      // this.setState(newState)
-      console.log('mode!', newState.mode)
-      this.setState({ mode: newState.mode })
+    this.unsubUiStore = uiStore.listen((newState) => {
+      this.setState({
+        mode: newState.mode,
+        theme: newState.theme,
+      })
     })
   }
 
   componentWillUnmount() {
-    // this.unsubscribe()
+    this.unsubUiStore()
   }
 
   get w() {
@@ -161,18 +160,19 @@ class Box extends React.Component {
     e.stopPropagation()
   }
 
+  _selectSelf() {
+    if (this.state.mode === 'edit')
+      selectActions.setActiveBox(this)
+  }
+
   render() {
     return (
       <div className={classnames(this.state.classes)}
-        onClick={() => {
-          if (this.state.mode === 'edit')
-            selectActions.setActiveBox(this)
-        }}
+        onClick={this._selectSelf}
         onMouseDown={this._startDrag}
         onMouseUp={this._stopDrag}
         style={this._getCss()}
       >
-
         <span className={styles.pos_info}>
           x: {this.state.x}, y: {this.state.y}, h: {this.state.h},
           w: {this.state.w}, rotate: {this.state.rotate}
@@ -185,12 +185,13 @@ class Box extends React.Component {
           onMouseDown={this._startResize}
         />
         {
-          function () {
+          function renderContent() {
             const child = cm[this.props.type]
             const props = _.pick(this.state, ['x', 'y', 'h', 'w', 'rotate'])
             props.data = this.props.data
             props.edit = (this.state.mode === 'edit')
             props.ref = 'content'
+            props.theme = this.state.theme
             props.className = styles.box_content
             return React.createElement(child, props)
           }.bind(this)()

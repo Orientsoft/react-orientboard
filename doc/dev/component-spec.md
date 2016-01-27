@@ -7,7 +7,8 @@
 ```
 orientboard-component-your-component-name
   ├─┬ src
-  │ └── component.js
+  │ ├── component.js
+  │ └── new-component-config.js
   ├─┬ css
   │ └── component.css
   ├─┬ lib
@@ -21,13 +22,29 @@ orientboard-component-your-component-name
 
 Your source code should be in the `src` directory, and the `css` directory will contain your css files. For details in using css in your component, see *Using Css* section.
 
-The component project use [babel](https://babeljs.io) to transpile source code in order to use es6, es7 and other new features. `.js` files under `src` will be transpiled to `lib`, you shouldn't put your source code in `lib`, nor check `lib` into your git repository.
+The component project use [babel](https://babeljs.io) to transpile source code in order to use es6, es7 and other new features. `.js` files under `src` will be transpiled to `lib`. You shouldn't put your source code in `lib`, nor check it into your git repository.
 
-Other assets, like images and fonts, should be placed under `assets` folder. All these assets will be moved to `react-orientboard/public/components/your-component-name` when you run `gulp assets` under `react-orientboard` directory..
+Other assets, like images and fonts, should be placed under `assets` folder. All these assets will be moved to `react-orientboard/public/components/your-component-name` when you run `gulp assets` under `react-orientboard` directory.
 
 `test-layout.js` exports an array which defines the board layout for your component's development page.
 
-You can change the layout as you like, just make sure your project exports a compiled React component as default.
+Apart from `assets` and `test-layout.js`, you can change the component project layout as you like, just make sure your project exports a React component.
+
+## Component Props
+
+The props passed to the component is in the following format:
+
+```js
+{
+  data: {
+    // your data
+  },
+  // whether component should be editable
+  edit: true,
+  // the global theme
+  theme: 'default'
+}
+```
 
 ## Component API
 
@@ -50,14 +67,14 @@ The following APIs are optional:
   ```js
   {
     // position info of the outer box
-    x: 0
-  , y: 0
-  , h: 0
-  , w: 0
-  , rotate: 0
+    x: 0,
+    y: 0,
+    h: 0,
+    w: 0,
+    rotate: 0,
     // type of your component
-  , type: 'example'
-  , data: {
+    type: 'example',
+    data: {
       // component-specific data
     }
   }
@@ -97,7 +114,7 @@ import styles from '../css/component.css'
   }
 ```
 
-Under the hood, css classes and ids are prefixed in order to avoid naming conflicts. The outer div has a className supplied by the parent box component, which applies the following css style:
+The outer div has a className supplied by the parent box component, which applies the following css style:
 
 ```css
 {
@@ -107,3 +124,7 @@ Under the hood, css classes and ids are prefixed in order to avoid naming confli
 ```
 
 This makes sure the component fills the parent box, normally you don't need to change it. Make sure your component never overflow the outer box. If your component is outside the box, there may be problems in dragging, resizing and rotating.
+
+The page your component is rendered has bootstrap loaded in a global scope. Though it's recommended to use [react-bootstrap](react-bootstrap.github.io), in case you have to use bootstrap-specific class names manually, use them as string e.g. `btn-primary`.
+
+The global theme will be provided in `props.theme`. Please change the look of your component accordingly.
