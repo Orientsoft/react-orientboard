@@ -1,0 +1,17 @@
+{
+  "components": [
+    "example"
+  ],
+  "mongo": {
+    "host": "127.0.0.1",
+    "port": 27017,
+    "db": "orientboard",
+    "username": null,
+    "password": null
+  },
+  "redis": {
+    "host": "127.0.0.1",
+    "port": 6379,
+    "auth": null
+  }
+}

@@ -22,7 +22,8 @@ const gulp = require('gulp'),
       gulpIf = require('gulp-if'),
       rimraf = require('gulp-rimraf'),
       PrettyError = require('pretty-error'),
-      chalk = require('chalk')
+      chalk = require('chalk'),
+      merge = require('merge-stream')
 
 require('nodent')()
 
@@ -69,7 +70,7 @@ gulp.task('install', () => {
     .pipe(gulp.dest('./public/vendor/mocha'))
 })
 
-const vendors = [
+const VENDORS = [
   'react',
   'react-dom',
   'react-bootstrap',
@@ -79,6 +80,12 @@ const vendors = [
   'reflux',
   'autobind-decorator',
   'pubsub-js',
+]
+
+const ENTRIES = [
+  './app/main.js',
+  './app/component-test.js',
+  './app/display.js',
 ]
 
 function getBrowserifyStream(opts) {
@@ -94,12 +101,12 @@ function getBrowserifyStream(opts) {
     output: `./public/css/${path.basename(opts.file, '.js')}.css`,
     global: true,
   })
-  .external(vendors)
+  .external(VENDORS)
 }
 
 gulp.task('build-vendor', () => {
   browserify()
-    .require(vendors)
+    .require(VENDORS)
     .bundle()
     .pipe(source('vendor.js'))
     .pipe(streamify(uglifyjs()))
@@ -121,21 +128,15 @@ function buildJsAndCss(file) {
   .pipe(gulp.dest('./public/js'))
 }
 
+gulp.task('build-all', () => {
+  return merge(ENTRIES.map((file) => {
+    return buildJsAndCss(file)
+  }))
+})
+
 gulp.task('build', () => {
-  return buildJsAndCss('./app/main.js')
-})
-
-gulp.task('build-dev', () => {
-  return buildJsAndCss('./app/component-test.js')
-})
-
-gulp.task('build-display', () => {
-  return buildJsAndCss('./app/display.js')
-})
-
-// run builds in sequence, so css-modulesify will not encounter race condition
-gulp.task('build-all', (cb) => {
-  sequence('build-vendor', 'build', 'build-display', 'build-dev')(cb)
+  const file = argv.f || './app/main.js'
+  return buildJsAndCss(file)
 })
 
 function watchFile(file) {
@@ -161,7 +162,7 @@ function watchFile(file) {
     .on('update', watcher.build)
     .on('time', (time) => {
       gutil.log(
-        'Buillt %s in %s %s',
+        'Built %s in %s %s',
         chalk.yellow(path.basename(file)),
         chalk.magenta(time > 1000 ? +((time / 1000).toFixed(2)) : time),
         chalk.magenta(time > 1000 ? 's' : 'ms')
@@ -176,16 +177,14 @@ gulp.task('watch', () => {
   watchFile(file)
 })
 
-// TODO: check https://github.com/css-modules/css-modulesify/pull/77
-// gulp.task('watch-all', () => {
-//   const files = [
-//     './app/main.js',
-//     './app/component-test.js',
-//     './app/display.js',
-//   ]
-//   for (const file of files)
-//     watchFile(file)
-// })
+gulp.task('watch-all', () => {
+  fs.mkdirpSync('./public/css')
+  fs.mkdirpSync('./public/js')
+
+  ENTRIES.map((file) => {
+    watchFile(file)
+  })
+})
 
 gulp.task('new', (cb) => {
   if (!argv.n)
@@ -296,7 +295,7 @@ gulp.task('doc', (cb) => {
 })
 
 gulp.task('postinstall', (cb) => {
-  sequence('install', 'gen', 'build-all', 'doc')(cb)
+  sequence('install', 'gen', 'build-vendor', 'build-all', 'doc')(cb)
 })
 
 function isFixed(file) {

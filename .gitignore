@@ -35,6 +35,7 @@ public/doc
 example-component/lib
 
 config/components.json
+test-config
 app/lib/components.js
 .vagrant
 .imdone

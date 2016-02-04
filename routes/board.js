@@ -6,6 +6,11 @@ const BoardManager = require('../lib/board-manager'),
       router = require('express').Router(),
       objectId = require('mongodb').ObjectId
 
+const logger = require('tracer').colorConsole({
+  format: '{{timestamp}} [{{title}}] {{message}} (in {{file}}:{{line}})',
+  dateformat: 'yyyy-mm-dd HH:MM:ss',
+})
+
 let bm
 
 // create board
@@ -15,7 +20,7 @@ router.put('/board', async (req, res) => {
     const result = await bm.create(user, req.body.board)
     return res.json(result.ops[0])
   } catch (e) {
-    console.log(e.stack)
+    logger.error(e)
     return res.status(500).send(e.toString())
   }
 })
@@ -67,7 +72,6 @@ router.get('/board', async (req, res) => {
 })
 
 router.get('/display/:id', async (req, res) => {
-  console.log('oh')
   try {
     const result = await bm.find(null, { _id: objectId(req.params.id) })
     // res.json(result)
@@ -86,6 +90,9 @@ router.get('/display/:id', async (req, res) => {
 
 module.exports = (opts) => {
   bm = bm || new BoardManager(opts)
-  bm.connect()
+  bm.connect().catch((err) => {
+    logger.error(err.toString())
+  })
+
   return router
 }

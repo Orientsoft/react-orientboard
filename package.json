@@ -33,6 +33,7 @@
     "reflux": "^0.3.0",
     "serve-favicon": "~2.2.1",
     "socket.io-client": "^1.4.4",
+    "tracer": "^0.8.3",
     "victor": "^1.1.0"
   },
   "devDependencies": {
@@ -47,7 +48,7 @@
     "babelify": "^7.2.0",
     "browserify": "^12.0.1",
     "chai": "^3.4.1",
-    "css-modulesify": "^0.16.1",
+    "css-modulesify": "^0.17.0",
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^3.1.0",
     "eslint-config-orientsoft": "0.0.1",

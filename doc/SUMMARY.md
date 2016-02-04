@@ -7,5 +7,7 @@
   * [Component Development](dev/component-dev.md)
   * [Component Specs](dev/component-spec.md)
   * [Conventions](dev/conventions.md)
+* [Deployment](deploy/index.md)
+  * [Deploy with Docker]((deploy/docker.md))
 * [Usage](usage/index.md)
   * Coming soon...

@@ -2,11 +2,29 @@ const express = require('express'),
       path = require('path'),
       logger = require('morgan'),
       cookieParser = require('cookie-parser'),
-      bodyParser = require('body-parser')
+      bodyParser = require('body-parser'),
+      fs = require('fs-extra')
 
 const routes = require('./routes/index'),
       users = require('./routes/users'),
       board = require('./routes/board')
+
+const tracer = require('tracer').colorConsole({
+  format: '{{timestamp}} [{{title}}] {{message}} (in {{file}}:{{line}})',
+  dateformat: 'yyyy-mm-dd HH:MM:ss',
+})
+
+const DEFAULT_CONFIG = 'config/default.json'
+const CUSTOM_CONFIG = '/var/react-orientboard/config.json'
+
+const configFile = fs.existsSync(CUSTOM_CONFIG) ?
+  CUSTOM_CONFIG : DEFAULT_CONFIG
+
+// TODO: catch possible error when reading config.json
+
+const config = fs.readJsonSync(configFile)
+
+tracer.log('using config', config)
 
 const app = express()
 
@@ -22,6 +40,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+// midware to disable cache
 function nocache(req, res, next) {
   res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate')
   res.header('Expires', '-1')
@@ -32,15 +51,11 @@ function nocache(req, res, next) {
 app.use('/', routes)
 app.use('/users', users)
 app.use('/api', nocache, board({
-  mongo: {
-    host: 'localhost',
-    port: 27017,
-    db: 'orientboard',
-  },
+  mongo: config.mongo,
 }))
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function notFoundHandler(req, res, next) {
   const err = new Error('Not Found')
   err.status = 404
   next(err)
@@ -51,7 +66,7 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development')
-  app.use(function (err, req, res) {
+  app.use(function devErrorHandler(err, req, res) {
     res.status(err.status || 500)
     res.render('error', {
       message: err.message,
@@ -61,7 +76,7 @@ if (app.get('env') === 'development')
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function (err, req, res) {
+app.use(function productionErrorHandler(err, req, res) {
   res.status(err.status || 500)
   res.render('error', {
     message: err.message,
