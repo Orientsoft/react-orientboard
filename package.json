@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "postinstall": "if [ -f \"gulpfile.js\" ]; then gulp postinstall; fi"
+    "postinstall": "if [ -f \"gulpfile.js\" ]; then gulp postinstall; fi",
+    "production": "",
+    "dev": "MODE=local node ./bin/www"
   },
   "dependencies": {
     "autobind-decorator": "^1.3.2",

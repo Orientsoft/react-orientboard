@@ -1,0 +1,14 @@
+dev:
+  image: inoc603/docker-node-dev
+  # build: .
+  ports:
+    - "3000:3000"
+  volumes:
+    - ..:/ob
+  links:
+    - redis
+    - mongo
+redis:
+  image: redis
+mongo:
+  image: mongo

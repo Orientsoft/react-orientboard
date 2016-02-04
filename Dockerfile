@@ -4,7 +4,10 @@ FROM inoc603/docker-node-dev
 RUN mkdir -p /app
 WORKDIR /app
 # copy package.json only and install node dependencies to speed up building
-COPY package.json ./
+# not copying .npmrc for now
+ADD package.json ./
+# disable progress bar for faster npm install
+RUN npm set progress=false
 RUN npm i -d
 # add application files and build
 ADD . ./

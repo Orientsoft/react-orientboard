@@ -1,3 +1,5 @@
+'use strict'
+
 const express = require('express'),
       path = require('path'),
       logger = require('morgan'),
@@ -14,17 +16,37 @@ const tracer = require('tracer').colorConsole({
   dateformat: 'yyyy-mm-dd HH:MM:ss',
 })
 
-const DEFAULT_CONFIG = 'config/default.json'
-const CUSTOM_CONFIG = '/var/react-orientboard/config.json'
+let configFile
+switch (process.env.MODE) {
+case 'docker-dev':
+  configFile = 'config/docker-dev.json'
+  break
+case 'local':
+  configFile = 'config/local.json'
+  break
+default:
+  if (fs.existsSync('/var/react-orientboard/config.json'))
+    configFile = '/var/react-orientboard/config.json'
+  else
+    configFile = 'config/default.json'
+}
 
-const configFile = fs.existsSync(CUSTOM_CONFIG) ?
-  CUSTOM_CONFIG : DEFAULT_CONFIG
+// const DEFAULT_CONFIG = 'config/default.json'
+// const CUSTOM_CONFIG = '/var/react-orientboard/config.json'
+// const TEST_CONFIG = 'test-config/config.json'
+//
+// const configFile = (function getConfigFile() {
+//   if (fs.existsSync(CUSTOM_CONFIG))
+//     return CUSTOM_CONFIG
+//   if (fs.existsSync(TEST_CONFIG))
+//     return TEST_CONFIG
+//   return DEFAULT_CONFIG
+// })()
 
 // TODO: catch possible error when reading config.json
-
 const config = fs.readJsonSync(configFile)
 
-tracer.log('using config', config)
+tracer.log('Using config at %s\n %j', configFile, config)
 
 const app = express()
 
