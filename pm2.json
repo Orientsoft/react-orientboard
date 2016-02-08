@@ -2,6 +2,8 @@
   "apps": [{
     "name": "orientboard",
     "script": "./bin/www",
+    "error_file": "error.log",
+    "out_file": "out.log",
     "merge_logs": true,
     "max_restarts": 20,
     "max_memory_restart": "200M",

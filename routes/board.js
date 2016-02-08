@@ -6,10 +6,7 @@ const BoardManager = require('../lib/board-manager'),
       router = require('express').Router(),
       objectId = require('mongodb').ObjectId
 
-const logger = require('tracer').colorConsole({
-  format: '{{timestamp}} [{{title}}] {{message}} (in {{file}}:{{line}})',
-  dateformat: 'yyyy-mm-dd HH:MM:ss',
-})
+const logger = require('../lib/util').logger
 
 let bm
 

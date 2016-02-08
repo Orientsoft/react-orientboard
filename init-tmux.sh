@@ -6,13 +6,14 @@ if [ -z $cmd ]; then
   exit 1
 fi
 
+echo "Starting..."
+
 $cmd has -t $session
 
 if [ $? != 0 ]; then
   $cmd new -d -s $session
-  $cmd neww -n watch -t $session "npm start"
+  $cmd neww -n watch -t $session "supervisor -w routes,app.js,bin,lib ./bin/www"
   $cmd splitw -v -p 50 -t $session "gulp watch-all"
-  # $cmd splitw -h -p 50 -t $session "gulp watch -f ./app/component-test.js"
 fi
 
 $cmd att -t $session

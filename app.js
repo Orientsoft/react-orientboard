@@ -11,37 +11,26 @@ const routes = require('./routes/index'),
       users = require('./routes/users'),
       board = require('./routes/board')
 
-const tracer = require('tracer').colorConsole({
-  format: '{{timestamp}} [{{title}}] {{message}} (in {{file}}:{{line}})',
-  dateformat: 'yyyy-mm-dd HH:MM:ss',
-})
+const tracer = require('./lib/util').logger
 
 let configFile
 switch (process.env.MODE) {
 case 'docker-dev':
+  // config for developing in docker
   configFile = 'config/docker-dev.json'
   break
 case 'local':
+  // config for developing on local machine
   configFile = 'config/local.json'
   break
 default:
   if (fs.existsSync('/var/react-orientboard/config.json'))
+    // use custom config if available
     configFile = '/var/react-orientboard/config.json'
   else
+    // use default config as fall back
     configFile = 'config/default.json'
 }
-
-// const DEFAULT_CONFIG = 'config/default.json'
-// const CUSTOM_CONFIG = '/var/react-orientboard/config.json'
-// const TEST_CONFIG = 'test-config/config.json'
-//
-// const configFile = (function getConfigFile() {
-//   if (fs.existsSync(CUSTOM_CONFIG))
-//     return CUSTOM_CONFIG
-//   if (fs.existsSync(TEST_CONFIG))
-//     return TEST_CONFIG
-//   return DEFAULT_CONFIG
-// })()
 
 // TODO: catch possible error when reading config.json
 const config = fs.readJsonSync(configFile)
