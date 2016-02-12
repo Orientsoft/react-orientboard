@@ -1,24 +1,26 @@
-# Deploy with Docker
+# 使用docker部署
 
-This project is not publicly available on docker hub, if you want to deploy it with docker, for now you have to manually build it. In the future this image might be accessible from a private registry.
-
-To build the image:
+本项目目前托管在docker hub上，由于是私有项目，需要先进行登陆：
 
 ```bash
-# you can change the image name rb as you like
-docker build -t rb .
+docker login -e=orientboard -p=PASSWORD
 ```
 
-To run the image:
+然后将镜像拉取到本地：
 
 ```bash
-docker run -p 3000:3000 rb
+docker pull orientboard/react-orientboard
 ```
 
-You can supply custom config by adding:
+再启动镜像：
 
 ```bash
--v my-config-dir:/var/react-orientboard
+docker run -d \
+  # 端口设定
+  -p 3000:3000 \
+  # 配置文件
+  -v path/to/config.json:/var/react-orientboard/config.json \
+  # 环境变量，指定为生产模式
+  -e MODE=PRODUCTION \
+  orientboard/react-orientboard
 ```
-
-`my-config-dir` would be the dir you store the custom `config.json` file on your host system.

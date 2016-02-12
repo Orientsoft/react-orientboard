@@ -1,46 +1,32 @@
-# Component development
+# 组件开发
 
-## Initiate Development Environment
+## 开发环境初始化
 
-Starts the server, and watches `app/main.js` and `app/component-test.js` for changes with the following script. If you're running on your own machine, make sure you have `tmux` installed.
+在开发组件前使用以下脚本启动服务器，并watch源码。
 
 ```
 . init-tmux.sh
 ```
 
-If you'd do it yourself, run following command in different session:
+## 创建新组件
 
-```
-npm start
-```
-
-```
-gulp watch
-```
-
-```
-gulp watch -f app/component-test.js
-```
-
-## Create Component
-
-To create a new component project, run:
+**新建一个组件项目：**
 
 ```
 gulp new -n component-name
 ```
 
-This will generate a boilerplate component project at `../orientboard-component-component-name`. The `npm install` process might take a while. If you'd like to use `cnpm` to install dependencies, add `-c` option.
+该命令会在`../orientboard-component-component-name`生成一个组件项目，默认情况下，推荐手动到该目录下执行`npm install`命令，但也可以在命令中加入`-i`选项，在创建时就自动执行。自动执行的`npm install`在安装过程中没有输出，可能会执行很长时间。
 
-To remove a component:
+**删除一个组件：**
 
 ```
 gulp rm -n component-name
 ```
 
-This only removes the component's symlink, if you'd like to delete the source folder as well, add `-d` to the command.
+该命令仅仅删除了组件在`node_modules`目录下的链接，要删除组件的所在目录，加入`-d`选项。
 
-To link all component to `node_modules`:
+把`node_modules`:
 
 ```
 gulp link
@@ -52,26 +38,24 @@ To see the list of installed components:
 gulp ls
 ```
 
-## Building Component
+## 编译组件
 
-To build the component, run:
+在组件目录下使用一下命令编译组件源码：
 
 ```
 npm run build
 ```
 
-If you use [Atom](https://atom.io/), install the [language-babel](https://github.com/gandm/language-babel) plugin, and source code will be transpiled on changes.
-
-Or you can watch your source code and build on changes with:
+如果你使用[Atom](https://atom.io/)编辑器，可以安装[language-babel](https://github.com/gandm/language-babel)插件，源码会在保存时自动进行编译。你也可以选择用以下命令watch源码并在有改动时编译：
 
 ```
 npm run watch
 ```
 
-Transpiling options are in `.babelrc`, you can add new options as you like.
+编译时的选项使用`.babelrc`进行配置，如果有需要可以进行改动。
 
-## Debug
+## 调试组件
 
-Open `localhost:3000/dev/your-component-name`, you'll see your development page, the layout is defined in `test-layout.js`.
+在`localhost:3000/dev/your-component-name`可以打开一个调试组件用的界面，调试用board的数据在`test-layout.js`中指定。该测试页面在`MODE=PRODUCTION`的情况下无法访问。
 
-**For details on components, see Component Specs**
+**组件开发的细节请参见组件规范**

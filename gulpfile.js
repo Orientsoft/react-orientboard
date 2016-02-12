@@ -70,6 +70,7 @@ gulp.task('install', () => {
     .pipe(gulp.dest('./public/vendor/mocha'))
 })
 
+// modules that will go to vendor bundle
 const VENDORS = [
   'react',
   'react-dom',
@@ -82,6 +83,7 @@ const VENDORS = [
   'pubsub-js',
 ]
 
+// app bundle entries
 const ENTRIES = [
   './app/main.js',
   './app/component-test.js',
@@ -201,9 +203,13 @@ gulp.task('new', (cb) => {
   fs.writeJsonSync(configPath, p)
   fs.symlinkSync(componentDir, path.join('./node_modules', name))
 
-  const cmd = argv.c ? 'cnpm i' : 'npm i'
-  gutil.log('Running', cmd)
-  exec(cmd, { cwd: componentDir }, (err, stdout, stderr) => {
+  if (!argv.i) {
+    gutil.log('Please run npm install manually')
+    return cb()
+  }
+
+  gutil.log('Running npm install')
+  exec('npm i', { cwd: componentDir }, (err, stdout, stderr) => {
     if (err) return cb(err)
     console.log(stderr)
     gutil.log('Finished npm install')
