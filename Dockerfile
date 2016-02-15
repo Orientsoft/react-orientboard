@@ -8,7 +8,7 @@ WORKDIR /app
 ADD package.json ./
 # disable progress bar for faster npm install
 RUN npm set progress=false
-RUN npm i -d
+RUN npm i -q
 # add application files and build
 ADD . ./
 RUN npm run postinstall

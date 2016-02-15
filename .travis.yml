@@ -12,3 +12,6 @@ before_install:
   - docker build -t orientboard/react-orientboard .
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push orientboard/react-orientboard
+
+install:
+  - npm install --registry=https://registry.npmjs.org/
