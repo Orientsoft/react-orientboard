@@ -9,6 +9,7 @@ services:
   - docker
 
 before_install:
+  - npm i -g -U npm
   - docker build -t orientboard/react-orientboard .
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push orientboard/react-orientboard
