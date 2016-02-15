@@ -1,6 +1,6 @@
-# Component Specs
+# 组件spec
 
-> See source code in component-example for a working example.
+> 细节请参考orientboard-component-example的代码
 
 ## 组件目录结构
 
@@ -24,9 +24,9 @@ orientboard-component-your-component-name
 
 组件所用到的其他资源，如图片和字体等，应该放在`assets`文件夹下。该文件夹下的所有内容在 **安装时** 会被移动到`react-orientboard/public/components/your-component-name`目录，前端可以使用类似`/components/your-component-name/example.jpg`这样的URL来访问相应资源。开发时可以手动在`react-orientboard`目录下执行`gulp assets`进行资源的移动。
 
-## Component Props
+## 组件属性
 
-The props passed to the component is in the following format:
+组件的最顶层在初始化时会接收这样的一些属性：
 
 ```js
 {
@@ -52,7 +52,7 @@ The props passed to the component is in the following format:
 
   打开一个bootstrap modal提供组件相关的配置。该方法会在组件工具栏中的 **配置** 按钮被按下的时候被调用。modal的具体使用请参见`example`组件的例子，modal本身应该使用全局的bootstrap主题。
 
-The following APIs are optional:
+以下的接口的实现是可选的：
 
 1. `NewComponentConfig` - 静态成员，一个react组件
 
@@ -75,13 +75,13 @@ The following APIs are optional:
   }
   ```
 
-  If you don't implement this, new component will be created with an empty object as `data` field. In this case, make sure you handle initial values correctly.
+  如果选择不实现该成员，在新组建被创建时，`data`属性会是一个空的对象，请根据情况处理。
 
 ## CSS
 
-CSS in components is made modular by [css-modulesify](https://github.com/css-modules/css-modulesify), and will not have conflict with global css and css in other components. The usage is quite simple, as shown in the following example:
+前端的CSS使用[css-modulesify](https://github.com/css-modules/css-modulesify)进行模块化，以避免组件间CSS命名冲突。下面是一个简单的使用例子：
 
-Your css file:
+css文件:
 ```css
 .ex-class {
 
@@ -92,7 +92,7 @@ Your css file:
 }
 ```
 
-Your js file:
+js文件：
 ```js
 import styles from '../css/component.css'
 
@@ -109,17 +109,18 @@ import styles from '../css/component.css'
   }
 ```
 
-The outer div has a className supplied by the parent box component, which applies the following css style:
+在编译时，会将所有js中引用的css文件中的class和id名称根据目录结构加上前缀，再合并成成一个css文件，同时，js文件中对css文件会以一下的方式进行编译：
 
-```css
-{
-  height: 100%;
-  width: 100%;
+```js
+import styles from '../css/component.css'
+```
+
+会被编译成类似以下的内容：
+```js
+var styles = {
+  'ex-class': 'some_prefix_ex-class',
+  'ex-id': 'some_prefix_ex-id',
 }
 ```
 
-This makes sure the component fills the parent box, normally you don't need to change it. Make sure your component never overflow the outer box. If your component is outside the box, there may be problems in dragging, resizing and rotating.
-
-The page your component is rendered has bootstrap loaded in a global scope. Though it's recommended to use [react-bootstrap](react-bootstrap.github.io), in case you have to use bootstrap-specific class names manually, use them as string e.g. `btn-primary`.
-
-The global theme will be provided in `props.theme`. Please change the look of your component accordingly.
+另外，页面已经加载了基础的bootstrap CSS和相关bootstrap主题，不需要再进行引用，相关的类名可直接使用字符串引用。在组件中请尽量使用[react-bootstrap](react-bootstrap.github.io)实现相关的效果。全局的主题会以`props.theme`提供给组件，对于需要手动控制的风格的部分请根据主题进行处理。

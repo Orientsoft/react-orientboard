@@ -1,6 +1,6 @@
-# Docker setup
+# 使用docker搭建开发环境
 
-## Dependencies
+## 依赖
 
 You need [docker](https://www.docker.com/) installed on your machine. Please follow the official installation guide.
 

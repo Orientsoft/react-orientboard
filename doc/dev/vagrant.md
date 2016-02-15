@@ -1,4 +1,4 @@
-# Vagrant Setup
+# 使用Vagrant搭建开发环境
 
 ## Dependencies
 
