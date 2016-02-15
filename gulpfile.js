@@ -141,6 +141,18 @@ gulp.task('build', () => {
   return buildJsAndCss(file)
 })
 
+const BROWSER_TESTS = [
+  'board-actions',
+  'board-client',
+  // 'socketio',
+]
+
+gulp.task('build-test', () => {
+  return merge(BROWSER_TESTS.map((test) => {
+    return buildJsAndCss(`./tests/${test}.js`)
+  }))
+})
+
 function watchFile(file) {
   const bundler = getBrowserifyStream({
     file,
