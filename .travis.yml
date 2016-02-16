@@ -8,7 +8,7 @@ node_js:
 services:
   - docker
   - mongodb
-  - redis
+  - redis-server
 
 before_install:
   - npm i -g -U npm
@@ -21,7 +21,8 @@ install:
 
 before_script:
   - gulp build-test
-  - npm start
+  - mongo mydb_test --eval 'db.addUser("travis", "test");'
+  - npm start &
 
 script:
   - gulp test
