@@ -6,9 +6,9 @@ node_js:
   - "4.2.4"
 
 services:
-  - docker
   - mongodb
   - redis-server
+  - docker
 
 before_install:
   - npm i -g -U npm
@@ -20,8 +20,9 @@ install:
   - npm install --registry=https://registry.npmjs.org/
 
 before_script:
-  - gulp build-test
+  - sleep 15
   - mongo mydb_test --eval 'db.addUser("travis", "test");'
+  - gulp build-test
   - npm start &
 
 script:
