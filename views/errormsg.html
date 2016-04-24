@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <!-- header start-->
+    {% include "./layouts/__header.html" %}
+    <!-- header end -->
+
+<body>
+  <!-- menu bar start -->
+  {% include "./layouts/__menubar.html" %}
+  <!-- menu bar end  -->
+
+<div class="wrapper">
+    <div class="container pt25">
+<div class="content-404 text-center" style="margin-top: 150px; ">
+    <img src="{{rootURL}}/images/error.png" width="225"/>
+    <h2>{{ status }}</h2>
+    <p>{{ msg }}, 请返回到<a href="{{rootURL}}/"> APIBus 首页</a></p>
+
+</div>
+        </div>
+</div>
+<script>
+
+console.log(document.location);
+</script>
+</body>
+</html>

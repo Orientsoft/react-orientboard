@@ -1,6 +1,9 @@
 'use nodent-promise';
 'use nodent-es7'
 'use strict'
+
+require('nodent')()
+
 var expect = require('chai').expect
   , _ = require('lodash')
 

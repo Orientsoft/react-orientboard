@@ -21,8 +21,13 @@ const store = Reflux.createStore({
     state.showBlockConfig = false
     store.trigger(state)
   },
-  onOpenBoardConfig: () => {
+  onOpenBoardConfig: (name,action) => {
     state.showBoardConfig = true
+    if(name){
+      state.boardName=name
+    }
+    
+    state.boardAction=action
     store.trigger(state)
   },
   onCloseBoardConfig: () => {
@@ -35,6 +40,7 @@ const store = Reflux.createStore({
     selectActions.setActiveBox(null)
     selectActions.setActiveBlock(null)
     store.trigger(state)
+     console.log("-------1xxxx",state);
   },
   onSetTheme: (theme) => {
     if (state.theme === theme) return null

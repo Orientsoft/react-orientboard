@@ -38,6 +38,7 @@ const store = Reflux.createStore({
     state.block.removeBox(state.box)
   },
   onNewComponent: (box) => {
+    console.log(state.block.createBox)
     box = ensureComponentInfo(box)
     state.block.createBox(box)
   },

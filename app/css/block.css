@@ -12,6 +12,7 @@
 }
 
 .block.active {
+  margin: 50px;
   border: solid red;
 }
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+ <!-- header start-->
+    {% include "./layouts/__header.html" %}
+ <!-- header end -->
+
+<body>
+<!-- Top Bar Start -->
+ 
+ <!-- menu bar start -->
+ {% include "./layouts/__menubar.html" %}
+ <!-- menu bar end  -->
+
+
+<!-- Top container End -->
+<div class="container orient">
+  <h1>Orient Board</h1>
+  <p>make data visualization easy </p>
+</div>
+<!-- Top container End -->
+<div class="container">
+  <div class="row">
+    
+    <div class="col-md-4 text-center">
+      <p class="text-center orient-ico"><a href="{{rootURL}}/board"><i class="fa fa-edit"></i></a></p>
+      <div class="caption">
+        <h3><a href="{{rootURL}}/board">Board开发</a></h3>
+        
+      </div>
+    </div>
+    <div class="col-md-4 text-center">
+      <p class="text-center orient-ico"><a href="{{rootURL}}/management"><i class="fa  fa-cog"></i></a></p>
+      <div class="caption">
+        <h3><a href="{{rootURL}}/management">Board管理</a></h3>
+      </div>
+    </div>
+    <div class="col-md-4 text-center">
+      <p class="text-center orient-ico"><a href="{{rootURL}}/analytics"><i class="fa fa-bar-chart-o"></i><a></p>
+      <div class="caption">
+        <h3><a href="{{rootURL}}/analytics">数据分析</a></h3>  
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Top container End --> 
+ 
+  <!-- footer start -->
+    {% include "./layouts/__footer.html" %}
+  <!-- footer end -->
+ 
+<script  type="text/javascript"  src="js/jquery.min.js" ></script> 
+<script src="js/bootstrap.min.js" ></script>
+</body>
+</html>

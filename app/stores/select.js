@@ -45,7 +45,6 @@ const store = Reflux.createStore({
     store.trigger(state)
   },
   onSetApp: (app) => {
-    console.log('set app', app)
     state.app = app
     store.trigger(state)
   },

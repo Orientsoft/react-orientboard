@@ -12,7 +12,7 @@ html, body {
   position: absolute;
 }
 .box.active {
-  border: solid red;
+  border: solid blue;
 }
 .active.box>.box_toolbar {
   visibility: visible;

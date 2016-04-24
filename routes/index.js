@@ -4,7 +4,13 @@ const express = require('express'),
       router = express.Router(),
       fs = require('fs-extra'),
       path = require('path'),
+      crypto =require('crypto'),
       layouts = {}
+
+
+const UserManager = require('../lib/user-manager')
+
+let um
 
 const COMPONENTS_CONFIG = path.join(__dirname, '../config/components.json')
 
@@ -32,14 +38,111 @@ fs.watch(COMPONENTS_CONFIG, () => {
   }
 })
 
+
+router.use((req,res,next)=>{
+
+ if(!req.session.user){
+    if(req.path.toLowerCase().indexOf('/api/display/')!=-1){
+      return next();
+    }
+    if(req.path.toLowerCase()!="/login"){
+     return  res.redirect("/login")
+    }
+  }
+  next()
+})
+
 /* GET home page. */
-router.get('/', (req, res) => {
-  res.render('index', {
-    title: 'board demo',
+// router.get('/', (req, res) => {
+//   //编辑页面都是使用原始的bootstrap
+//   req.session.themes='default'
+//   res.render('board', {
+//     title: 'board demo',
+//     main_script: '/js/main.js',
+//     main_css: '/css/main.css',
+//   })
+// })
+
+
+/* GET home page. */
+router.get('/board', (req, res) => {
+  //编辑页面都是使用原始的bootstrap
+  req.session.themes='default'
+  res.render('board', {
+    title: 'Board WorkSpace',
     main_script: '/js/main.js',
     main_css: '/css/main.css',
   })
 })
+
+
+/* User  home page. */
+router.get('/', (req, res) => {
+  //编辑页面都是使用原始的bootstrap
+  req.session.themes='default'
+  res.render('home',{"user":req.session.user})
+})
+
+router.get('/home', (req, res) => {
+  //编辑页面都是使用原始的bootstrap
+  req.session.themes='default'
+  res.render('home',{"user":req.session.user})
+})
+
+/* User login home page. */
+router.get('/login', (req, res) => {
+  //编辑页面都是使用原始的bootstrap
+  req.session.themes='default'
+  res.render('login')
+})
+
+
+
+/* User login home page. */
+router.post('/login', (req, res) => {
+  //编辑页面都是使用原始的bootstrap
+  req.session.themes='default'
+  req.session.user={"id":"test"}
+
+   
+
+  if(!req.body.userAccount||!req.body.userAccount){
+      res.rediect('/home')
+   }else{
+
+    var sha1 = crypto.createHash('sha1');;
+       sha1.update(req.body.userPassword);
+    
+    var user = {"email":req.body.userAccount,"password":sha1.digest('hex')};
+    console.log(user)
+      um.findOne(user)
+        .then((result) => {
+           if(result){
+             req.session.user=result;
+             res.redirect('/home')
+            }else{
+              return res.json({"msg":"登录信息错误!"});
+            }
+         })
+        .catch((e) => {
+            return res.status(500).json({
+                "msg": e
+            })
+        })
+
+   }
+})
+
+
+/* User login home page. */
+router.get('/logout', (req, res) => {
+  //编辑页面都是使用原始的bootstrap
+  req.session.user=null
+  res.redirect('/login')
+})
+
+
+
 
 router.get('/get-test-layout/:name', (req, res) => {
   console.log(
@@ -61,4 +164,10 @@ router.get('/mocha/:test', (req, res) => {
   res.render('test', { test: req.params.test })
 })
 
-module.exports = router
+module.exports = (opts) => {
+  console.log(opts)
+  um = um || new UserManager(opts)
+  um.connect()
+
+  return router
+}

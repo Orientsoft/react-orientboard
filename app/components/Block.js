@@ -29,6 +29,7 @@ class Block extends React.Component {
       w: this.props.config.w || 800,
       h: this.props.config.h || 600,
       img: this.props.config.img || null,
+      pubType:this.props.config.pubType||'public',
       boxes: this.props.config.boxes,
       active: false,
       classes,
@@ -36,6 +37,8 @@ class Block extends React.Component {
 
     this._moveUp = boardActions.moveBlock.bind(boardActions, -1)
     this._moveDown = boardActions.moveBlock.bind(boardActions, 1)
+
+    
   }
 
   componentDidMount() {
@@ -44,6 +47,13 @@ class Block extends React.Component {
     //     this.setState(newState.blockConfig)
     //   }
     // })
+
+     if(this.props.mode&&this.props.mode==='publish'){
+
+    }else{
+      selectActions.setActiveBlock(this);//组件加载后就自动变成ActiveBlock
+     
+    }
   }
 
   componentWillUnmount() {
@@ -60,6 +70,7 @@ class Block extends React.Component {
       w: this.state.w,
       h: this.state.h,
       img: this.state.img,
+      pubType:this.state.pubType,
       id: this.props.config.id,
     }
   }
@@ -72,11 +83,26 @@ class Block extends React.Component {
   }
 
   _getCss() {
-    return {
+
+
+    var css= {
       width: this.state.w,
       height: this.state.h,
       backgroundImage: this.state.img ? `url(${this.state.img})` : 'none',
+      top: 0, 
+      left: 0,
+      bottom: 0,
+      right: 0
+
     }
+    if(this.props.mode==='publish'){
+      css.margin='auto'
+      css.position='absolute'
+    }else{
+      css.margin='10px 5px 15px 50px'
+      //css.marginTop='30px'
+    }
+    return css;
   }
 
   _handleMouseDown() {
@@ -95,6 +121,7 @@ class Block extends React.Component {
     this.setState({
       active: true,
       classes: _.set(this.state.classes, styles.active, true),
+      model:'edit'
     })
   }
 
@@ -113,7 +140,10 @@ class Block extends React.Component {
 
   get id() { return this.props.config.id }
 
+  
+
   render() {
+
     return (
       <div {...this.props} style={this._getCss()}
         className={classnames(this.state.classes)}

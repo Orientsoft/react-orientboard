@@ -11,6 +11,17 @@ import uiStore from '../stores/ui'
 
 import styles from '../css/box.css'
 
+import socketioPool from '../lib/socketio'
+
+import mqttPool from '../lib/mqttPool'
+import timerPool from '../lib/timerPool'
+
+import {startDynamic,stopDynamic} from '../lib/util'
+
+import mqtt from 'mqtt'
+
+
+
 @autobind
 class Box extends React.Component {
   constructor(props) {
@@ -55,7 +66,6 @@ class Box extends React.Component {
 
   activate() {
     if (!this.state.active) {
-      console.log('activating', this.props.id)
       this.setState({
         active: true,
         classes: _.set(this.state.classes, styles.active, true),
@@ -166,6 +176,7 @@ class Box extends React.Component {
   }
 
   render() {
+   
     return (
       <div className={classnames(this.state.classes)}
         onClick={this._selectSelf}
@@ -185,6 +196,7 @@ class Box extends React.Component {
           onMouseDown={this._startResize}
         />
         {
+          //在这里就可以使用全局的props,把相关push,socketio的库派生出来
           function renderContent() {
             const child = cm[this.props.type]
             const props = _.pick(this.state, ['x', 'y', 'h', 'w', 'rotate'])
@@ -192,6 +204,12 @@ class Box extends React.Component {
             props.edit = (this.state.mode === 'edit')
             props.ref = 'content'
             props.theme = this.state.theme
+            props.socketio = socketioPool
+            props.mqtt = mqtt
+            props.mqttPool = mqttPool
+            props.timerPool = timerPool
+            props.startDynamic = startDynamic
+            props.stopDynamic =stopDynamic
             props.className = styles.box_content
             return React.createElement(child, props)
           }.bind(this)()

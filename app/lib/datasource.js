@@ -1,4 +1,5 @@
 import io from 'socket.io-client'
+import mqtt from 'mqtt'
 
 const datasource = Object.create(null)
 const sources = Object.create(null)

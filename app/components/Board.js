@@ -11,6 +11,7 @@ export default class Board extends React.Component {
     this.state = {
       board: this.props.board,
     }
+    
   }
 
   toJson() {
@@ -37,7 +38,7 @@ export default class Board extends React.Component {
               // adding board name to key attribute distinguishes blocks of
               // diffrent boards, and block id distinguishes blocks in the
               // same board. These are necessary for correct rendering
-              key={`${this.props.board.name}-${block.id}`}
+              key={`${this.props.board.name}-${block.id}`} mode={this.props.mode}
             />
           )
         })

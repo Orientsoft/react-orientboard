@@ -31,3 +31,88 @@ export function initStores() {
 export function copyToClipboard(text) {
   window.prompt('Copy to clipboard: Ctrl+C, Enter', text)
 }
+
+export function openWindow(text) {
+  window.open(text)
+}
+
+
+
+
+export function startDynamic(component){
+
+  if(!component.state.datasource){
+    return ;
+  }
+
+
+ 
+  let cb =component.handleDynamicData?(data)=>{
+
+                                  if(!component.state.datasource.startDynamic){
+                                    return;
+                                   }
+                                   component.handleDynamicData(data);
+                                   
+                                   if(component.refs.ds&&component.refs.ds.state.show){
+                                        component.refs.ds.handleLog(data);
+                                    }
+                                  }:(data)=> {console.log(data);}
+
+  let serverURL=component.state.datasource.server;
+
+
+   if(component.state.datasource.dataType==="pull" ){
+
+    if(component.state.datasource.startDynamic){
+      
+      if(!component.state.datasource.repeat){
+        component.props.timerPool.start(component.state.datasource.url,component.state.datasource.interval,cb,true);
+      
+      }else{
+      let id =component.props.timerPool.start(component.state.datasource.url,component.state.datasource.interval,cb);
+      component.setState({timerId:id});
+      }
+      
+
+   }
+
+   
+   }else if( component.state.datasource.dataType==="push"){
+
+
+     let conn=component.props.mqttPool.get('ws://'+serverURL.split("mqtt://")[1]);
+
+
+   if(component.state.datasource.startDynamic){
+    
+    component.props.mqttPool.sub(conn,component.state.datasource.channel,cb)
+    
+   }else{
+    
+    component.props.mqttPool.unsub(conn,component.state.datasource.channel,cb)
+    
+   }
+
+
+   }
+
+}
+
+export function stopDynamic(component){
+
+
+  let cb =component.handleDynamicData?component.handleDynamicData:(data)=> {console.log(data);}
+
+   if(component.state.dataType==="pull" ){
+
+     component.props.timerPool.stop(component.state.timerId);
+     component.setState({timerId:null});
+
+   }else if(component.state.dataType==="push"){
+
+     component.props.mqttPool.unsub(conn,component.state.channel,cb)
+
+   }
+
+}

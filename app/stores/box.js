@@ -114,6 +114,10 @@ const store = Reflux.createStore({
     document.documentElement.onmouseup = function () {
       state.action = ACTIONS.NONE
     }
+    document.documentElement.ondblclick =function(){
+      if (state.box)
+      state.box.openConfig();
+    }
 
     state.ready = true
   },

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, Button, Input } from 'react-bootstrap'
+import { Modal, Button, Input,Tabs,Tab } from 'react-bootstrap'
 import autobind from 'autobind-decorator'
 import _ from 'lodash'
 
@@ -15,6 +15,7 @@ class BlockConfigModal extends React.Component {
     this.state = {
       w: 800,
       h: 600,
+      pubType: (this.props.data&&this.props.data.pubType)?this.props.data.pubType:'public'
     }
   }
 
@@ -22,6 +23,8 @@ class BlockConfigModal extends React.Component {
     selectStore.listen((newState) => {
       this.setState(newState)
     })
+
+    
   }
 
   close() {
@@ -31,28 +34,60 @@ class BlockConfigModal extends React.Component {
   update() {
     const w = this.refs.width.getValue(),
           h = this.refs.height.getValue(),
-          img = this.refs.backimg.getValue()
+          img = this.refs.backimg.getValue(),
+          pubType=this.refs.pubType.getValue()
 
-    this.setState({ w, h, img })
-    blockActions.setBlockConfig({ w, h, img })
+    this.setState({ w, h, img,pubType })
+    blockActions.setBlockConfig({ w, h, img,pubType })
     this.close()
   }
 
+  handleChange(e){
+    this.setState({pubType:this.refs.pubType.getValue()})
+  }
+
   render() {
+
+    var privateShow=(this.state.pubType==='private')?true:false;
+    var authShow=(this.state.pubType==='auth')?true:false;
+
+    
+    let bid='';
+    if(this.state.board){
+      bid=this.state.board._id;
+    }
     return (
       <Modal show={this.props.show}>
         <Modal.Header >Block Config</Modal.Header>
         <Modal.Body >
           {/* TODO: l3 add validation needed */}
-          <Input ref='width' type='text' label='width'
-            defaultValue={_.get(this.state, 'block.w')}
-          />
-          <Input ref='height' type='text' label='height'
-            defaultValue={_.get(this.state, 'block.h')}
-          />
-          <Input ref='backimg' type='text' label='background image'
-            defaultValue={_.get(this.state, 'block.img')}
-          />
+           <Tabs defaultActiveKey={1}>
+            <Tab eventKey={1} title="基础设置">
+              <Input ref='width' type='text' label='width' defaultValue={_.get(this.state, 'block.w')}/>
+              <Input ref='height' type='text' label='height' defaultValue={_.get(this.state, 'block.h')}/>
+              <Input ref='backimg' type='text' label='background image' defaultValue={_.get(this.state, 'block.img')}/>
+            </Tab>
+             <Tab eventKey={2} title="发布设置">
+             <Input type='select' label='发布方式' ref='pubType' defaultValue={this.state.pubType} onChange={this.handleChange}>
+                <option value='public'>公开访问</option>
+                <option value='private'>密码访问</option>
+                <option value='auth'>授权</option>
+              </Input>
+
+              <div className={privateShow ?'': 'hidden'}>
+               <span>URL</span>
+               <Input type='text'  ref="url" defaultValue={window.location.origin + `/api/display/${bid}`} readOnly />
+               <span>密码</span>
+               <Input type='text' ref='interval' defaultValue="2000"/>
+              </div>
+
+              <div className={authShow ?'': 'hidden'}>
+              <span>授权访问,暂未实现</span>
+              
+            </div>
+              
+            </Tab>
+          </Tabs>
         </Modal.Body>
         <Modal.Footer >
           <Button onClick={this.close}>Cancle</Button>

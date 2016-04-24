@@ -21,6 +21,9 @@ import styles from '../css/app.css'
 
 import cm from '../lib/components'
 
+//import mqttPool from '../lib/mqttPool'
+//import timerPool from '../lib/timerPool'
+
 @autobind
 class App extends React.Component {
   constructor(props) {
@@ -51,14 +54,22 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <div id="topnav" className="p-t-60">
+
+ <div className="">
+    <div className="container-fluid">
+
         <TopNav boards={this.state.boards}/>
+     </div>
+     </div>
+     </div>
         <BlockConfigModal show={this.state.showBlockConfig}/>
-        <BoardConfigModal show={this.state.showBoardConfig}/>
+        <BoardConfigModal show={this.state.showBoardConfig} boardName= {this.state.boardName} action={this.state.boardAction}/>
 
         <div>
           <LeftNav className={styles.left_nav} modals={this.refs}/>
           <div className={styles.workspace}>
-            <BoxToolbar />
+            <BoxToolbar/>
             <Board board={this.state.board} ref='board'/>
           </div>
         </div>
@@ -70,7 +81,7 @@ class App extends React.Component {
             if (component.NewComponentConfig)
               return (
                 <component.NewComponentConfig
-                  key={i} ref={`new-${i}`} actions={blockActions}
+                  key={i} ref={`new-${i}`} actions={blockActions} 
                 />
               )
           })

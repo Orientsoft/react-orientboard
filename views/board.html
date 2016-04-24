@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>board demo</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+    <!--
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/themes/css/bootstrap.css">
+    -->
+ {% include "./layouts/__header.html" %}
+ <link href="css/style.css"  rel="stylesheet" type="text/css" />
+<!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+
+<!--[if lt IE 9]>
+        <script src="js/html5shiv.min.js" ></script>
+        <script src="js/respond.min.js" ></script>
+        <![endif]-->
+</head>
+
+<body>
+
+
+ <!-- menu bar start -->
+    {% include "./layouts/__menubar.html" %}
+ <!-- menu bar end  -->
+
+
+<!-- <div id="palette">
+
+          <ul class="submenu">
+                                <li><a href="#"><i class="fa  fa-file-text"></i> Text</a></li>
+                                <li><a href="#"><i class="fa  fa-file-excel-o"></i> Lable</a></li>
+                                <li><a href="#"><i class="fa  fa-image"></i> image</a></li>
+                                <li><a href="#"><i class="fa  fa-bar-chart-o"></i> Hightcharts</a></li>
+                                <li><a href="#"><i class="fa  fa-area-chart"></i> Chartjs</a></li>
+                                <li><a href="#"><i class="fa  fa-table"></i> Datatable</a></li>
+                                <li><a href="#"><i class="fa  fa-download"></i> Markdown</a></li>
+                               
+                            </ul>
+          
+</div> -->
+<div id="workspace"></div>
+</div>
+
+    <div id="mount-app"></div>
+    <script src="/vendor/babel-polyfill/polyfill.min.js"></script>
+    <script src="/js/vendor.js"></script>
+    <script src="/js/main.js"></script>
+
+<script  type="text/javascript"  src="js/jquery.min.js" ></script> 
+<script src="js/bootstrap.min.js" ></script>
+</body>
+
+</html>

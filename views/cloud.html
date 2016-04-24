@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html>
+    <!-- MEMO: update me with `git checkout gh-pages && git merge master && git push origin gh-pages` -->
+    <!-- header start-->
+    {% include "./layouts/__header.html" %}
+    <!-- header end -->
+   <link href="css/jquery.terminal.css" rel="stylesheet">
+
+<body>
+     <!-- menu bar start -->
+    {% include "./layouts/__menubar.html" %}
+    <!-- menu bar end  -->
+
+
+
+<script src="jquery/js/jquery-1.11.1.min.js"></script>
+<script src="underscore/underscore-min.js"></script>
+<script src="backbone/backbone-min.js"></script>
+
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="bootstrap/js/bootstrap-notify.js"></script>
+
+
+<script src="borgnix/main.js"></script>
+<script src="borgnix/comms.js"></script>
+<script src="borgnix/ui/notifications.js"></script>
+<script src="borgnix/cloudmanagement.js"></script>
+<script src="borgnix/ui/scene.js"></script>
+
+<script src="jquery/js/jquery.dropdown.js"></script>
+<script src="jquery/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="jquery/js/jquery.ui.touch-punch.min.js"></script>
+<script src="js/jquery.serializejson.js"></script>
+
+<script src="js/term.js"></script>
+
+<script src="js/bootbox.min.js"></script>
+
+
+
+<div class="container p-t-60">
+  <div class="row p-t-10">
+    <div class="col-sm-12">
+      <ol class="breadcrumb">
+        <li> <a href="#">OrientBoard</a> </li>
+        <li class="active"> 云管理 </li>
+      </ol>
+    </div>
+  </div>
+
+<div class="wrapper">
+    <div class="container pt25">
+        <div class="row text-center">
+        <ul id="myTabs" class="nav nav-tabs" role="tablist">
+        <li  class="active text-center col-md-offset-2" style="width:15%;"><a href="#home"  id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><i class="fa fa-1x fa-user"></i>用户管理</a></li>
+        <li class="text-center" style="width:15%;"><a href="#node" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><i class="fa fa-1x fa-database"></i>组件管理</a></li>
+      </ul>
+<div id="myTabContent" class="tab-content pt45 col-lg-12   text-left">
+  <div class="tab-pane fade active in" id="home">
+    <div id="demo">
+      <h2>  <a id="adduser" data-toggle="modal" href="#form-adduser" class="btn btn-primary btn-sm">添加用户</a>&nbsp;&nbsp;
+    </h2></div>
+    <div class="table-responsive-vertical shadow-z-1">
+
+  <!-- Table starts here -->
+  <table id="table" class="table table-hover table-mc-light-blue">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>用户名</th>
+          <th>类型</th>
+          <th>UUID</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <!-- userListView el "tbody.user" -->
+      <tbody class="user">
+      </tbody>
+    </table>
+  </div>
+       <div class="col-md-offset-5">
+                <ul class="pagination pagination-lg ">
+                    <li class="disabled"><a href="javascript:void(0)">«</a></li>
+                    <li class="active"><a href="javascript:void(0)">1</a></li>
+                    <li><a href="javascript:void(0)">2</a></li>
+                    <li><a href="javascript:void(0)">3</a></li>
+                    <li><a href="javascript:void(0)">»</a></li>
+                </ul>
+        </div>
+
+                         </div>
+
+
+<div class="tab-pane fade" id="log">
+
+                    <form id="formPWD" class="form-horizontal">
+
+
+                        <div id = "log_placeholder"></div>
+                        <fieldset>
+
+                            <div class="form-group pt25">
+                              <label>
+                                 <input type="checkbox" id="watchLog">
+                                 <i class="fa fa-exclamation-triangle"></i>日志监控
+                                </label>
+                                 <br>
+
+                                <a class='btn btn-primary' id='clear' >清除日志</a>
+
+                                <a class='btn btn-danger' id='reload' >重启系统</a>
+                              </div>
+                        </fieldset>
+                    </form>
+</div>
+
+<div class="tab-pane fade" id="node">
+
+<div>
+    <h2>
+      <a  class="addNode btn btn-sm btn-primary" data-toggle="modal" > 添加模块</a>   &nbsp;&nbsp;
+    </h2>
+</div>
+  <div class="table-responsive-vertical shadow-z-1">
+  <table id="table" class="table table-hover table-mc-light-blue">
+      <thead>
+        <tr>
+          <th>序号</th>
+          <th>模块名字</th>
+          <th>模块类型</th>
+          <th>模块描述</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <!-- nodeListView el "tbody.node" -->
+      <tbody class="node">
+      </tbody>
+    </table>
+  </div>
+<div class="col-md-offset-5">
+                <ul class="pagination pagination-lg ">
+                    <li class="disabled"><a href="javascript:void(0)">«</a></li>
+                    <li class="active"><a href="javascript:void(0)">1</a></li>
+                    <li><a href="javascript:void(0)">2</a></li>
+                    <li><a href="javascript:void(0)">3</a></li>
+                    <li><a href="javascript:void(0)">»</a></li>
+                </ul>
+        </div>
+<fieldset>
+
+    <div class="form-group pt25">
+      <label>
+         <i class="fa fa-exclamation-triangle"></i>节点禁用/启用操作后,需要重启系统才能生效
+        </label>
+         <br>
+       <a class='btn btn-danger' id='reload' >重启系统</a>
+      </div>
+</fieldset>
+</div>
+
+
+
+
+
+
+            </div>
+        </div></div>
+</div>
+
+<!-- footer start -->
+    {% include "./layouts/__footer.html" %}
+<!-- footer end -->
+
+
+<div id="demo">
+
+
+
+
+
+ <!-- Table Constructor change table classes, you don't need it in your project -->
+<div style="width: 45%; display: inline-block; vertical-align: top">
+
+
+<div id="form-adduser" class="modal fade in "  style="display: none">
+  <div class="modal-backdrop fade in" style="z-index:-1702"></div>
+  <div class="modal-dialog modal-lg">
+    <div class="box_body " >
+      <div class="col-md-8 col-md-offset-2">
+        <div class="portlet" >
+          <div class="portlet-heading bg-custom">
+            <h3 class="portlet-title">
+            云管理/用户管理
+            </h3>
+            <div class="portlet-widgets">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa  fa-times "></i></button>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div id="bg-primary" class="panel-collapse collapse in">
+            <div class="portlet-body m-t-10">
+              <form id="userForm"  class="form-horizontal group-border-dashed" action="#">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">用户类型</label>
+                  <div class="col-sm-6">
+                    <select name="orgType"  class="form-control "  >
+                      <option value="orientsoft" >API开发者</option>
+                      <option value="bp">合作伙伴</option>
+                      <option value="user" >最终用户</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">用户邮箱</label>
+                  <div class="col-sm-6">
+                    <input type="text" id="userAccount"  name ="userAccount" placeholder="用户邮箱" class="form-control " tabindex="0" aria-invalid="false">
+                  </div>
+                  
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">用户密码</label>
+                  <div class="col-sm-6">
+                    <input type="password" id="userPassword"  name ="userPassword" placeholder="用户密码" class="form-control " tabindex="0" aria-invalid="false">
+                  </div>
+                  
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">用户状态</label>
+                  <div class="col-sm-6">
+                    
+                    <div class="radio radio-info radio-inline">
+                      <input type="radio" class="" name="status" data-nested="" value="ok" checked="checked">
+                      <label for="inlineRadio1"> 正常 </label>
+                    </div>
+                    
+                    <div class="radio radio-info radio-inline">
+                      <input type="radio" class="" name="status" data-nested="" value="freeze" >
+                      <label for="inlineRadio2"> 冻结 </label>
+                    </div>
+                  </div>
+                  
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">调试信息</label>
+                  <div class="col-sm-6">
+                    <textarea id="createUserResult" rows="6" cols="50"></textarea>
+                  </div>
+                  
+                </div>
+                
+                <div class="form-group">
+                  <div class="col-sm-offset-3 col-sm-9 m-t-15">
+                    <a id="add" class="btn btn-success" type="submit"  ><i class="fa fa-plus fa-lg"></i>创建</a>
+                    <button type="reset" class="btn btn-warning">
+                    <i class="fa fa-close fa-lg"></i>重置
+                    </button>
+                    <a id="create_op" class="btn btn-info" data-dismiss="modal" ><i class="fa fa-list  fa-lg"></i>返回</a>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+
+<!-- addnode -->
+
+
+
+
+<!-- UserItem视图模版 -->
+<script id="UserViewTemplate" type="text/template">
+          <td data-title="ID"><%- idx %></td>
+          <td data-title="Type"><%- email %></td>
+          <td data-title="Type"><%- type %></td>
+          <td data-title="UUID"><%- uuid %></td>
+          <td data-title="Action">
+          <a class='changePWD btn btn-sm btn-success' data-uid="<%- uuid %>" data-toggle="modal" data-target="#confirm-reset" >修改密码</a>
+          <a class='<%- action %> btn btn-sm btn-warning' data-uid="<%- uuid %>" data-email="<%- email %>" data-toggle="modal" data-target="#confirm-<%- action %>" ><%- actionTitle %></a>
+          <a class='delete btn btn-sm btn-danger' data-uid="<%- uuid %>" data-toggle="modal" data-target="#confirm-delete" >删除用户</a><br>
+          </td>
+</script>
+
+
+<!--NodeItem视图模版 -->
+<script id="NodeViewTemplate" type="text/template">
+          <td data-title="ID"    width="10%"><%- idx %></td>
+          <td data-title="Name"  width="10%"><%- name %></td>
+          <td data-title="Type"  width="25%"><%- types %></td>
+          <td data-title="Desc"  width="25%"><%- desc %></td>
+          <td data-title="Action"  width="30%">
+          <a class='changeDesc btn btn-sm btn-info'  data-toggle="modal" data-target="#confirm-<%- action %>" >修改描述</a>
+          <a class='<%- action %> btn btn-sm <%- buttonCSS %>'  data-toggle="modal" data-target="#confirm-<%- action %>" ><%- actionTitle %></a>
+  </td>
+</script>
+
+
+<!--NodeWorkerItem视图模版 -->
+<script id="NodeWorkerViewTemplate" type="text/template">
+
+        <td data-title="ID"><%- idx %></td>
+        <td data-title="Name"><%- nodeId %></td>
+        <td data-title="IP"><%- address %>:<%- port %></td>
+        <td data-title="CPU"><%- cpu %></td>
+        <td data-title="MEM"><%- memCurrent %>/<%- memUsage %></td>
+        <td data-title="UserCount"><%- uCount %></td>
+        <td data-title="FlowCount"><%- startAPICount %>/<%- stopAPICount %></td>
+        <td data-title="Action">
+        <a class='gwReload btn btn-sm btn-success'  data-toggle="modal" data-target="#confirm-reset" >重启网关</a>
+        <a class='gwClearCache btn btn-sm btn-danger'   data-toggle="modal" data-target="#confirm-delete" >清除部署</a>
+        <a class='gwRemove btn btn-sm btn-danger'   data-toggle="modal" data-target="#confirm-delete" >删除网关</a>
+        <br>
+        </td>
+</script>
+
+
+
+<script>
+$(document).ready(function () {
+
+var App=Borgnix.cloudmanagement;//导入cloudmanagement 模块
+
+App.env["userCollection"]=new App.UserCollection(
+  [
+  {% for x in users %}
+  {"idx":"{{ loop.index }}","uuid":"{{ x.uid }}","type":"{{ x.type }}","email":"{{ x.email }}","status":"{{ x.status }}"},
+  {% endfor %}
+  ]);
+
+
+App.env["userListView"] =new App.UserListView({collection:App.env["userCollection"] })
+App.env["userListView"].render();
+
+
+App.env["nodeCollection"]=new App.NodeCollection(
+  [
+  {% for x in nodes %}
+  {"idx":"{{ loop.index }}","name":"{{ x.name }}","types":"{{ x.types }}","desc":"{{ x.desc }}","enabled":{{ x.enabled }}},
+  {% endfor %}
+  ]);
+
+
+
+App.env["nodeListView"] =new App.NodeListView({collection:App.env["nodeCollection"] })
+App.env["nodeListView"].render();
+
+
+
+
+App.env["nodeWorkerCollection"]=new App.NodeWorkerCollection(
+  [
+
+  {% for x in nodeworkers %}
+
+  {
+    "idx":"{{ loop.index }}",
+    "nodeId":"{{ x.data.nodeId }}",
+    "active":"{{ x.active }}",
+    "address":"{{ x.address }}",
+    "port":{{ x.data.port }},
+    "cpu":{{ x.status.cpuStatus }},
+    "memCurrent":"{{ x.status.memStatus.current }}",
+    "memUsage":"{{ x.status.memStatus.usage }}",
+    "uCount":{{ x.status.APIStatus.totalUserCount }},
+    "startAPICount":{{ x.status.APIStatus.totalStartAPICount }},
+    "stopAPICount":{{ x.status.APIStatus.totalStopAPICount }},
+
+  },
+  {% endfor %}
+  ]);
+
+
+//
+App.env["nodeWorkerListView"] =new App.NodeWorkerListView({collection:App.env["nodeWorkerCollection"] })
+App.env["nodeWorkerListView"].render();
+
+
+App.env["comms"]=Borgnix.comms;
+App.env["comms"].connect();
+
+App.env["comms"].subscribe("nodeworker",function(topic,msg){
+
+
+
+
+  //console.log(msg);
+  var obj=JSON.parse(msg);
+   var data=[];
+   var count = 1;
+   for( var key in obj){
+     console.log(obj[key]);
+     data.push({
+       "idx":count,
+       "nodeId":obj[key].data.nodeId,
+       "active":obj[key].active,
+       "address":obj[key].address,
+       "port":obj[key].data.port,
+       "cpu":obj[key].status.cpuStatus,
+       "memCurrent":obj[key].status.memStatus.current,
+       "memUsage":obj[key].status.memStatus.usage,
+       "uCount":obj[key].status.APIStatus.totalUserCount,
+       "startAPICount":obj[key].status.APIStatus.totalStartAPICount,
+       "stopAPICount":obj[key].status.APIStatus.totalStopAPICount,
+     });
+
+     count++;
+
+   }
+
+
+ App.env["nodeWorkerCollection"]=new App.NodeWorkerCollection(data);
+ App.env["nodeWorkerListView"] =new App.NodeWorkerListView({collection:App.env["nodeWorkerCollection"] })
+ App.env["nodeWorkerListView"].render();
+
+})
+
+App.env["term"]= new Terminal({cols:500,rows:50});
+App.env["term"].open($('#log_placeholder'));
+App.env["term"].writeln("["+new Date()+"]Log Session:");
+
+
+var logEcho =function(topic,data){
+                  App.env["term"].writeln(JSON.stringify(data));
+      };
+
+$("a.addNode").click(function(){
+
+
+ 
+bootbox.dialog({
+  title: "添加模块.",
+  message: '<div class="row">  ' +
+    '<div class="col-md-12"> ' +
+    '<form class="form-horizontal"> ' +
+    '<div class="form-group"> ' +
+    '<label class="col-md-4 control-label" for="name">注册名字</label> ' +
+    '<div class="col-md-4"> ' +
+    '<input id="regName" name="regName" type="text" placeholder="模块名字" class="form-control input-md"> ' +
+    '<span class="help-block"></span> </div> ' +
+    '</div> ' +
+    '<div class="form-group"> ' +
+    '<label class="col-md-4 control-label" for="name">模块类型</label> ' +
+    '<div class="col-md-4"> ' +
+    '<input id="regType" name="regType" type="text" placeholder="模块类型" class="form-control input-md"> ' +
+    '<span class="help-block"></span> </div> ' +
+    '</div> ' +
+    '<div class="form-group"> ' +
+    '<label class="col-md-4 control-label" for="name">模块描述</label> ' +
+    '<div class="col-md-4"> ' +
+    '<input id="desc" name="desc" type="text" placeholder="模块描述" class="form-control input-md" > ' +
+    '<span class="help-block"></span> </div> ' +
+    '</div> ' +
+
+    '</div> </div>' +
+    '</form> </div>  </div>',
+  buttons: {
+    cancle: {
+      label: "取消",
+      className: "btn-default",
+      callback: function() {
+        //  Example.show("great success");
+      }
+    },
+    success: {
+      label: "保存",
+      className: "btn-success",
+      callback: function() {
+        var regName = $('#regName').val();
+        var regType = $('#regType').val();
+        var desc = $('#desc').val();
+
+        if(regName==""||regType==""){
+          alert("注册名字或者注册类型必须填写");
+          return;
+        }
+
+        App.env["nodeCollection"].each(function(model, index) {
+
+          if(model.get("name")==regName){
+            alert("该模块"+regName+"已经存在");
+            return;
+          }
+          //console.log(index,model.get("name"));
+
+        });
+        //console.log(pwd,$("form.form-horizontal").serialize());
+
+        $.ajax({
+          type: "POST",
+          url: "cloud/nodes",
+          data:{"node":{"name":regName,"types":regType.split(','),"desc":desc,"enabled":true}},
+          success: function(msg) {
+            if (msg.status == "ok") {
+
+
+              App.env["nodeCollection"].add(
+                {"idx":App.env["nodeCollection"].length+1,"name":regName,"types":regType,"desc":desc,"enabled":true}
+                );
+               App.env["nodeListView"].render();
+
+
+              alert('成功添加'+regName+'节点', desc);
+
+
+            }else{
+              //alert('添加失败,'+msg.msg);
+              //Borgnix.notify('成功禁用模块', +msg.msg);
+
+              $.notify('<strong>添加模块'+regName+'失败,'+msg.msg+'</strong> ...', {
+                icon: 'fa fa-check-circle-o',
+                allow_dismiss: true,
+                type: 'danger'
+              });
+
+            }
+          },
+          error: function() {
+            alert("failure");
+          }
+        });
+
+        return;
+        //var answer = $("input[name='awesomeness']:checked").val()
+        //Example.show("Hello " + name + ". You've chosen <b>" + answer + "</b>");
+      }
+    }
+  }
+});
+
+});
+
+
+$("a.addAPIGateway").click(function(){
+
+bootbox.dialog({
+  title: "添加API网关.",
+  message: '<div class="row">  ' +
+    '<div class="col-md-12"> ' +
+    '<form class="form-horizontal"> ' +
+    '<div class="form-group"> ' +
+    '<label class="col-md-4 control-label" for="name">节点名字</label> ' +
+    '<div class="col-md-4"> ' +
+    '<input id="nodeId" name="nodeId" type="text" placeholder="节点名字" class="form-control input-md"> ' +
+    '<span class="help-block"></span> </div> ' +
+    '</div> ' +
+    '<div class="form-group"> ' +
+    '<label class="col-md-4 control-label" for="name">主机名/IP</label> ' +
+    '<div class="col-md-4"> ' +
+    '<input id="address" name="address" type="text" placeholder="主机名/IP" class="form-control input-md"> ' +
+    '<span class="help-block"></span> </div> ' +
+    '</div> ' +
+    '<div class="form-group"> ' +
+    '<label class="col-md-4 control-label" for="name">服务端口</label> ' +
+    '<div class="col-md-4"> ' +
+    '<input id="port" name="port" type="text" placeholder="服务端口" class="form-control input-md"> ' +
+    '<span class="help-block"></span> </div> ' +
+    '</div> ' +
+    '</div> </div>' +
+    '</form> </div>  </div>',
+  buttons: {
+    cancle: {
+      label: "取消",
+      className: "btn-default",
+      callback: function() {
+        //  Example.show("great success");
+      }
+    },
+    success: {
+      label: "添加",
+      className: "btn-success",
+      callback: function() {
+        var nodeId = $('#nodeId').val();
+        var address= $('#address').val();
+        var port= $('#port').val();
+
+        if (nodeId == "" || address == ""||port == "") {
+          bootbox.alert("网关ID,地址, 端口不能为空!", function() {});
+          return;
+        }
+        
+        console.log($("form.form-horizontal").serialize());
+
+        $.ajax({
+          type: "POST",
+          url: "./cloud/gw/"+nodeId+"/add", 
+          data: $("form.form-horizontal").serialize(),
+          success: function(msg) {
+            if (msg.status == "ok") {
+              // bootbox.alert("密码修改成功!", function() {
+              //   });
+        
+             
+        
+            }
+          },
+          error: function() {
+            alert("failure");
+          }
+        });
+
+        return;
+        
+      }
+    }
+  }
+});
+
+});
+
+$("#watchLog").click(function() {
+                if(this.checked){
+                  App.env["comms"].subscribe("syslog",logEcho)
+                }else{
+                  App.env["comms"].unsubscribe("syslog",logEcho);
+                }
+            });
+
+
+//CLEAR SYSLOG
+$('a#clear').click(function(){
+      App.env["term"].reset();
+      App.env["term"].writeln("["+new Date()+"]Log Session:");
+})
+
+
+//CLEAR SYSLOG
+$('a#reload').click(function(){
+  bootbox.confirm("确定要重启系统: <mark><var>系统重启需要一定时间,重启过程用户将无法访问</var></mark> !",
+    function(result) {
+     if(!result)return;
+      App.ajaxAction("PUT","./cloud/reload",null,function(msg){
+
+                if(msg.status=="ok"){
+                  bootbox.alert("系统重启成功!", function() {});
+
+                  $('a#reload').attr({"disabled":"disabled"})
+                  var oldVal =  $('a#reload').html();
+                    var s=5;
+                    var disableTime=setInterval(function(){
+                       $('a#reload').text("("+s+")秒后重置");
+                       s--;
+                     },1000);
+
+                    setTimeout(function(){
+                       clearInterval(disableTime);
+                      $('a#reload').removeAttr("disabled");
+                      $('a#reload').html(oldVal);
+                    }, 6000);
+                }
+
+            });
+
+
+
+    });
+
+})
+
+
+
+//ADD USER
+  $("#adduser").click(function(){
+
+    $("#inviateActive").attr("style","display:none;")
+    $("#add").attr("style","display:inline;")
+    $('#form-adduser').modal({show:true});
+    return false;
+ })
+
+
+
+
+
+    $("a#inviateActive").click(function(){
+
+      App.ajaxAction("POST","./invite",$("#userForm").serialize(),function(msg){
+
+                if(msg.status=="ok"){
+                var tmpObj=$("#userForm").serializeJSON();
+                  App.env["userCollection"].add(  {"idx":App.env["userCollection"].length+1,"uuid":"邀请账号未激活","type":"user","email":tmpObj.userAccount,"status":tmpObj.status}
+                  );
+                 App.env["userListView"].render();
+                }
+                $("#createUserResult").html(JSON.stringify(msg, null, "\t"));
+            });
+    });
+
+    $("a#add").click(function(){
+
+      App.ajaxAction("POST","./users",$("#userForm").serialize(),function(msg){
+                console.log(msg);
+                if(msg.status=="ok"){
+                  var tmpObj=$("#userForm").serializeJSON();
+                  App.env["userCollection"].add({"idx":App.env["userCollection"].length+1,"uuid":msg.uid,"type":"user","email":tmpObj.userAccount,"status":tmpObj.status}
+                  );
+                  App.env["userListView"].render();
+                }
+                $("#createUserResult").html(JSON.stringify(msg, null, "\t"));
+            });
+    });
+
+
+});
+</script>
+
+
+
+
+</body>
+
+</html>

@@ -2,7 +2,8 @@
   width: 200px;
   height: 100%;
   position: absolute;
-  background-color: gray;
+  margin-left:20px;
+  /* background-color: gray;*/
 }
 
 .workspace{
@@ -13,4 +14,27 @@
 
 .navbar{
   margin-bottom: 0 !important;
+  background-color: #f3f3f3;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+
+}
+
+.box_toolbar_deactive {
+  visibility: hidden;
+ }
+
+.box_toolbar_active {
+  visibility: visible;
+}
+
+
+.logo {
+    color: #08c !important;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    padding-left: 20px;
+    padding-right: 20px;
+    line-height: 60px;
+    text-transform: uppercase;
 }

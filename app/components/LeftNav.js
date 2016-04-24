@@ -47,14 +47,45 @@ export default class LeftNav extends React.Component {
   }
 
   render() {
+
+     var divStyle = {
+    height:"800px"
+    };
+ 
     return (
       <div {...this.props}>
-        New Component
-        <ButtonGroup vertical block>
+     
+  <div  >
+     <div id="palette" style={divStyle}>
+
+          <ul  className="submenu">
+
+                                {
+                                    _.keys(cm).map((component, i) => {
+                                    //  console.log(i)
+                                  return (
+                            <li key={i} >
+                            <a  href="#" key={i} 
+                                onClick={this._newComponentFuns[component]} 
+                                >
+                                <i  className="fa  fa-file-o"></i> {component}
+                                </a></li>
+                                )
+                              })
+                            }
+          </ul>
+          
+</div>
+<div id="workspace"></div>
+</div>
+          
+      <h5 className={"text-center"} style={{color:"#fff"}}><i className={"fa fa-cog fa-1.5x "} ></i>组件列表</h5>
+
+        {/*<ButtonGroup vertical block>
         {
           _.keys(cm).map((component, i) => {
-            return (
-              <Button key={i}
+         return (
+              <Button key={i} 
                 onClick={this._newComponentFuns[component]}
               >
                 {component}
@@ -62,7 +93,7 @@ export default class LeftNav extends React.Component {
             )
           })
         }
-        </ButtonGroup>
+        </ButtonGroup>*/}
       </div>
     )
   }

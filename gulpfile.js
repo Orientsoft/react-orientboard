@@ -312,8 +312,10 @@ gulp.task('doc', (cb) => {
   }, cb)
 })
 
+
 gulp.task('postinstall', (cb) => {
-  sequence('install', 'gen', 'build-vendor', 'build-all', 'doc')(cb)
+  //sequence('install', 'gen', 'build-vendor', 'build-all', 'doc')(cb)
+  sequence('install', 'gen', 'build-vendor', 'build-all')(cb)
 })
 
 function isFixed(file) {

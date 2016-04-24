@@ -7,7 +7,7 @@ import selectActions from '../actions/select'
 import selectStore from '../stores/select'
 import BoardManager from '../../lib/client'
 
-import { swapElements, copyToClipboard } from '../lib/util'
+import { swapElements, copyToClipboard,openWindow } from '../lib/util'
 
 const bm = new BoardManager()
 let state = {
@@ -24,6 +24,22 @@ const store = Reflux.createStore({
     const nb = state.app.refs.board.toJson()
     actions.updateBoard({ name: nb.name }, nb)
   },
+  onCloneBoard: async(newName) => {
+    const nb = state.app.refs.board.toJson()
+    nb.name=newName
+    try {
+      const res = await bm.create(nb)
+      state.boards.push(res)
+      store.trigger(state)
+      
+      return actions.createBoard.completed(nb)
+
+    } catch (e) {
+      return actions.createBoard.failed(e)
+    }
+
+
+  },
   onCreateBoard: async (board) => {
     try {
       const res = await bm.create(board)
@@ -34,6 +50,19 @@ const store = Reflux.createStore({
       return actions.createBoard.failed(e)
     }
   },
+
+  onRenameBoard: async (boardName) => {
+
+    const nb = state.app.refs.board.toJson()
+    const oldName=nb.name
+    nb.name=boardName
+    
+    actions.updateBoard({ name: oldName }, nb)
+    state.boards[_.findIndex(state.boards, { name: boardName })] = nb
+    store.trigger(state)
+    return actions.updateBoard.completed()
+  },
+
   onCreateBoardFailed: () => {
     console.log('create failed')
   },
@@ -94,6 +123,10 @@ const store = Reflux.createStore({
   onGetDisplayLink: () => {
     const link = window.location.origin + `/api/display/${state.board._id}`
     copyToClipboard(link)
+  },
+  onOpenDisplayLink: () => {
+    const link = window.location.origin + `/api/display/${state.board._id}`
+    openWindow(link)
   },
 })
 

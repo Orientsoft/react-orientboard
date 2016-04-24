@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MyBoard</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/themes/css/bootstrap.css">
+</head>
+
+<body>
+
+    <div id="mount-app"></div>
+    <script src="/vendor/babel-polyfill/polyfill.min.js"></script>
+    <script src="/js/vendor.js"></script>
+    <script type="text/javascript">
+    gBoard = JSON.parse(unescape('{{ board }}'))
+    </script>
+    <script src="/js/display.js"></script>
+</body>
+
+</html>
