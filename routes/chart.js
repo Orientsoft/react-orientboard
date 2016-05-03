@@ -40,15 +40,9 @@ router.get('/highchart/:id', async (req, res) => {
     const cols=req.query['cols']?parseInt(req.query['cols']):12
     const min=req.query['min']?parseInt(req.query['min']):0
     const max=req.query['max']?parseInt(req.query['max']):100
-    
     const random=req.query['random']?true:false
-
-
     const result = buildHightChartData(rows,cols,min,max)
-    
     return res.json(result)
-
-    
 
     
   } catch (e) {

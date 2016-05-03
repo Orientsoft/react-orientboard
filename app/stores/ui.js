@@ -40,7 +40,6 @@ const store = Reflux.createStore({
     selectActions.setActiveBox(null)
     selectActions.setActiveBlock(null)
     store.trigger(state)
-     console.log("-------1xxxx",state);
   },
   onSetTheme: (theme) => {
     if (state.theme === theme) return null

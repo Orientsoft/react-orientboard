@@ -41,8 +41,10 @@ fs.watch(COMPONENTS_CONFIG, () => {
 
 router.use((req,res,next)=>{
 
+  let _path=req.path.toLowerCase()
+
  if(!req.session.user){
-    if(req.path.toLowerCase().indexOf('/api/display/')!=-1){
+    if(_path.indexOf('/api/display/')!=-1||_path.indexOf('/api/v1/')!=-1||_path.indexOf('/chart/highchart/')!=-1){
       return next();
     }
     if(req.path.toLowerCase()!="/login"){

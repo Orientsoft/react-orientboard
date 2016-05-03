@@ -1,4 +1,12 @@
-# react-orientboard
+# ngOrientboard(ReactBoard)
+
+## Credits
+
+ OrientSoft R&D Team
+ 
+ Copyright 2013 - 2016@orientsoft.cn
+
+
 
 ## Dependencies
 

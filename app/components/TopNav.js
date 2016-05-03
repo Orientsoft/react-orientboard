@@ -29,9 +29,7 @@ export default class TopNav extends React.Component {
   _hangleChange(e) {
     const board = boardStore.findBoard({ name: e.target.value })
     selectActions.setActiveBoard(board)
-    //selectActions.setActiveBlock(board)
-
-    console.log('sdfsdfsfsf');
+    
   }
 
   _setPublishMode() {
@@ -76,12 +74,6 @@ export default class TopNav extends React.Component {
         </Navbar.Header>
         <Nav className="pull-right">
 
-         {/*
-         <NavItem  eventKey={1} onClick={this._setPublishMode}>
-          
-          </NavItem>
-         */}
-        
          
           
           {/*<NavItem className="pull-right" eventKey={2} onClick={this._setEditMode}>

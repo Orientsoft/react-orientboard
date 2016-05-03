@@ -15,7 +15,8 @@ const routes = require('./routes/index'),
       users = require('./routes/users'),
       board = require('./routes/board'),
       chart = require('./routes/chart'),
-      cloud = require('./routes/cloud')
+      cloud = require('./routes/cloud'),
+      apis  = require('./routes/apis')
 
 const tracer = require('./lib/util').logger
 
@@ -65,6 +66,17 @@ app.use(session({
     secret: 'keyboard cat'
 }));
 
+
+
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
+}
+
+app.use(allowCrossDomain);
 
 app.use(logger('dev'))
 app.use(bodyParser.json())
@@ -116,10 +128,9 @@ app.use('/cloud', cloud({
 
 
 //api 入口
-app.use('/api/v1/users', users({
+app.use('/api/v1', apis({
   mongo: config.mongo
 }))
-
 
 // use themes css contorl
 app.use('/themes/fonts', express.static(path.join(__dirname, 'public/vendor/bootstrap/fonts')));

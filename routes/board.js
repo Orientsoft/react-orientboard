@@ -96,8 +96,7 @@ router.get('/display/:id',  (req, res) => {
       boardId=objectId(req.params.id)
 
     }catch(e){
-      console.log("----", e)
-       return res.status(500).json({"msg":"Wrong Parameter"});
+      return res.status(500).json({"msg":"Wrong Parameter"});
     }
   
 
