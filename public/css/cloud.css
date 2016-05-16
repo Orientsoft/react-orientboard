@@ -1,0 +1,82 @@
+._app_css_app__left_nav{
+  width: 200px;
+  height: 100%;
+  position: absolute;
+  margin-left:20px;
+  /* background-color: gray;*/
+}
+
+._app_css_app__workspace{
+  position: absolute;
+  left: 200px;
+  height: 100%;
+}
+
+._app_css_app__navbar{
+  margin-bottom: 0 !important;
+  background-color: #f3f3f3;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+
+}
+
+._app_css_app__box_toolbar_deactive {
+  visibility: hidden;
+ }
+
+._app_css_app__box_toolbar_active {
+  visibility: visible;
+}
+
+
+._app_css_app__logo {
+    color: #08c !important;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    padding-left: 20px;
+    padding-right: 20px;
+    line-height: 60px;
+    text-transform: uppercase;
+}._node_modules_orientboard_component_example_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+._orientboard_component_hightcharts_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+._orientboard_component_image_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+._orientboard_component_markdown_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+._orientboard_component_chartjs_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+._orientboard_component_label_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+._orientboard_component_text_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+  color:back;
+}

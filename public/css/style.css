@@ -1,0 +1,260 @@
+#topnav .navbar-custom {
+      background-color: #f3f3f3;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+#topnav .navbar-toggle {
+  border: 0;
+  position: relative;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+#topnav .navbar-toggle:hover {
+  background-color: transparent;
+}
+#topnav .navbar-toggle:hover span {
+  background-color: #337ab7;
+}
+#topnav .navbar-toggle:focus {
+  background-color: transparent;
+}
+#topnav .navbar-toggle:focus span {
+  background-color: #fff;
+}
+#topnav .navbar-toggle .lines {
+  width: 25px;
+  display: block;
+  position: relative;
+  margin: 23px auto 17px auto;
+  height: 18px;
+}
+#topnav .navbar-toggle span {
+  height: 2px;
+  width: 100%;
+  background-color: #fff;
+  display: block;
+  margin-bottom: 5px;
+  -webkit-transition: -webkit-transform 0.5s ease;
+  transition: -webkit-transform 0.5s ease;
+  transition: transform .5s ease;
+}
+#topnav .navbar-toggle.open span {
+  position: absolute;
+}
+#topnav .navbar-toggle.open span:first-child {
+  top: 6px;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+#topnav .navbar-toggle.open span:nth-child(2) {
+  visibility: hidden;
+}
+#topnav .navbar-toggle.open span:last-child {
+  width: 100%;
+  top: 6px;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+#topnav .navigation-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#topnav .navigation-menu > li {
+  float: left;
+  display: block;
+  position: relative;
+}
+#topnav .navigation-menu > li > a {
+  display: block;
+  color: #36404a;
+  font-weight: 500;
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+  line-height: 20px;
+  padding-left: 25px;padding-top: 15px;padding-bottom: 15px;
+  padding-right: 25px;
+}
+#topnav .navigation-menu > li > a:hover {
+  color: #337ab7;
+}
+#topnav .navigation-menu > li > a:hover i {
+  color: #337ab7;
+}
+#topnav .navigation-menu > li > a:focus {
+  color: #337ab7;
+}
+#topnav .navigation-menu > li > a:focus i {
+  color: #337ab7;
+}
+#topnav .navigation-menu > li > a:active {
+  color: #337ab7;
+}
+#topnav .navigation-menu > li > a:active i {
+  color: #337ab7;
+}
+#topnav .navigation-menu > li > a i {
+ float: left;
+    display: block;
+    font-size: 18px;
+    /* margin-bottom: 5px; */
+    text-align: center;
+    /* color: #98a6ad; */
+    margin-right: 5px; margin-bottom:3px;
+}
+#topnav .navigation-menu > li > a:hover,
+#topnav .navigation-menu > li > a:focus {
+  background-color: transparent;
+}
+@media (min-width: 992px) {
+  #topnav .navigation-menu > li > a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+/*
+  Responsive Menu
+*/
+
+  #topnav .navigation-menu > li.last-elements .submenu {
+    left: auto;
+    right: 0;
+  }
+  #topnav .navigation-menu > li.last-elements .submenu > li.has-submenu .submenu {
+    left: auto;
+    right: 100%;
+    margin-left: 0;
+    margin-right: 10px;
+  }
+  #topnav .navigation-menu > li:first-of-type a {
+    padding-left: 0px;
+  }
+  #topnav .navigation-menu > li:hover a {
+    color: #337ab7;
+  }
+/*  #topnav .navigation-menu > li:hover a i {
+    color: #337ab7;
+  }*/
+    #topnav .navigation-menu > li:hover a.add-plus i, #topnav .navigation-menu > li:hover a.add-plus i{ }
+	  #topnav .navigation-menu > li:hover a.add-plus{ background:#fff; }
+  #topnav .navigation-menu > li .submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    border: 1px solid #e7e7e7;
+    padding: 15px 0;
+    list-style: none;
+    min-width: 200px;
+    visibility: hidden;
+    opacity: 0;
+    margin-top: 10px;
+    -webkit-transition: all .2s ease;
+    transition: all .2s ease;
+    background-color: #ffffff;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+  }
+  #topnav .navigation-menu > li .submenu.megamenu {
+    white-space: nowrap;
+    width: auto;
+  }
+  #topnav .navigation-menu > li .submenu.megamenu > li {
+    overflow: hidden;
+    width: 200px;
+    display: inline-block;
+    vertical-align: top;
+  }
+  #topnav .navigation-menu > li .submenu > li.has-submenu > a:after {
+    content: "\e649";
+    font-family: "themify";
+    position: absolute;
+    right: 20px;
+    font-size: 9px;
+  }
+  #topnav .navigation-menu > li .submenu > li .submenu {
+    left: 100%;
+    top: 0;
+    margin-left: 10px;
+    margin-top: -1px;
+  }
+  #topnav .navigation-menu > li .submenu li {
+    position: relative;
+  }
+  #topnav .navigation-menu > li .submenu li ul,#palette  .submenu  {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  #topnav .navigation-menu > li .submenu li a,#palette  .submenu li a{
+    display: block;
+    padding: 8px 25px;
+    clear: both;
+    white-space: nowrap;
+    font-weight: 500;
+    color: #494e53;
+  }
+  #topnav .navigation-menu > li .submenu li a:hover,#palette  .submenu  li a:hover {
+    color: #337ab7;
+  }
+  #topnav .navigation-menu > li .submenu li span {
+    display: block;
+    padding: 8px 25px;
+    clear: both;
+    line-height: 1.42857143;
+    white-space: nowrap;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    color: #949ba1;
+  }
+  #topnav .navbar-toggle {
+    display: none;
+  }
+  #topnav #navigation {
+    display: block !important;
+  }
+
+
+#topnav .navigation-menu > li.has-submenu:hover > .submenu {
+    visibility: visible;
+    opacity: 1;
+    margin-top: 0;
+  }
+  #topnav .navigation-menu > li.has-submenu:hover > .submenu > li.has-submenu:hover > .submenu {
+    visibility: visible;
+    opacity: 1;
+    margin-left: 0;
+    margin-right: 0;
+  }
+ 
+#topnav .navigation-menu > li:first-of-type a.add-plus{ padding:5px 10px; margin-top:3px; width:200px; text-align:left}
+
+.footer.wapp {
+  
+    bottom: 0px;
+    color: #58666e;
+    text-align: left !important;
+    padding: 20px;
+    position: absolute;
+    right: 0;
+    left: 0;
+}
+
+
+#main-container {
+    position: absolute;
+    top:102px; left:0; bottom: 60px; right:0;
+    overflow:hidden;
+}
+#palette {
+    position: absolute; width:170px; padding-top:20px;
+    top: 0; left:0; bottom: 1px; background:#f3f3f3;border-right: 1px solid #ddd;
+}
+#workspace {
+    position: absolute;
+    margin: 0;
+    top:0; left:171px; bottom:1px; right: 0; 
+}
