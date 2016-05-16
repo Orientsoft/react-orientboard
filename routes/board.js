@@ -111,16 +111,13 @@ router.get('/display/:id',  (req, res) => {
        
             if (result.blocks[0].pubType !== 'public') {
 
-
-                var auth = {
-                        login: 'welcomle',
-                        password: 'yourpassword'
-                    } // change this
+                var password=result.blocks[0].password||'welcome1'
+             // change this
 
                 var b64auth = (req.headers.authorization || '').split(' ')[1] || ''
                 var auth = new Buffer(b64auth, 'base64').toString().split(':')
 
-                if (auth[1] !== 'welcome1') {
+                if (auth[1] !== password) {
                     res.set('WWW-Authenticate', 'Basic realm="OrientBoard Access Control"') // change this
                     return res.status(401).json({
                             'msg': 'No Right Access'
