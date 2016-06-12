@@ -135,13 +135,38 @@ html, body {
   overflow: hidden;
   resize: none;
 }
-._orientboard_component_image_css_component__text {
+._orientboard_component_echarts_css_component__text {
   height: 100%;
   width: 100%;
   overflow: hidden;
   resize: none;
 }
+
+._orientboard_component_echarts_css_component__viewport{
+  height: 100%;
+  width: 100%;
+}
+
+._orientboard_component_echarts_css_component__color{
+  width: 36px;
+  height: 14px;
+  borderRadius: 2px;
+}
+
+._orientboard_component_echarts_css_component__swatch{
+  padding: 5px;
+  background: #fff;
+  borderRadius: 1px;
+  display: inline-block;
+  cursor: pointer;
+}
 ._orientboard_component_hightcharts_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+._orientboard_component_image_css_component__text {
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -153,16 +178,16 @@ html, body {
   overflow: hidden;
   resize: none;
 }
-._orientboard_component_text_css_component__text {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  resize: none;
-  color:back;
-}
 ._orientboard_component_markdown_css_component__text {
   height: 100%;
   width: 100%;
   overflow: hidden;
   resize: none;
+}
+._orientboard_component_widgets01_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+  color:back;
 }

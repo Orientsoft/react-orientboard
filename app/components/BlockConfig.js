@@ -12,10 +12,11 @@ import selectStore from '../stores/select'
 class BlockConfigModal extends React.Component {
   constructor(props) {
     super(props)
+    console.log("props",props)
     this.state = {
       w: 800,
       h: 600,
-      pubType: (this.props.data&&this.props.data.pubType)?this.props.data.pubType:'public'
+      pubType: (this.props.data&&this.props.data.pubType)?this.props.data.pubType:'public'    
     }
   }
 
@@ -23,6 +24,8 @@ class BlockConfigModal extends React.Component {
     selectStore.listen((newState) => {
       this.setState(newState)
     })
+
+    console.log(this.state)
 
     
   }
@@ -35,15 +38,18 @@ class BlockConfigModal extends React.Component {
     const w = this.refs.width.getValue(),
           h = this.refs.height.getValue(),
           img = this.refs.backimg.getValue(),
-          pubType=this.refs.pubType.getValue()
+          pubType=this.refs.pubType.getValue(),
+          password=this.refs.password.getValue(),
+          desc = this.refs.desc.getValue()
 
-    this.setState({ w, h, img,pubType })
-    blockActions.setBlockConfig({ w, h, img,pubType })
+    this.setState({ w, h, img,pubType,password })
+    blockActions.setBlockConfig({ w, h, img,pubType,password,desc })
+    console.log(w, h, img,pubType,password,desc)
     this.close()
   }
 
   handleChange(e){
-    this.setState({pubType:this.refs.pubType.getValue()})
+    this.setState({pubType:this.refs.pubType.getValue(),password:this.refs.password.getValue()})
   }
 
   render() {
@@ -63,6 +69,7 @@ class BlockConfigModal extends React.Component {
           {/* TODO: l3 add validation needed */}
            <Tabs defaultActiveKey={1}>
             <Tab eventKey={1} title="基础设置">
+              <Input ref='desc' type='text' label='描述' defaultValue={_.get(this.state, 'block.desc')}/>
               <Input ref='width' type='text' label='width' defaultValue={_.get(this.state, 'block.w')}/>
               <Input ref='height' type='text' label='height' defaultValue={_.get(this.state, 'block.h')}/>
               <Input ref='backimg' type='text' label='background image' defaultValue={_.get(this.state, 'block.img')}/>
@@ -78,7 +85,7 @@ class BlockConfigModal extends React.Component {
                <span>URL</span>
                <Input type='text'  ref="url" defaultValue={window.location.origin + `/api/display/${bid}`} readOnly />
                <span>密码</span>
-               <Input type='text' ref='interval' defaultValue="2000"/>
+               <Input type='text' ref='password' defaultValue="welcome1" />
               </div>
 
               <div className={authShow ?'': 'hidden'}>

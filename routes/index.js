@@ -44,7 +44,7 @@ router.use((req,res,next)=>{
   let _path=req.path.toLowerCase()
 
  if(!req.session.user){
-    if(_path.indexOf('/api/display/')!=-1||_path.indexOf('/api/v1/')!=-1||_path.indexOf('/chart/highchart/')!=-1){
+    if(_path.indexOf('/api/display/')!=-1||_path.indexOf('/api/v1/')!=-1||_path.indexOf('/chart/')!=-1){
       return next();
     }
     if(req.path.toLowerCase()!="/login"){
@@ -167,7 +167,6 @@ router.get('/mocha/:test', (req, res) => {
 })
 
 module.exports = (opts) => {
-  console.log(opts)
   um = um || new UserManager(opts)
   um.connect()
 

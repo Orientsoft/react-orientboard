@@ -30,6 +30,7 @@ class Block extends React.Component {
       h: this.props.config.h || 600,
       img: this.props.config.img || null,
       pubType:this.props.config.pubType||'public',
+      password:this.props.config.password||'welcome1',
       boxes: this.props.config.boxes,
       active: false,
       classes,
@@ -71,6 +72,7 @@ class Block extends React.Component {
       h: this.state.h,
       img: this.state.img,
       pubType:this.state.pubType,
+      password:this.state.password,
       id: this.props.config.id,
     }
   }

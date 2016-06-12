@@ -22,7 +22,9 @@ const store = Reflux.createStore({
   listenables: actions,
   onSaveBoard: () => {
     const nb = state.app.refs.board.toJson()
+    console.log(nb)
     actions.updateBoard({ name: nb.name }, nb)
+    alert('保存成功')
   },
   onCloneBoard: async(newName) => {
     const nb = state.app.refs.board.toJson()
@@ -51,16 +53,21 @@ const store = Reflux.createStore({
     }
   },
 
-  onRenameBoard: async (boardName) => {
+  onRenameBoard: async (boardName,boardDesc) => {
 
     const nb = state.app.refs.board.toJson()
     const oldName=nb.name
     nb.name=boardName
+    nb.desc=boardDesc
+
+    //console.log("rename",boardDesc)
     
-    actions.updateBoard({ name: oldName }, nb)
-    state.boards[_.findIndex(state.boards, { name: boardName })] = nb
-    store.trigger(state)
-    return actions.updateBoard.completed()
+     actions.updateBoard({ name: oldName }, nb)
+     state.boards[_.findIndex(state.boards, { name: boardName,desc:boardDesc })] = nb
+     store.trigger(state)
+     return actions.updateBoard.completed()
+
+    //return "true"
   },
 
   onCreateBoardFailed: () => {
@@ -120,6 +127,24 @@ const store = Reflux.createStore({
       store.trigger(state)
     }
   },
+  onPublishBoard: async() => {
+    //const link = window.location.origin + `/api/display/${state.board._id}`
+    //copyToClipboard(link)
+    
+    const board=_.findIndex(state.boards, { _id: state.board._id })
+    
+    const res = await bm.publish(state.board._id)
+
+     if(res.status=="ok"){
+        alert('发布成功');
+        const link = window.location.origin + `/publish/${state.board._id}.html`
+        openWindow(link)
+     }else{
+        alert('发布失败');
+     }
+     return
+  },
+
   onGetDisplayLink: () => {
     const link = window.location.origin + `/api/display/${state.board._id}`
     copyToClipboard(link)

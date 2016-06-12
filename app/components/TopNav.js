@@ -33,11 +33,13 @@ export default class TopNav extends React.Component {
   }
 
   _setPublishMode() {
-    uiActions.setMode('publish')
+   // uiActions.setMode('publish')
+   boardActions.publishBoard()
   }
 
   _setEditMode() {
     uiActions.setMode('edit')
+
   }
   _returnHome(){
     const link = window.location.origin + `/`

@@ -1,7 +1,9 @@
 'use strict'
 
 
-const BoardManager = require('../lib/board-manager'),
+const fs = require('fs'),
+      swig = require('swig'),
+      BoardManager = require('../lib/board-manager'),
       router = require('express').Router(),
       objectId = require('mongodb').ObjectId
 
@@ -9,6 +11,44 @@ const logger = require('../lib/util').logger
 
 
 let bm
+
+// create board
+router.post('/board/publish/:id', (req, res) => {
+  
+  let boardId 
+
+   try{
+      boardId=objectId(req.params.id)
+
+    }catch(e){
+      return res.status(500).json({"msg":"Wrong Parameter"});
+    }
+
+  console.log(boardId)
+  bm.findOne(null, { _id: boardId }).then((result)=>{
+      console.log(req.params.id,result)
+      const tpl = swig.compileFile('views/display.html');
+      let context=tpl({title: result.name || 'Not Found',
+                        main_script: '/js/display.js',
+                        main_css: '/css/main.css',
+                        // HACK: add board json to html
+                        board: escape(JSON.stringify(result))
+                      });
+
+      fs.writeFile('public/publish/'+boardId+'.html', context, (err) => {
+            if (err) {
+              return res.status(500).send({"status":err});
+              }else{
+              return res.status(200).send({"status":"ok"})
+              }
+              
+        });
+  });
+  
+ 
+
+})
+
 
 // create board
 router.put('/board', (req, res) => {
@@ -153,7 +193,6 @@ router.get('/display/:id',  (req, res) => {
 })
 
 module.exports = (opts) => {
-  console.log(opts)
   bm = bm || new BoardManager(opts)
   bm.connect()
 

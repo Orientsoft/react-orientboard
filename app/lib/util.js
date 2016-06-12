@@ -7,112 +7,111 @@ import selectStore from '../stores/select'
 import uiStore from '../stores/ui'
 
 export function getTestLayout(title, cb) {
-  const name = /(.*)-dev$/.exec(title)[1]
-  if (name)
-    return $.ajax({
-      url: `/get-test-layout/${name}`,
-      method: 'GET',
-      success: cb,
-    })
-  return null
+    const name = /(.*)-dev$/.exec(title)[1]
+    if (name)
+        return $.ajax({
+            url: `/get-test-layout/${name}`,
+            method: 'GET',
+            success: cb,
+        })
+    return null
 }
 
 export function swapElements(list, x, y) {
-  list[x] = [list[y], list[y] = list[x]][0]
+    list[x] = [list[y], list[y] = list[x]][0]
 }
 
 export function initStores() {
-  // HACK: import all stores and bypass eslint no-unused rules
-  (() => {})(
-    blockStore, boardStore, boxStore, selectStore, uiStore
-  )
+    // HACK: import all stores and bypass eslint no-unused rules
+    (() => {})(
+        blockStore, boardStore, boxStore, selectStore, uiStore
+    )
 }
 
 export function copyToClipboard(text) {
-  window.prompt('Copy to clipboard: Ctrl+C, Enter', text)
+    window.prompt('Copy to clipboard: Ctrl+C, Enter', text)
 }
 
 export function openWindow(text) {
-  window.open(text)
+    window.open(text)
 }
 
 
 
 
-export function startDynamic(component){
+export function startDynamic(component) {
 
-  if(!component.state.datasource){
-    return ;
-  }
-
-
- 
-  let cb =component.handleDynamicData?(data)=>{
-
-                                  if(!component.state.datasource.startDynamic){
-                                    return;
-                                   }
-                                   component.handleDynamicData(data);
-                                   
-                                   if(component.refs.ds&&component.refs.ds.state.show){
-                                        component.refs.ds.handleLog(data);
-                                    }
-                                  }:(data)=> {console.log(data);}
-
-  let serverURL=component.state.datasource.server;
+    if (!component.state.datasource) {
+        return;
+    }
 
 
-   if(component.state.datasource.dataType==="pull" ){
 
-    if(component.state.datasource.startDynamic){
-      
-      if(!component.state.datasource.repeat){
-        component.props.timerPool.start(component.state.datasource.url,component.state.datasource.interval,cb,true);
-      
-      }else{
-      let id =component.props.timerPool.start(component.state.datasource.url,component.state.datasource.interval,cb);
-      component.setState({timerId:id});
-      }
-      
+    let cb = component.handleDynamicData ? (data) => {
+        if (!component.state.datasource.startDynamic) {
+            return;
+        }
+        component.handleDynamicData(data);
 
-   }
+        if (component.refs.ds && component.refs.ds.state.show) {
+            component.refs.ds.handleLog(data);
+        }
+    } : (data) => { console.log(data); }
 
-   
-   }else if( component.state.datasource.dataType==="push"){
+    let serverURL = component.state.datasource.server;
 
 
-     let conn=component.props.mqttPool.get('ws://'+serverURL.split("mqtt://")[1]);
+    if (component.state.datasource.dataType === "pull") {
+
+        if (component.state.datasource.startDynamic) {
+
+            if (!component.state.datasource.repeat) {
+                component.props.timerPool.start(component.state.datasource.url, component.state.datasource.interval, cb, true);
+
+            } else {
+                let id = component.props.timerPool.start(component.state.datasource.url, component.state.datasource.interval, cb);
+                component.setState({ timerId: id });
+            }
 
 
-   if(component.state.datasource.startDynamic){
-    
-    component.props.mqttPool.sub(conn,component.state.datasource.channel,cb)
-    
-   }else{
-    
-    component.props.mqttPool.unsub(conn,component.state.datasource.channel,cb)
-    
-   }
+        }
 
 
-   }
+    } else if (component.state.datasource.dataType === "push") {
+
+
+        let conn = component.props.mqttPool.get('ws://' + serverURL.split("mqtt://")[1]);
+
+
+        if (component.state.datasource.startDynamic) {
+
+            component.props.mqttPool.sub(conn, component.state.datasource.channel, cb)
+
+        } else {
+
+            component.props.mqttPool.unsub(conn, component.state.datasource.channel, cb)
+
+        }
+
+
+    }
 
 }
 
-export function stopDynamic(component){
+export function stopDynamic(component) {
 
 
-  let cb =component.handleDynamicData?component.handleDynamicData:(data)=> {console.log(data);}
+    let cb = component.handleDynamicData ? component.handleDynamicData : (data) => { console.log(data); }
 
-   if(component.state.dataType==="pull" ){
+    if (component.state.dataType === "pull") {
 
-     component.props.timerPool.stop(component.state.timerId);
-     component.setState({timerId:null});
+        component.props.timerPool.stop(component.state.timerId);
+        component.setState({ timerId: null });
 
-   }else if(component.state.dataType==="push"){
+    } else if (component.state.dataType === "push") {
 
-     component.props.mqttPool.unsub(conn,component.state.channel,cb)
+        component.props.mqttPool.unsub(conn, component.state.channel, cb)
 
-   }
+    }
 
 }

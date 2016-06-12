@@ -67,8 +67,8 @@ router.delete('/servers', (req, res) => {
 
 function init(){
 
-    router.use('/users', users({
-        mongo: _opts
+    router.use('/user', users({
+        mongo: _opts.mongo
     }))
 
 }

@@ -16,6 +16,7 @@ class BoardConfigModal extends React.Component {
 
   componentDidMount() {
     
+
     uiStore.listen((newState) => {
       this.state.action=newState.boardAction;
       console.log(this.state.action,"xxxx")
@@ -37,17 +38,17 @@ class BoardConfigModal extends React.Component {
   }
 
   create() {
-    console.log("xxcvxcvxvxv",this.state.action)
     if(this.state.action=="rename"){
-      console.log("ssss",boardActions)
-      boardActions.renameBoard(this.refs.name.getValue())
-      this.state.name=this.refs.name.getValue();
+      console.log("ssss",this.state,boardActions)
+      this.setState({name:this.refs.name.getValue(),desc:this.refs.desc.getValue()})
+      boardActions.renameBoard(this.refs.name.getValue(),this.refs.desc.getValue())
+      
     }else if(this.state.action=="clone"){
-      console.log("--------clone")
       boardActions.cloneBoard(this.refs.name.getValue());
     }else if(this.state.action=="create"){
       boardActions.createBoard({
       name: this.refs.name.getValue(),
+      desc: this.refs.desc.getValue(),
       blocks: [{
         id: Date.now(),
         w: 800,
@@ -68,15 +69,20 @@ class BoardConfigModal extends React.Component {
 
     return (
       <Modal show={this.props.show}>
-        <Modal.Header >Block Config</Modal.Header>
+        <Modal.Header >Board名字</Modal.Header>
         <Modal.Body >
           {/* validation needed */}
-          <Input ref='name' type='text' label='name'
+          <Input ref='name' type='text' label='名字'
             defaultValue={this.state.name}
           />
+
+          <Input ref='desc' type='text' label='描述'
+            defaultValue={this.state.desc}
+          />
+
         </Modal.Body>
         <Modal.Footer >
-          <Button onClick={this.close}>Cancle</Button>
+          <Button onClick={this.close}>取消</Button>
           <Button onClick={this.create}>{buttonValue}</Button>
         </Modal.Footer>
       </Modal>

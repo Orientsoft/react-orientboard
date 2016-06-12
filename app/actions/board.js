@@ -14,6 +14,7 @@ const actions = Reflux.createActions([
   'removeBlock',
   'getDisplayLink',
   'openDisplayLink',
+  'publishBoard'
 ].reduce((pv, cv) => {
   pv[cv] = { asyncResult: true }
   return pv

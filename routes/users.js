@@ -3,9 +3,13 @@
 
 const UserManager = require('../lib/user-manager'),
       router = require('express').Router(),
-      objectId = require('mongodb').ObjectId
+      objectId = require('mongodb').ObjectId,
+      crypto = require('crypto'),
+      uuid = require('node-uuid');
+
 
 const logger = require('../lib/util').logger
+ 
 
 let um
 
@@ -15,19 +19,48 @@ let um
 
 // create user
 router.post('/', (req, res) => {
-  console.log(req.body)
-  um.create(req.body).then((result)=>{
-  	return res.json({"msg":"create success","result":result.ops})
-  }).catch((e)=>{
-  	return res.json({"msg":e})
-  })
+    console.log(req.body)
+    let user = req.body;
+
+    user.uid = uuid.v1();
+    user.status="ok";
+    user.org = "orientsoft";
+
+    let sha1 = crypto.createHash('sha1')
+
+    sha1.update(req.body.password);
+    user.password=sha1.digest('hex');
+
+    
+    um.findOne({ "email": user.email }).then((item) => {
+
+        if (item) {
+            return res.json({ status:"error","msg": "user already exit" })
+        } else {
+            um.create(user).then((result) => {
+                return res.json({  status:"ok","msg": "create success", "result": result.ops })
+            }).catch((e) => {
+                return res.json({ status:"error","msg": e })
+            })
+
+        }
+    })
+
+
 
 })
 
 //update user
-router.put('/:id', (req, res) => {
+router.put('/:uid', (req, res) => {
    try {
-        um.update({"_id": new objectId(req.params.id)},req.body)
+       let user=req.body;
+       if(user.password){
+        let sha1 = crypto.createHash('sha1')
+        sha1.update(req.body.password);
+        user.password=sha1.digest('hex');
+       }
+
+        um.update({"uid": req.params.uid},{"$set":user})
         .then((result) => {return res.json(result);})
         .catch((e) => {
             return res.status(500).json({
@@ -44,9 +77,9 @@ router.put('/:id', (req, res) => {
 
 
 // delete user
-router.delete('/:id', (req, res) => {
+router.delete('/:uid', (req, res) => {
   try {
-        um.list({"_id": new objectId(req.params.id)})
+        um.remove({"uid": req.params.uid})
         .then((result) => {return res.json(result);})
         .catch((e) => {
             return res.status(500).json({
@@ -94,7 +127,6 @@ router.get('/:id', (req, res) => {
 
 
 module.exports = (opts) => {
-  console.log(opts)
   um = um || new UserManager(opts)
   um.connect()
 

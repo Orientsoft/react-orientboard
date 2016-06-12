@@ -22,10 +22,6 @@ const tracer = require('./lib/util').logger
 
 let configFile
 switch (process.env.MODE) {
-case 'docker-dev':
-  // config for developing in docker
-  configFile = 'config/docker-dev.json'
-  break
 case 'local':
   // config for developing on local machine
   configFile = 'config/local.json'

@@ -29,7 +29,6 @@ router.get('/', (req, res) => {
 
 
 module.exports = (opts) => {
-  console.log(opts)
   um = um || new UserManager(opts)
   um.connect()
 
