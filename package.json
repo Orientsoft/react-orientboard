@@ -30,6 +30,7 @@
     "mongodb": "^2.1.2",
     "morgan": "~1.5.3",
     "mqtt": "^1.6.0",
+    "node-uuid": "^1.4.7",
     "nodent": "^2.3.10",
     "orientboard-component-example": "git+https://github.com/Orientsoft/orientboard-component-example.git",
     "pretty-error": "^2.0.0",

@@ -18,48 +18,84 @@ import styles from '../css/app.css'
 
 import cm from '../lib/components'
 
+import {Notification} from './Notification'
 
 import {UserTR,BoardTR} from './CloudTR'
 
 const UserType={"admin":"管理员","worker":"开发者","guest":"使用者"}
 
+import $  from 'jquery'
 
 
-const AlertDismissable = React.createClass({
-  getInitialState() {
-    return {
-      alertVisible: true
-    };
-  },
+
+function _jsonReq(method, data, endpoint) {
+    const opts = {
+      method,
+      data: JSON.stringify(data),
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      url: endpoint,
+    }
+    if (method === 'GET')
+      opts.data = data
+    else {
+      opts.data = JSON.stringify(data)
+      opts.contentType = 'application/json; charset=utf-8'
+      opts.dataType = 'json'
+    }
+    return $.ajax(opts)
+  }
+  
+
+
+
+@autobind
+class AlertDismissable extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+     alertVisible: true,
+     title:"",
+     msg:"",
+     type:"success"
+    }
+
+  }
+
+
+
+
+
+  showalert(){
+     this.setState({alertVisible: true,title:"标题",msg:"消息"});
+  }
 
   render() {
     if (this.state.alertVisible) {
       return (
-        <Alert bsStyle="danger" onDismiss={this.handleAlertDismiss}>
-          <h4>Oh snap! You got an error!</h4>
-          <p>Change this and that and try again. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.</p>
+        <Alert bsStyle={this.state.type} onDismiss={this.handleAlertDismiss}>
+          <h4>{this.state.title}</h4>
+          <p>{this.state.msg}</p>
           <p>
-            <Button bsStyle="danger">Take this action</Button>
-            <span> or </span>
-            <Button onClick={this.handleAlertDismiss}>Hide Alert</Button>
           </p>
         </Alert>
       );
     }
 
     return (
-      <Button onClick={this.handleAlertShow}>Show Alert</Button>
+       <Button onClick={this.showalert}>测试</Button>
     );
-  },
+  }
 
   handleAlertDismiss() {
     this.setState({alertVisible: false});
-  },
+  }
 
   handleAlertShow() {
     this.setState({alertVisible: true});
   }
-});
+}
 
 
 @autobind
@@ -75,9 +111,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // boxActions.init(this)
-    // selectActions.setActiveBoard(this.state.board)
-    cloudUIStore.listen((newState) => {
+   
+   this.loadPushServer()
+
+   cloudUIStore.listen((newState) => {
       this.setState(newState)
     })
 
@@ -85,10 +122,14 @@ class App extends React.Component {
 
   }
 
+
   addUserConfig(){
+    
      this.setState({showConfig: !this.state.showConfig,idx:null,confrim:false,configTitle:"添加用户" })
   }
-
+  showNotifiy(){
+    this.refs.notifiy.show("标题","内容");
+  }
   closeConfrim(){
      this.setState({confrim: false,idx:null })
   }
@@ -99,9 +140,6 @@ class App extends React.Component {
     
     if(this.state.idx){
       user=this.state.users[this.state.idx-1]
-      
-    
-
       cloudUIActions.removeUser(user);
      }
 
@@ -144,6 +182,88 @@ class App extends React.Component {
     }
   }
 
+
+
+
+  onCodeChange(code) {
+    this.setState({servers:this.refs.pushServer.getValue()})
+  }
+
+  loadPushServer(){
+    $.get('/api/v1/servers', (result) => {
+
+            console.log(result)
+            this.setState({
+                servers: JSON.stringify(result, null, 4)
+            })
+            console.log("远程调用server", result)
+        });
+
+  }
+
+  showPushserverConfig(){
+    this.setState({'showPushserver':true});
+
+  }
+
+  hidePushserverConfig(){
+    this.setState({'showPushserver':false});
+
+  }
+
+  savePushServer(){
+    
+    console.log(this.refs.pushServerURL.getValue())
+    try{
+      var protocol=["mqtt","ws","socketio"];
+      let server=this.refs.pushServerURL.getValue()
+      
+      if(protocol.indexOf(server.split("://")[0])<0){
+          alert('服务列表解析错误,请检查'+server);
+          }else{
+
+           _jsonReq('POST',  {"servers":[server]} , '/api/v1/servers')
+           this.loadPushServer();
+          }
+       
+    }catch(e){
+      console.log(e)
+      alert('服务列表解析错误,请检查');
+
+    }
+  
+
+    this.setState({'showPushserver':false});
+
+   
+  }
+
+  deletePushServer(){
+
+     console.log(this.refs.pushServerURL.getValue())
+    try{
+      var protocol=["mqtt","ws","socketio"];
+      let server=this.refs.pushServerURL.getValue()
+      
+      if(protocol.indexOf(server.split("://")[0])<0){
+          alert('服务列表解析错误,请检查'+server);
+          }else{
+
+           _jsonReq('DELETE',  {"servers":[server]} , '/api/v1/servers')
+           this.loadPushServer();
+          }
+       
+    }catch(e){
+      console.log(e)
+      alert('服务列表解析错误,请检查');
+
+    }
+  
+
+    this.setState({'showPushserver':false});
+
+  }
+
   render() {
 
      let user={}
@@ -154,10 +274,25 @@ class App extends React.Component {
       deletConfirm=true
      }
 
+
     return (
     <div className="container p-t-60">
 
- 
+     <Notification ref="notifiy" />
+
+    <Modal show={this.state.showPushserver}>
+        <Modal.Header >添加/删除 Push数据源</Modal.Header>
+        <Modal.Body >
+          
+          <Input ref='pushServerURL' type='text' label='Push Server URL'/>
+
+        </Modal.Body>
+        <Modal.Footer >
+          <Button onClick={this.hidePushserverConfig}>取消</Button>
+          <Button onClick={this.savePushServer}>确认添加</Button>
+          <Button className="btn-danger" onClick={this.deletePushServer}>确认删除</Button>
+        </Modal.Footer>
+      </Modal>
 
     <Modal show={this.state.confrim} onHide={this.closeConfrim}>
         <Modal.Header>
@@ -238,6 +373,8 @@ class App extends React.Component {
                             <p/>
                             <Col xs={1}>
                             <Button onClick={this.addUserConfig} className="btn btn-primary btn-sm ">添加用户</Button>
+                           {/* <Button onClick={this.showNotifiy} className="btn btn-primary btn-sm ">show notifiy</Button> */}
+                            
                             </Col>
                         </Row>
                         <Row>
@@ -278,6 +415,7 @@ class App extends React.Component {
                             </Col>
                         </Row>
                     </Tab>
+                    {/*
                     <Tab eventKey={2} title="Board管理">
                         <Row>
                            <p/>
@@ -317,11 +455,27 @@ class App extends React.Component {
                             </Col>
                         </Row>
                     </Tab>
-                    <Tab eventKey={3} title="组件管理">
+                  */}
+                   {/* <Tab eventKey={3} title="组件管理">
                         <Row>
                             <p/>
                             <Col xs={1}>
                             <Button onClick={this.addComponet} className="btn btn-primary btn-sm ">添加组件</Button>
+                            </Col>
+                        </Row>
+                    </Tab>
+                  */}
+                    <Tab eventKey={4} title="Push Server">
+                        <Row>
+                            <p/>
+                            <Col xs={1}>
+                            <Button onClick={this.showPushserverConfig} className="btn btn-primary btn-sm ">添加/删除</Button>
+                            </Col>
+                        </Row>
+                         <Row>
+                            <p/>
+                            <Col xs={10}>
+                            &nbsp; <Input type='textarea'  ref="pushServer"  rows="10" value={this.state.servers} onChange={this.onCodeChange}/> 
                             </Col>
                         </Row>
                     </Tab>

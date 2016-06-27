@@ -15,6 +15,7 @@ import socketioPool from '../lib/socketio'
 
 import mqttPool from '../lib/mqttPool'
 import timerPool from '../lib/timerPool'
+import socketIOPool from '../lib/socketiopool'
 
 import {startDynamic,stopDynamic} from '../lib/util'
 
@@ -44,6 +45,7 @@ class Box extends React.Component {
   }
 
   componentDidMount() {
+    console.log('DidMount',this.state.x,this.state.y)
     this.unsubUiStore = uiStore.listen((newState) => {
       this.setState({
         mode: newState.mode,
@@ -52,8 +54,13 @@ class Box extends React.Component {
     })
   }
 
+
+componentDidUpdate() {
+}
+
   componentWillUnmount() {
-    this.unsubUiStore()
+    console.log("WillUnmount")
+   this.unsubUiStore()
   }
 
   get w() {
@@ -120,7 +127,9 @@ class Box extends React.Component {
   }
 
   destroy() {
+    ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).parentNode);
     blockActions.removeBox(this)
+    
   }
 
   _onStoreChange(newState) {
@@ -176,7 +185,7 @@ class Box extends React.Component {
   }
 
   render() {
-   
+   //console.log({x:this.state.x, y: this.state.y})
     return (
       <div className={classnames(this.state.classes)}
         onClick={this._selectSelf}
@@ -198,13 +207,17 @@ class Box extends React.Component {
         {
           //在这里就可以使用全局的props,把相关push,socketio的库派生出来
           function renderContent() {
+            
             const child = cm[this.props.type]
             const props = _.pick(this.state, ['x', 'y', 'h', 'w', 'rotate'])
+            
+            console.log("render",this.state,this.props)
+
             props.data = this.props.data
             props.edit = (this.state.mode === 'edit')
             props.ref = 'content'
             props.theme = this.state.theme
-            props.socketio = socketioPool
+            props.socketioPool =  socketIOPool
             props.mqtt = mqtt
             props.mqttPool = mqttPool
             props.timerPool = timerPool

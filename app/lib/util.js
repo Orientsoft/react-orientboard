@@ -51,6 +51,7 @@ export function startDynamic(component) {
         if (!component.state.datasource.startDynamic) {
             return;
         }
+        console.log("data",data)
         component.handleDynamicData(data);
 
         if (component.refs.ds && component.refs.ds.state.show) {
@@ -79,17 +80,33 @@ export function startDynamic(component) {
 
     } else if (component.state.datasource.dataType === "push") {
 
+        let conn=null;
+        let pool=null;
 
-        let conn = component.props.mqttPool.get('ws://' + serverURL.split("mqtt://")[1]);
+        if(serverURL.indexOf("mqtt")>-1){
+
+            conn = component.props.mqttPool.get('ws://' + serverURL.split("mqtt://")[1]);
+            pool= component.props.mqttPool;
+
+        }else if(serverURL.indexOf("socketio")>-1){
+
+            conn = component.props.socketioPool.get('http://' + serverURL.split("socketio://")[1]);
+            pool= component.props.socketioPool;
+
+        }else {
+            console.log("未支持协议",serverURL)
+            return ;
+        }
+    
 
 
         if (component.state.datasource.startDynamic) {
 
-            component.props.mqttPool.sub(conn, component.state.datasource.channel, cb)
+            pool.sub(conn, component.state.datasource.channel, cb)
 
         } else {
 
-            component.props.mqttPool.unsub(conn, component.state.datasource.channel, cb)
+            pool.unsub(conn, component.state.datasource.channel, cb)
 
         }
 

@@ -88,6 +88,7 @@ const ENTRIES = [
   './app/main.js',
   './app/component-test.js',
   './app/display.js',
+  './app/cloud.js'
 ]
 
 function getBrowserifyStream(opts) {

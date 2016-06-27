@@ -27,8 +27,8 @@ build/Release
 node_modules
 
 public/vendor
-public/js
-public/css
+#public/js
+#public/css
 public/components
 public/doc
 

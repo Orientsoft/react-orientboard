@@ -129,7 +129,19 @@ html, body {
   overflow: hidden;
   resize: none;
 }
+._orientboard_component_image_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
 ._orientboard_component_chartjs_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+._orientboard_component_hightcharts_css_component__text {
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -160,24 +172,6 @@ html, body {
   display: inline-block;
   cursor: pointer;
 }
-._orientboard_component_hightcharts_css_component__text {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  resize: none;
-}
-._orientboard_component_image_css_component__text {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  resize: none;
-}
-._orientboard_component_label_css_component__text {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  resize: none;
-}
 ._orientboard_component_markdown_css_component__text {
   height: 100%;
   width: 100%;
@@ -190,4 +184,10 @@ html, body {
   overflow: hidden;
   resize: none;
   color:back;
+}
+._orientboard_component_label_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
 }

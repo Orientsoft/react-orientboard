@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import autobind from 'autobind-decorator'
 import _ from 'lodash'
 import classnames from 'classnames'
@@ -112,11 +113,21 @@ class Block extends React.Component {
   }
 
   removeBox(target) {
+    this.state.boxes.forEach((box)=>{
+      if(box.id == target.id){
+        console.log("=====target",box)
+      }
+    })
+
     this.setState({
       boxes: this.state.boxes.filter((box) => {
         return box.id !== target.id
       }),
     })
+
+    this.props.config.boxes=this.state.boxes
+
+     console.log("remove", this.props.config.boxes)
   }
 
   activate() {
@@ -180,6 +191,7 @@ class Block extends React.Component {
         </ButtonGroup>
         {
           this.state.boxes.map((info, i) => {
+            console.log("boxes--->",info)
             return <Box key={i} ref={`box-${i}`} {...info}/>
           })
         }

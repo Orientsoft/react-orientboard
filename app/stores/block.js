@@ -22,13 +22,6 @@ function ensureComponentInfo(info) {
     w: 100,
     data: {},
   }
-
-  // let valid = _.clone(info)
-  //
-  // _.map(defaults, (value, key) => {
-  //   valid[key] = valid[key] || value
-  // })
-
   return _.assign(defaults, info)
 }
 
