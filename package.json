@@ -45,6 +45,7 @@
     "swig": "^1.4.2",
     "tracer": "^0.8.3",
     "util-extend": "^1.0.3",
+    "uuid": "^2.0.2",
     "victor": "^1.1.0"
   },
   "devDependencies": {

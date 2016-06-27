@@ -1,5 +1,6 @@
 import Reflux from 'reflux'
 import _ from 'lodash'
+import uuid from 'uuid'
 
 import actions from '../actions/block'
 
@@ -21,6 +22,7 @@ function ensureComponentInfo(info) {
     h: 100,
     w: 100,
     data: {},
+    id: uuid.v4(),
   }
   return _.assign(defaults, info)
 }
