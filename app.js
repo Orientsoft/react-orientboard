@@ -56,8 +56,7 @@ app.engine('html',swig.renderFile)
 
 app.use(session({
     store: new RedisStore({
-      host:'localhost',
-      pass:'2@9T4m6H'
+      host:'localhost'
     }),
     secret: 'keyboard cat'
 }));
@@ -132,9 +131,9 @@ app.use('/api/v1', apis({
 app.use('/themes/fonts', express.static(path.join(__dirname, 'public/vendor/bootstrap/fonts')));
 
 app.get("/themes/css/bootstrap.css", function(req, res) {
-    
+
     var themes ='cerulean';
-    
+
     if(req.session.themes){
         themes=req.session.themes;
     }
