@@ -1,0 +1,12 @@
+{
+  "components": [
+    "orientboard-component-chartjs",
+    "orientboard-component-echarts",
+    "orientboard-component-example",
+    "orientboard-component-hightcharts",
+    "orientboard-component-image",
+    "orientboard-component-label",
+    "orientboard-component-markdown",
+    "orientboard-component-widgets01"
+  ]
+}

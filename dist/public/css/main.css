@@ -1,0 +1,193 @@
+._app_css_app__left_nav{
+  width: 200px;
+  height: 100%;
+  position: absolute;
+  margin-left:20px;
+  /* background-color: gray;*/
+}
+
+._app_css_app__workspace{
+  position: absolute;
+  left: 200px;
+  height: 100%;
+}
+
+._app_css_app__navbar{
+  margin-bottom: 0 !important;
+  background-color: #f3f3f3;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+
+}
+
+._app_css_app__box_toolbar_deactive {
+  visibility: hidden;
+ }
+
+._app_css_app__box_toolbar_active {
+  visibility: visible;
+}
+
+
+._app_css_app__logo {
+    color: #08c !important;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    padding-left: 20px;
+    padding-right: 20px;
+    line-height: 60px;
+    text-transform: uppercase;
+}._app_css_block__block_toolbar {
+  position: absolute !important;
+  width: 40px;
+  left: 5px;
+}
+
+/* TODO: l1 better block appearence */
+
+._app_css_block__block {
+  margin-left: 50px;
+  border: solid
+}
+
+._app_css_block__block._app_css_block__active {
+  margin: 50px;
+  border: solid red;
+}
+
+._app_css_block__block>._app_css_block__block_toolbar {
+  visibility: hidden;
+}
+
+._app_css_block__block._app_css_block__active>._app_css_block__block_toolbar {
+  visibility: visible;
+}
+html, body {
+  background-color: white;
+  transition: background-color 0.4s;
+  height: 100%;
+  margin: 0;
+  font-family: sans-serif;
+}
+/* TODO: l1 better box apprearence */
+._app_css_box__box{
+  -webkit-user-select: none;
+  user-select: none;
+  position: absolute;
+}
+._app_css_box__box._app_css_box__active {
+  border: solid blue;
+}
+._app_css_box__active._app_css_box__box>._app_css_box__box_toolbar {
+  visibility: visible;
+  z-index: 9999 !important;
+}
+._app_css_box__box-button {
+  height: 30px;
+  width: 30px;
+}
+._app_css_box__anchor {
+  height: 10px;
+  width: 10px;
+  border-radius: 5px;
+  border: 1px solid;
+  position: absolute;
+  visibility: hidden;
+}
+._app_css_box__anchor._app_css_box__rotate {
+  right: -6px;
+  top: -6px;
+  background-color: yellow;
+}
+._app_css_box__anchor._app_css_box__scale {
+  right: -6px;
+  bottom: -6px;
+  background-color: blue;
+}
+._app_css_box__active._app_css_box__box>._app_css_box__anchor {
+  visibility: visible;
+  display: block;
+}
+._app_css_box__box_content {
+  height: 100%;
+  width: 100%;
+}
+._app_css_box__box_content._app_css_box__text {
+  overflow-wrap: break-word;
+}
+._app_css_box__pos_info {
+  visibility: hidden;
+  position: absolute;
+  top: -30px;
+}
+._app_css_box__active._app_css_box__box>._app_css_box__pos_info {
+  visibility: visible;
+}
+._node_modules_orientboard_component_example_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+._orientboard_component_chartjs_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+._orientboard_component_echarts_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+
+._orientboard_component_echarts_css_component__viewport{
+  height: 100%;
+  width: 100%;
+}
+
+._orientboard_component_echarts_css_component__color{
+  width: 36px;
+  height: 14px;
+  borderRadius: 2px;
+}
+
+._orientboard_component_echarts_css_component__swatch{
+  padding: 5px;
+  background: #fff;
+  borderRadius: 1px;
+  display: inline-block;
+  cursor: pointer;
+}
+._orientboard_component_hightcharts_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+._orientboard_component_image_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+._orientboard_component_label_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+._orientboard_component_markdown_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+}
+._orientboard_component_widgets01_css_component__text {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+  color:back;
+}
