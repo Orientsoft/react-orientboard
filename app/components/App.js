@@ -9,6 +9,7 @@ import selectActions from '../actions/select'
 import selectStore from '../stores/select'
 import boardStore from '../stores/board'
 import boardActions from '../actions/board'
+import mobxBoard from '../mobx/board-store'
 
 import Board from './Board'
 import BlockConfigModal from './BlockConfig'
@@ -20,6 +21,7 @@ import LeftNav from './LeftNav'
 import styles from '../css/app.css'
 
 import cm from '../lib/components'
+import { init as initBoxMovement } from '../mobx/move'
 
 //import mqttPool from '../lib/mqttPool'
 //import timerPool from '../lib/timerPool'
@@ -35,7 +37,9 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    boxActions.init(this)
+    mobxBoard.fetchBoards()
+    initBoxMovement()
+    // boxActions.init(this)
     boardStore.listen((newState) => {
       this.setState(newState)
       if ((!this.state.board) && newState.boards[0])
@@ -64,13 +68,20 @@ class App extends React.Component {
      </div>
      </div>
         <BlockConfigModal show={this.state.showBlockConfig}/>
-        <BoardConfigModal show={this.state.showBoardConfig} boardName= {this.state.boardName} action={this.state.boardAction}/>
+        <BoardConfigModal
+          show={this.state.showBoardConfig}
+          boardName= {this.state.boardName}
+          action={this.state.boardAction}
+        />
 
         <div>
           <LeftNav className={styles.left_nav} modals={this.refs}/>
           <div className={styles.workspace}>
             <BoxToolbar/>
-            <Board board={this.state.board} ref='board'/>
+            <Board
+              board={this.state.board} ref="board"
+              board2={mobxBoard.activeBoard}
+            />
           </div>
         </div>
 
@@ -81,7 +92,7 @@ class App extends React.Component {
             if (component.NewComponentConfig)
               return (
                 <component.NewComponentConfig
-                  key={i} ref={`new-${i}`} actions={blockActions} 
+                  key={i} ref={`new-${i}`} actions={blockActions}
                 />
               )
           })

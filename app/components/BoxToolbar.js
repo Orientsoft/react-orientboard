@@ -5,42 +5,47 @@ import { ButtonGroup, Glyphicon, Button } from 'react-bootstrap'
 import boxActions from '../actions/box'
 import styles from '../css/app.css'
 import blockActions from '../actions/block'
+import mobxBoard from '../mobx/board-store'
 
 @autobind
 export default class BoxToolbar extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-       active: false,
+      active: false,
     }
   }
 
   _zIndexUp() {
-    boxActions.addZIndex(1)
+    mobxBoard.addZIndex(1)
   }
 
   _zIndexDown() {
-    boxActions.addZIndex(-1)
+    mobxBoard.addZIndex(-1)
+  }
+
+  _removeBox() {
+    mobxBoard.removeBox()
   }
 
   render() {
     return (
       <ButtonGroup className={styles.box_toolbar} show={this.props.show}>
         <Button className={styles.box_button} onClick={this._zIndexUp}>
-          <Glyphicon glyph='chevron-up'/>
+          <Glyphicon glyph="chevron-up"/>
         </Button>
         <Button className={styles.box_button} onClick={this._zIndexDown}>
-          <Glyphicon glyph='chevron-down'/>
+          <Glyphicon glyph="chevron-down"/>
         </Button>
          <Button className={styles.box_button} onClick={this._zIndexDown}>
-          <Glyphicon glyph='retweet'/>
+          <Glyphicon glyph="retweet"/>
         </Button>
-        
+
         <Button className={styles.box_button} onClick={boxActions.openConfig}>
-          <Glyphicon glyph='cog'/>
+          <Glyphicon glyph="cog"/>
         </Button>
-        <Button className={styles.box_button} onClick={blockActions.removeBox}>
-          <Glyphicon glyph='remove'/>
+        <Button className={styles.box_button} onClick={this._removeBox}>
+          <Glyphicon glyph="remove"/>
         </Button>
 
       </ButtonGroup>

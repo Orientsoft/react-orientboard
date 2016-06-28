@@ -5,31 +5,32 @@ import autobind from 'autobind-decorator'
 import uiActions from '../actions/ui'
 import boardActions from '../actions/board'
 import uiStore from '../stores/ui'
+
 @autobind
 class BoardConfigModal extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      
     }
   }
 
   componentDidMount() {
-    
-
     uiStore.listen((newState) => {
-      this.state.action=newState.boardAction;
-      console.log(this.state.action,"xxxx")
-      if(this.state.action=="rename"){
-         this.state.name=newState.boardName
-       }else if(this.state.action=="create"){
-        this.state.name=""
-       }else if(this.state.action=="clone"){
-        this.state.name="board"+(new Date().getTime())
-      }else{
-        console.log("action not support")
+      this.state.action = newState.boardAction
+      console.log(this.state.action, 'xxxx')
+      switch (this.state.action) {
+      case 'rename':
+        this.state.name = newState.boardName
+        break
+      case 'create':
+        this.state.name = ''
+        break
+      case 'clone':
+        this.state.name = `board${new Date().getTime()}`
+        break
+      default:
+        console.log('action not support')
       }
-      
     })
   }
 
@@ -42,7 +43,7 @@ class BoardConfigModal extends React.Component {
       console.log("ssss",this.state,boardActions)
       this.setState({name:this.refs.name.getValue(),desc:this.refs.desc.getValue()})
       boardActions.renameBoard(this.refs.name.getValue(),this.refs.desc.getValue())
-      
+
     }else if(this.state.action=="clone"){
       boardActions.cloneBoard(this.refs.name.getValue());
     }else if(this.state.action=="create"){
@@ -58,10 +59,10 @@ class BoardConfigModal extends React.Component {
       }],
     })
     }
-    
+
     this.close()
   }
-  
+
 
   render() {
 

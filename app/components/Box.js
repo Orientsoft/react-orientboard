@@ -5,47 +5,35 @@ import blockActions from '../actions/block'
 import classnames from 'classnames'
 import cm from '../lib/components'
 import autobind from 'autobind-decorator'
-import boxActions from '../actions/box'
 import selectActions from '../actions/select'
 import uiStore from '../stores/ui'
+import mqtt from 'mqtt'
+
+import mobxBoard from '../mobx/board-store'
+import { startRotate, startResize, startDrag, stopMovement } from '../mobx/move'
+import { observer } from 'mobx-react'
 
 import styles from '../css/box.css'
-
-import socketioPool from '../lib/socketio'
 
 import mqttPool from '../lib/mqttPool'
 import timerPool from '../lib/timerPool'
 import socketIOPool from '../lib/socketiopool'
 
-import {startDynamic,stopDynamic} from '../lib/util'
-
-import mqtt from 'mqtt'
+import { startDynamic, stopDynamic } from '../lib/util'
 
 
-
+@observer
 @autobind
 class Box extends React.Component {
   constructor(props) {
     super(props)
-    const classes = Object.create(null)
-    classes[styles.active] = false
-    classes[styles.box] = true
     this.state = {
-      h: props.h,
-      w: props.w,
-      x: props.x,
-      y: props.y,
-      rotate: props.rotate,
-      z: props.z,
-      active: false,
-      classes,
       mode: 'edit',
-      boardState: {},
     }
   }
 
   componentDidMount() {
-    console.log('DidMount',this.state.x,this.state.y)
+    console.log('DidMount', this.state.x, this.state.y)
     this.unsubUiStore = uiStore.listen((newState) => {
       this.setState({
         mode: newState.mode,
@@ -54,86 +42,13 @@ class Box extends React.Component {
     })
   }
 
-
-componentDidUpdate() {
-}
-
   componentWillUnmount() {
-    console.log("WillUnmount")
-   this.unsubUiStore()
+    this.unsubUiStore()
   }
-
-  get w() {
-    return this.state.w
-  }
-
-  get h() {
-    return this.state.h
-  }
-
-  activate() {
-    if (!this.state.active) {
-      this.setState({
-        active: true,
-        classes: _.set(this.state.classes, styles.active, true),
-      })
-    }
-  }
-
-  deactivate() {
-    this.setState({
-      active: false,
-      classes: _.set(this.state.classes, styles.active, false),
-    })
-  }
-
-  moveTo(x, y) {
-    this.state.x = x
-    this.state.y = y
-    this.setState(this.state)
-  }
-
-  rotate(theta) {
-    this.setState({ rotate: theta })
-  }
-
-  resize(h, w) {
-    this.setState({ h, w })
-  }
-
-  addZIndex(amount) {
-    this.setState({
-      z: (this.state.z + amount < 0) ? 0 : (this.state.z + amount),
-    })
-  }
-
-  toJson() {
-    const j = _.pick(this.state, [
-      'x', 'y', 'z', 'h', 'w', 'rotate', 'id',
-    ])
-    j.id = this.props.id
-    j.type = this.props.type
-    j.data = {}
-    if (this.refs.content.toJson)
-      j.data = this.refs.content.toJson()
-    return j
-  }
-
-  get id() { return this.props.id }
 
   openConfig() {
     if (this.refs.content.openConfig)
       this.refs.content.openConfig()
-  }
-
-  destroy() {
-    ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).parentNode);
-    blockActions.removeBox(this)
-    
-  }
-
-  _onStoreChange(newState) {
-    this.setState({ boardState: newState })
   }
 
   _getCenter() {
@@ -145,57 +60,68 @@ componentDidUpdate() {
   }
 
   _getCss() {
+    const box = this.props.box
     return {
-      height: this.state.h,
-      width: this.state.w,
-      zIndex: this.state.z,
-      WebkitTransform: `translate(${this.state.x}px, ${this.state.y}px)`
-      + ` rotate(${this.state.rotate}deg)`,
+      height: box.h,
+      width: box.w,
+      zIndex: box.z,
+      WebkitTransform: `translate(${box.x}px, ${box.y}px)`
+      + ` rotate(${box.rotate}deg)`,
     }
   }
 
+  _isActive() {
+    return this.props.box === mobxBoard.activeBox
+  }
+
   _startDrag(e) {
-    if (this.state.active)
-      boxActions.startDrag(
-        e.clientX - this.state.x, e.clientY - this.state.y
+    if (this._isActive())
+      startDrag(
+        e.clientX - this.props.box.x, e.clientY - this.props.box.y
       )
   }
 
   _stopDrag() {
-    if (this.state.active)
-      boxActions.stopDrag()
+    if (this._isActive())
+      stopMovement()
   }
 
   _startRotate(e) {
-    if (this.state.active)
-      boxActions.startRotate(
-        this._getCenter(), e.clientX, e.clientY, this.state.rotate
+    if (this._isActive())
+      startRotate(
+        this._getCenter(), e.clientX, e.clientY, this.props.box.rotate
       )
     e.stopPropagation()
   }
 
   _startResize(e) {
-    boxActions.startResize(this.state.h, this.state.w, e.clientX, e.clientY)
+    startResize(this.props.box.h, this.props.box.w, e.clientX, e.clientY)
     e.stopPropagation()
   }
 
   _selectSelf() {
-    if (this.state.mode === 'edit')
-      selectActions.setActiveBox(this)
+    if (this.state.mode === 'edit') {
+      // selectActions.setActiveBox(this)
+      mobxBoard.activeBox = this.props.box
+    }
   }
 
   render() {
-   //console.log({x:this.state.x, y: this.state.y})
+    const box = this.props.box
     return (
-      <div className={classnames(this.state.classes)}
+      <div
+        className={classnames({
+          [styles.box]: true,
+          [styles.active]: box === mobxBoard.activeBox,
+        })}
         onClick={this._selectSelf}
         onMouseDown={this._startDrag}
-        onMouseUp={this._stopDrag}
+        onMouseUp={stopMovement}
         style={this._getCss()}
       >
         <span className={styles.pos_info}>
-          x: {this.state.x}, y: {this.state.y}, h: {this.state.h},
-          w: {this.state.w}, rotate: {this.state.rotate}
+          x: {box.x}, y: {box.y}, h: {box.h},
+          w: {box.w}, rotate: {box.rotate}
         </span>
 
         <div className={`${styles.rotate} ${styles.anchor}`}
@@ -205,24 +131,23 @@ componentDidUpdate() {
           onMouseDown={this._startResize}
         />
         {
-          //在这里就可以使用全局的props,把相关push,socketio的库派生出来
+          // 在这里就可以使用全局的props,把相关push,socketio的库派生出来
           function renderContent() {
-            
-            const child = cm[this.props.type]
-            const props = _.pick(this.state, ['x', 'y', 'h', 'w', 'rotate'])
-            
-            console.log("render",this.state,this.props)
+            const box = this.props.box
+            const child = cm[box.type]
+            const props = _.pick(box, ['x', 'y', 'h', 'w', 'rotate'])
 
-            props.data = this.props.data
+            // props.data = this.props.data
+            props.data = box.data
             props.edit = (this.state.mode === 'edit')
             props.ref = 'content'
             props.theme = this.state.theme
-            props.socketioPool =  socketIOPool
+            props.socketioPool = socketIOPool
             props.mqtt = mqtt
             props.mqttPool = mqttPool
             props.timerPool = timerPool
             props.startDynamic = startDynamic
-            props.stopDynamic =stopDynamic
+            props.stopDynamic = stopDynamic
             props.className = styles.box_content
             return React.createElement(child, props)
           }.bind(this)()
@@ -241,6 +166,8 @@ Box.propTypes = {
   rotate: React.PropTypes.number,
   data: React.PropTypes.object,
   type: React.PropTypes.string,
+  id: React.PropTypes.string,
+  box: React.PropTypes.object,
 }
 
 Box.defaultProps = {

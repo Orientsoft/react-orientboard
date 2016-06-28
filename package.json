@@ -27,6 +27,8 @@
     "kerberos": "0.0.17",
     "lodash": "^3.10.1",
     "marked": "^0.3.5",
+    "mobx": "^2.3.3",
+    "mobx-react": "^3.4.0",
     "mongodb": "^2.1.2",
     "morgan": "~1.5.3",
     "mqtt": "^1.6.0",

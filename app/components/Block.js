@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import autobind from 'autobind-decorator'
 import _ from 'lodash'
 import classnames from 'classnames'
@@ -30,8 +29,8 @@ class Block extends React.Component {
       w: this.props.config.w || 800,
       h: this.props.config.h || 600,
       img: this.props.config.img || null,
-      pubType:this.props.config.pubType||'public',
-      password:this.props.config.password||'welcome1',
+      pubType: this.props.config.pubType||'public',
+      password: this.props.config.password||'welcome1',
       boxes: this.props.config.boxes,
       active: false,
       classes,
@@ -40,7 +39,7 @@ class Block extends React.Component {
     this._moveUp = boardActions.moveBlock.bind(boardActions, -1)
     this._moveDown = boardActions.moveBlock.bind(boardActions, 1)
 
-    
+
   }
 
   componentDidMount() {
@@ -54,7 +53,7 @@ class Block extends React.Component {
 
     }else{
       selectActions.setActiveBlock(this);//组件加载后就自动变成ActiveBlock
-     
+
     }
   }
 
@@ -92,7 +91,7 @@ class Block extends React.Component {
       width: this.state.w,
       height: this.state.h,
       backgroundImage: this.state.img ? `url(${this.state.img})` : 'none',
-      top: 0, 
+      top: 0,
       left: 0,
       bottom: 0,
       right: 0
@@ -113,16 +112,8 @@ class Block extends React.Component {
   }
 
   removeBox(target) {
-    this.state.boxes.forEach((box)=>{
-      if(box.id == target.id){
-        console.log("=====target",box)
-      }
-    })
-
     this.setState({
-      boxes: this.state.boxes.filter((box) => {
-        return box.id !== target.id
-      }),
+      boxes: this.state.boxes.filter((box) => (box.id !== target.id)),
     })
 
     this.props.config.boxes=this.state.boxes
@@ -134,7 +125,7 @@ class Block extends React.Component {
     this.setState({
       active: true,
       classes: _.set(this.state.classes, styles.active, true),
-      model:'edit'
+      mode: 'edit',
     })
   }
 
@@ -153,10 +144,7 @@ class Block extends React.Component {
 
   get id() { return this.props.config.id }
 
-  
-
   render() {
-
     return (
       <div {...this.props} style={this._getCss()}
         className={classnames(this.state.classes)}
@@ -191,7 +179,7 @@ class Block extends React.Component {
         </ButtonGroup>
         {
           this.state.boxes.map((info, i) => {
-            console.log("boxes--->",info)
+            // console.log("boxes--->",info)
             return <Box key={i} ref={`box-${i}`} {...info}/>
           })
         }

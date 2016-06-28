@@ -33,7 +33,7 @@ const store = Reflux.createStore({
       const res = await bm.create(nb)
       state.boards.push(res)
       store.trigger(state)
-      
+
       return actions.createBoard.completed(nb)
 
     } catch (e) {
@@ -61,11 +61,11 @@ const store = Reflux.createStore({
     nb.desc=boardDesc
 
     //console.log("rename",boardDesc)
-    
-     actions.updateBoard({ name: oldName }, nb)
-     state.boards[_.findIndex(state.boards, { name: boardName,desc:boardDesc })] = nb
-     store.trigger(state)
-     return actions.updateBoard.completed()
+
+    actions.updateBoard({ name: oldName }, nb)
+    state.boards[_.findIndex(state.boards, { name: boardName,desc:boardDesc })] = nb
+    store.trigger(state)
+    return actions.updateBoard.completed()
 
     //return "true"
   },
@@ -130,9 +130,9 @@ const store = Reflux.createStore({
   onPublishBoard: async() => {
     //const link = window.location.origin + `/api/display/${state.board._id}`
     //copyToClipboard(link)
-    
+
     const board=_.findIndex(state.boards, { _id: state.board._id })
-    
+
     const res = await bm.publish(state.board._id)
 
      if(res.status=="ok"){

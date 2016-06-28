@@ -22,10 +22,10 @@ export function swapElements(list, x, y) {
 }
 
 export function initStores() {
-    // HACK: import all stores and bypass eslint no-unused rules
-    (() => {})(
-        blockStore, boardStore, boxStore, selectStore, uiStore
-    )
+  // HACK: import all stores and bypass eslint no-unused rules
+  (() => {})(
+    blockStore, boardStore, boxStore, selectStore, uiStore
+  )
 }
 
 export function copyToClipboard(text) {
@@ -97,7 +97,7 @@ export function startDynamic(component) {
             console.log("未支持协议",serverURL)
             return ;
         }
-    
+
 
 
         if (component.state.datasource.startDynamic) {
