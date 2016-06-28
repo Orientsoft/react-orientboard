@@ -3,7 +3,6 @@ import _ from 'lodash'
 import autobind from 'autobind-decorator'
 
 import blockActions from '../actions/block'
-import boxActions from '../actions/box'
 import uiStore from '../stores/ui'
 import selectActions from '../actions/select'
 import selectStore from '../stores/select'
@@ -23,8 +22,6 @@ import styles from '../css/app.css'
 import cm from '../lib/components'
 import { init as initBoxMovement } from '../mobx/move'
 
-//import mqttPool from '../lib/mqttPool'
-//import timerPool from '../lib/timerPool'
 
 @autobind
 class App extends React.Component {
@@ -36,7 +33,7 @@ class App extends React.Component {
     }
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     mobxBoard.fetchBoards()
     initBoxMovement()
     // boxActions.init(this)
@@ -59,16 +56,16 @@ class App extends React.Component {
     return (
       <div>
         <div id="topnav" className="p-t-60">
+          <div className="">
+            <div className="container-fluid">
+              <TopNav boards={this.state.boards}/>
+            </div>
+          </div>
+        </div>
 
- <div className="">
-    <div className="container-fluid">
-
-        <TopNav boards={this.state.boards}/>
-     </div>
-     </div>
-     </div>
         <BlockConfigModal show={this.state.showBlockConfig}/>
         <BoardConfigModal
+          board={mobxBoard.activeBoard}
           show={this.state.showBoardConfig}
           boardName= {this.state.boardName}
           action={this.state.boardAction}
@@ -78,10 +75,7 @@ class App extends React.Component {
           <LeftNav className={styles.left_nav} modals={this.refs}/>
           <div className={styles.workspace}>
             <BoxToolbar/>
-            <Board
-              board={this.state.board} ref="board"
-              board2={mobxBoard.activeBoard}
-            />
+            <Board ref="board" board={mobxBoard.activeBoard}/>
           </div>
         </div>
 

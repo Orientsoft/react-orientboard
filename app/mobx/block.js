@@ -14,6 +14,6 @@ export default class Block {
     this.w = info.w || 800
     this.h = info.h || 600
     this.img = info.img
-    this.boxes = info.boxes.map((box) => (new Box(box)))
+    this.boxes = info.boxes.map(box => (new Box(box)))
   }
 }

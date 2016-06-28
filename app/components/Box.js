@@ -1,12 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import _ from 'lodash'
-import blockActions from '../actions/block'
 import classnames from 'classnames'
 import cm from '../lib/components'
 import autobind from 'autobind-decorator'
-import selectActions from '../actions/select'
-import uiStore from '../stores/ui'
 import mqtt from 'mqtt'
 
 import mobxBoard from '../mobx/board-store'
@@ -30,20 +27,6 @@ class Box extends React.Component {
     this.state = {
       mode: 'edit',
     }
-  }
-
-  componentDidMount() {
-    console.log('DidMount', this.state.x, this.state.y)
-    this.unsubUiStore = uiStore.listen((newState) => {
-      this.setState({
-        mode: newState.mode,
-        theme: newState.theme,
-      })
-    })
-  }
-
-  componentWillUnmount() {
-    this.unsubUiStore()
   }
 
   openConfig() {
@@ -100,10 +83,8 @@ class Box extends React.Component {
   }
 
   _selectSelf() {
-    if (this.state.mode === 'edit') {
-      // selectActions.setActiveBox(this)
+    if (mobxBoard.editable)
       mobxBoard.activeBox = this.props.box
-    }
   }
 
   render() {

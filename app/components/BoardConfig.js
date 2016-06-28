@@ -2,6 +2,7 @@ import React from 'react'
 import { Modal, Button, Input } from 'react-bootstrap'
 import autobind from 'autobind-decorator'
 
+import mobxBoard from '../mobx/board-store'
 import uiActions from '../actions/ui'
 import boardActions from '../actions/board'
 import uiStore from '../stores/ui'
@@ -59,6 +60,7 @@ class BoardConfigModal extends React.Component {
       }],
     })
     }
+
 
     this.close()
   }

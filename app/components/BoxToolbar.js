@@ -4,7 +4,6 @@ import { ButtonGroup, Glyphicon, Button } from 'react-bootstrap'
 
 import boxActions from '../actions/box'
 import styles from '../css/app.css'
-import blockActions from '../actions/block'
 import mobxBoard from '../mobx/board-store'
 
 @autobind
