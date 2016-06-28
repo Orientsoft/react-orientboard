@@ -30,17 +30,15 @@ class Block extends React.Component {
       w: this.props.config.w || 800,
       h: this.props.config.h || 600,
       img: this.props.config.img || null,
-      pubType:this.props.config.pubType||'public',
-      password:this.props.config.password||'welcome1',
+      pubType: this.props.config.pubType || 'public',
+      password: this.props.config.password || 'welcome1',
       boxes: this.props.config.boxes,
       active: false,
-      classes,
+      classes
     }
 
     this._moveUp = boardActions.moveBlock.bind(boardActions, -1)
     this._moveDown = boardActions.moveBlock.bind(boardActions, 1)
-
-    
   }
 
   componentDidMount() {
@@ -50,12 +48,11 @@ class Block extends React.Component {
     //   }
     // })
 
-     if(this.props.mode&&this.props.mode==='publish'){
+    if (this.props.mode && this.props.mode === 'publish')
+      console.log('publish')
+    else
+      selectActions.setActiveBlock(this) // 组件加载后就自动变成ActiveBlock
 
-    }else{
-      selectActions.setActiveBlock(this);//组件加载后就自动变成ActiveBlock
-     
-    }
   }
 
   componentWillUnmount() {
@@ -72,40 +69,38 @@ class Block extends React.Component {
       w: this.state.w,
       h: this.state.h,
       img: this.state.img,
-      pubType:this.state.pubType,
-      password:this.state.password,
-      id: this.props.config.id,
+      pubType: this.state.pubType,
+      password: this.state.password,
+      id: this.props.config.id
     }
   }
 
   createBox(info) {
     this.state.boxes.push(info)
     this.setState({
-      boxes: this.state.boxes,
+      boxes: this.state.boxes
     })
   }
 
   _getCss() {
-
-
-    var css= {
+    const css = {
       width: this.state.w,
       height: this.state.h,
       backgroundImage: this.state.img ? `url(${this.state.img})` : 'none',
-      top: 0, 
+      top: 0,
       left: 0,
       bottom: 0,
       right: 0
 
     }
-    if(this.props.mode==='publish'){
-      css.margin='auto'
-      css.position='absolute'
-    }else{
-      css.margin='10px 5px 15px 50px'
+    if (this.props.mode === 'publish') {
+      css.margin = 'auto'
+      css.position = 'absolute'
+    } else {
+      css.margin = '10px 5px 15px 50px'
       //css.marginTop='30px'
     }
-    return css;
+    return css
   }
 
   _handleMouseDown() {
@@ -113,35 +108,34 @@ class Block extends React.Component {
   }
 
   removeBox(target) {
-    this.state.boxes.forEach((box)=>{
-      if(box.id == target.id){
-        console.log("=====target",box)
-      }
+    this.state.boxes.forEach((box) => {
+      if (box.id === target.id)
+        console.log('=====target', box)
     })
 
     this.setState({
       boxes: this.state.boxes.filter((box) => {
         return box.id !== target.id
-      }),
+      })
     })
 
-    this.props.config.boxes=this.state.boxes
+    this.props.config.boxes = this.state.boxes
 
-     console.log("remove", this.props.config.boxes)
+    console.log('remove', this.props.config.boxes)
   }
 
   activate() {
     this.setState({
       active: true,
       classes: _.set(this.state.classes, styles.active, true),
-      model:'edit'
+      model: 'edit'
     })
   }
 
   deactivate() {
     this.setState({
       active: false,
-      classes: _.set(this.state.classes, styles.active, false),
+      classes: _.set(this.state.classes, styles.active, false)
     })
   }
 
@@ -153,10 +147,7 @@ class Block extends React.Component {
 
   get id() { return this.props.config.id }
 
-  
-
   render() {
-
     return (
       <div {...this.props} style={this._getCss()}
         className={classnames(this.state.classes)}
@@ -166,32 +157,32 @@ class Block extends React.Component {
         <Button className={styles.box_button}
           onClick={this._moveUp}
         >
-          <Glyphicon glyph='chevron-up'/>
+        <Glyphicon glyph="chevron-up"/>
         </Button>
         <Button className={styles.box_button}
           onClick={this._moveDown}
         >
-          <Glyphicon glyph='chevron-down'/>
+        <Glyphicon glyph="chevron-down"/>
         </Button>
         <Button className={styles.box_button}
           onClick={uiActions.openBlockConfig}
         >
-          <Glyphicon glyph='cog'/>
+        <Glyphicon glyph="cog"/>
         </Button>
         <Button className={styles.box_button}
           onClick={boardActions.addBlock}
         >
-          <Glyphicon glyph='plus'/>
+        <Glyphicon glyph="plus"/>
         </Button>
         <Button className={styles.box_button}
           onClick={boardActions.removeBlock}
         >
-          <Glyphicon glyph='remove'/>
+        <Glyphicon glyph="remove"/>
         </Button>
         </ButtonGroup>
         {
           this.state.boxes.map((info, i) => {
-            console.log("boxes--->",info)
+            console.log('boxes--->', info)
             return <Box key={i} ref={`box-${i}`} {...info}/>
           })
         }
@@ -201,7 +192,7 @@ class Block extends React.Component {
 }
 
 Block.propTypes = {
-  config: React.PropTypes.object,
+  config: React.PropTypes.object
 }
 
 Block.defaultProps = {

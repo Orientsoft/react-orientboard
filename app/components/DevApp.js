@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import autobind from 'autobind-decorator'
 import {
-  Button, ButtonGroup,
+  Button, ButtonGroup
 } from 'react-bootstrap'
 
 import blockActions from '../actions/block'
@@ -32,8 +32,8 @@ class App extends React.Component {
         blocks: [{
           w: 800,
           h: 600,
-          boxes: this.props.testComponent,
-        }],
+          boxes: this.props.testComponent
+        }]
       }
 
     this.state = {
@@ -79,7 +79,7 @@ class App extends React.Component {
                           w: 100,
                           rotate: 0,
                           type: component,
-                          data: {},
+                          data: {}
                         })
                     }}
                   >
@@ -93,7 +93,7 @@ class App extends React.Component {
           </div>
           <div className={styles.workspace}>
             <BoxToolbar />
-            <Board board={this.state.board} ref='board'/>
+            <Board board={this.state.board} ref="board"/>
           </div>
         </div>
 
@@ -117,7 +117,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  testComponent: React.PropTypes.object,
+  testComponent: React.PropTypes.object
 }
 
 App.defaultProps = {

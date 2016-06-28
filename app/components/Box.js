@@ -17,10 +17,9 @@ import mqttPool from '../lib/mqttPool'
 import timerPool from '../lib/timerPool'
 import socketIOPool from '../lib/socketiopool'
 
-import {startDynamic,stopDynamic} from '../lib/util'
+import { startDynamic, stopDynamic } from '../lib/util'
 
 import mqtt from 'mqtt'
-
 
 
 @autobind
@@ -40,27 +39,24 @@ class Box extends React.Component {
       active: false,
       classes,
       mode: 'edit',
-      boardState: {},
+      boardState: {}
     }
   }
 
   componentDidMount() {
-    console.log('DidMount',this.state.x,this.state.y)
+    console.log('DidMount', this.state.x, this.state.y)
     this.unsubUiStore = uiStore.listen((newState) => {
       this.setState({
         mode: newState.mode,
-        theme: newState.theme,
+        theme: newState.theme
       })
     })
   }
 
 
-componentDidUpdate() {
-}
-
   componentWillUnmount() {
-    console.log("WillUnmount")
-   this.unsubUiStore()
+    console.log('WillUnmount')
+    this.unsubUiStore()
   }
 
   get w() {
@@ -75,7 +71,7 @@ componentDidUpdate() {
     if (!this.state.active) {
       this.setState({
         active: true,
-        classes: _.set(this.state.classes, styles.active, true),
+        classes: _.set(this.state.classes, styles.active, true)
       })
     }
   }
@@ -83,7 +79,7 @@ componentDidUpdate() {
   deactivate() {
     this.setState({
       active: false,
-      classes: _.set(this.state.classes, styles.active, false),
+      classes: _.set(this.state.classes, styles.active, false)
     })
   }
 
@@ -103,13 +99,13 @@ componentDidUpdate() {
 
   addZIndex(amount) {
     this.setState({
-      z: (this.state.z + amount < 0) ? 0 : (this.state.z + amount),
+      z: (this.state.z + amount < 0) ? 0 : (this.state.z + amount)
     })
   }
 
   toJson() {
     const j = _.pick(this.state, [
-      'x', 'y', 'z', 'h', 'w', 'rotate', 'id',
+      'x', 'y', 'z', 'h', 'w', 'rotate', 'id'
     ])
     j.id = this.props.id
     j.type = this.props.type
@@ -127,9 +123,8 @@ componentDidUpdate() {
   }
 
   destroy() {
-    ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).parentNode);
+    ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).parentNode)
     blockActions.removeBox(this)
-    
   }
 
   _onStoreChange(newState) {
@@ -140,7 +135,7 @@ componentDidUpdate() {
     const rect = ReactDOM.findDOMNode(this).getBoundingClientRect()
     return {
       x: (rect.left + rect.right) / 2,
-      y: (rect.bottom + rect.top) / 2,
+      y: (rect.bottom + rect.top) / 2
     }
   }
 
@@ -150,7 +145,7 @@ componentDidUpdate() {
       width: this.state.w,
       zIndex: this.state.z,
       WebkitTransform: `translate(${this.state.x}px, ${this.state.y}px)`
-      + ` rotate(${this.state.rotate}deg)`,
+      + ` rotate(${this.state.rotate}deg)`
     }
   }
 
@@ -185,7 +180,7 @@ componentDidUpdate() {
   }
 
   render() {
-   //console.log({x:this.state.x, y: this.state.y})
+   // console.log({x:this.state.x, y: this.state.y})
     return (
       <div className={classnames(this.state.classes)}
         onClick={this._selectSelf}
@@ -205,24 +200,23 @@ componentDidUpdate() {
           onMouseDown={this._startResize}
         />
         {
-          //在这里就可以使用全局的props,把相关push,socketio的库派生出来
+          // 在这里就可以使用全局的props,把相关push,socketio的库派生出来
           function renderContent() {
-            
             const child = cm[this.props.type]
             const props = _.pick(this.state, ['x', 'y', 'h', 'w', 'rotate'])
-            
-            console.log("render",this.state,this.props)
+
+            console.log('render', this.state, this.props)
 
             props.data = this.props.data
             props.edit = (this.state.mode === 'edit')
             props.ref = 'content'
             props.theme = this.state.theme
-            props.socketioPool =  socketIOPool
+            props.socketioPool = socketIOPool
             props.mqtt = mqtt
             props.mqttPool = mqttPool
             props.timerPool = timerPool
             props.startDynamic = startDynamic
-            props.stopDynamic =stopDynamic
+            props.stopDynamic = stopDynamic
             props.className = styles.box_content
             return React.createElement(child, props)
           }.bind(this)()
@@ -240,7 +234,7 @@ Box.propTypes = {
   z: React.PropTypes.number,
   rotate: React.PropTypes.number,
   data: React.PropTypes.object,
-  type: React.PropTypes.string,
+  type: React.PropTypes.string
 }
 
 Box.defaultProps = {
@@ -249,7 +243,7 @@ Box.defaultProps = {
   x: 0,
   y: 0,
   z: 0,
-  rotate: 0,
+  rotate: 0
 }
 
 export default Box

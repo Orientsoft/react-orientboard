@@ -1,17 +1,17 @@
-import React from 'react'
-import autobind from 'autobind-decorator'
-import { ButtonGroup, Glyphicon, Button } from 'react-bootstrap'
+import React from "react"
+import autobind from "autobind-decorator"
+import { ButtonGroup, Glyphicon, Button } from "react-bootstrap"
 
-import boxActions from '../actions/box'
-import styles from '../css/app.css'
-import blockActions from '../actions/block'
+import boxActions from "../actions/box"
+import styles from "../css/app.css"
+import blockActions from "../actions/block"
 
 @autobind
 export default class BoxToolbar extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-       active: false,
+      active: false
     }
   }
 
@@ -27,20 +27,20 @@ export default class BoxToolbar extends React.Component {
     return (
       <ButtonGroup className={styles.box_toolbar} show={this.props.show}>
         <Button className={styles.box_button} onClick={this._zIndexUp}>
-          <Glyphicon glyph='chevron-up'/>
+          <Glyphicon glyph="chevron-up"/>
         </Button>
         <Button className={styles.box_button} onClick={this._zIndexDown}>
-          <Glyphicon glyph='chevron-down'/>
+          <Glyphicon glyph="chevron-down"/>
         </Button>
          <Button className={styles.box_button} onClick={this._zIndexDown}>
-          <Glyphicon glyph='retweet'/>
+          <Glyphicon glyph="retweet"/>
         </Button>
-        
+
         <Button className={styles.box_button} onClick={boxActions.openConfig}>
-          <Glyphicon glyph='cog'/>
+          <Glyphicon glyph="cog"/>
         </Button>
         <Button className={styles.box_button} onClick={blockActions.removeBox}>
-          <Glyphicon glyph='remove'/>
+          <Glyphicon glyph="remove"/>
         </Button>
 
       </ButtonGroup>

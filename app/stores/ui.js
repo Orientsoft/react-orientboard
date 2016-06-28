@@ -8,7 +8,7 @@ const state = {
   showBlockConfig: false,
   showBoardConfig: false,
   mode: 'edit',
-  theme: 'default',
+  theme: 'default'
 }
 
 const store = Reflux.createStore({
@@ -21,13 +21,13 @@ const store = Reflux.createStore({
     state.showBlockConfig = false
     store.trigger(state)
   },
-  onOpenBoardConfig: (name,action) => {
+  onOpenBoardConfig: (name, action) => {
     state.showBoardConfig = true
-    if(name){
-      state.boardName=name
+    if (name) {
+      state.boardName = name
     }
-    
-    state.boardAction=action
+
+    state.boardAction = action
     store.trigger(state)
   },
   onCloseBoardConfig: () => {
@@ -45,7 +45,7 @@ const store = Reflux.createStore({
     if (state.theme === theme) return null
     state.theme = theme
     store.trigger(state)
-  },
+  }
 })
 
 store.getState = () => {

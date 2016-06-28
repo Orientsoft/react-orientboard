@@ -6,5 +6,19 @@
   "env": {
     "es6": true,
     "node": true
-  }
+  },
+  "rules": {
+        "indent": [2, 4],
+        "comma-dangle": [2, "never"],
+        "max-len": [1, 120],
+        "no-console": 0,
+        "no-unused-vars": 0,
+        "func-names": 0,
+        "new-cap": 0,
+        "dot-notation": 0,          // encourages use of dot notation whenever possible
+         "no-else-return": 0,
+         "radix": 0,                 // require use of the second argument for parseInt() (off by default)
+         "vars-on-top": 0,
+        "camelcase": 0
+    }
 }

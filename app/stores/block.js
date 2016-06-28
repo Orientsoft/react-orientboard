@@ -20,7 +20,7 @@ function ensureComponentInfo(info) {
     rotate: 0,
     h: 100,
     w: 100,
-    data: {},
+    data: {}
   }
   return _.assign(defaults, info)
 }
@@ -37,7 +37,7 @@ const store = Reflux.createStore({
   },
   onSetBlockConfig: (config) => {
     state.block.setConfig(config)
-  },
+  }
 
 })
 

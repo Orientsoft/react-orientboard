@@ -20,14 +20,14 @@ export default class Display extends React.Component {
   render() {
     return (
       <div>
-        <Board board={this.props.board} mode='publish'/>
+        <Board board={this.props.board} mode="publish"/>
       </div>
     )
   }
 }
 
 Display.propTypes = {
-  board: React.PropTypes.object,
+  board: React.PropTypes.object
 }
 
 Display.defaultProps = {

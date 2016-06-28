@@ -9,9 +9,8 @@ export default class Board extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      board: this.props.board,
+      board: this.props.board
     }
-    
   }
 
   toJson() {
@@ -51,7 +50,7 @@ export default class Board extends React.Component {
 }
 
 Board.propTypes = {
-  board: React.PropTypes.object,
+  board: React.PropTypes.object
 }
 
 Board.defaultProps = {

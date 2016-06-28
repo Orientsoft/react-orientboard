@@ -21,8 +21,8 @@ import styles from '../css/app.css'
 
 import cm from '../lib/components'
 
-//import mqttPool from '../lib/mqttPool'
-//import timerPool from '../lib/timerPool'
+// import mqttPool from '../lib/mqttPool'
+// import timerPool from '../lib/timerPool'
 
 @autobind
 class App extends React.Component {
@@ -30,7 +30,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       boards: [],
-      board: null,
+      board: null
     }
   }
 
@@ -64,13 +64,15 @@ class App extends React.Component {
      </div>
      </div>
         <BlockConfigModal show={this.state.showBlockConfig}/>
-        <BoardConfigModal show={this.state.showBoardConfig} boardName= {this.state.boardName} action={this.state.boardAction}/>
+        <BoardConfigModal show={this.state.showBoardConfig}
+                          boardName= {this.state.boardName}
+                          action={this.state.boardAction}/>
 
         <div>
           <LeftNav className={styles.left_nav} modals={this.refs}/>
           <div className={styles.workspace}>
             <BoxToolbar/>
-            <Board board={this.state.board} ref='board'/>
+            <Board board={this.state.board} ref="board"/>
           </div>
         </div>
 
@@ -81,7 +83,7 @@ class App extends React.Component {
             if (component.NewComponentConfig)
               return (
                 <component.NewComponentConfig
-                  key={i} ref={`new-${i}`} actions={blockActions} 
+                  key={i} ref={`new-${i}`} actions={blockActions}
                 />
               )
           })

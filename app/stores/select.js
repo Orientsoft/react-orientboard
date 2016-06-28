@@ -8,7 +8,7 @@ import uiStore from './ui'
 const state = {
   box: null,
   block: null,
-  board: null,
+  board: null
 }
 
 uiStore.listen((newState) => {
@@ -47,7 +47,7 @@ const store = Reflux.createStore({
   onSetApp: (app) => {
     state.app = app
     store.trigger(state)
-  },
+  }
 })
 
 store.getState = () => {

@@ -18,36 +18,32 @@ import styles from '../css/app.css'
 
 import cm from '../lib/components'
 
-import {Notification} from './Notification'
+import { Notification } from './Notification'
 
-import {UserTR,BoardTR} from './CloudTR'
+import { UserTR, BoardTR } from './CloudTR'
 
-const UserType={"admin":"管理员","worker":"开发者","guest":"使用者"}
+const UserType = { admin: '管理员', worker: '开发者', guest: '使用者' }
 
-import $  from 'jquery'
-
+import $ from 'jquery'
 
 
 function _jsonReq(method, data, endpoint) {
-    const opts = {
-      method,
-      data: JSON.stringify(data),
-      contentType: 'application/json; charset=utf-8',
-      dataType: 'json',
-      url: endpoint,
-    }
-    if (method === 'GET')
-      opts.data = data
-    else {
-      opts.data = JSON.stringify(data)
-      opts.contentType = 'application/json; charset=utf-8'
-      opts.dataType = 'json'
-    }
-    return $.ajax(opts)
+  const opts = {
+    method,
+    data: JSON.stringify(data),
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    url: endpoint
   }
-  
-
-
+  if (method === 'GET')
+    opts.data = data
+  else {
+    opts.data = JSON.stringify(data)
+    opts.contentType = 'application/json; charset=utf-8'
+    opts.dataType = 'json'
+  }
+  return $.ajax(opts)
+}
 
 @autobind
 class AlertDismissable extends React.Component {
@@ -55,20 +51,24 @@ class AlertDismissable extends React.Component {
     super(props)
 
     this.state = {
-     alertVisible: true,
-     title:"",
-     msg:"",
-     type:"success"
+      alertVisible: true,
+      title: '',
+      msg: '',
+      type: 'success'
     }
-
   }
 
 
+  showalert() {
+    this.setState({ alertVisible: true, title: '标题', msg: '消息' })
+  }
 
+  handleAlertDismiss() {
+    this.setState({ alertVisible: false })
+  }
 
-
-  showalert(){
-     this.setState({alertVisible: true,title:"标题",msg:"消息"});
+  handleAlertShow() {
+    this.setState({ alertVisible: true })
   }
 
   render() {
@@ -80,21 +80,14 @@ class AlertDismissable extends React.Component {
           <p>
           </p>
         </Alert>
-      );
+      )
     }
 
     return (
        <Button onClick={this.showalert}>测试</Button>
-    );
+    )
   }
 
-  handleAlertDismiss() {
-    this.setState({alertVisible: false});
-  }
-
-  handleAlertShow() {
-    this.setState({alertVisible: true});
-  }
 }
 
 
@@ -104,69 +97,62 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      showConfig: false,
-      
-    }
+      showConfig: false
 
+    }
   }
 
   componentDidMount() {
-   
-   this.loadPushServer()
+    this.loadPushServer()
 
-   cloudUIStore.listen((newState) => {
+    cloudUIStore.listen((newState) => {
       this.setState(newState)
     })
 
-    cloudUIActions.listUser();
-
+    cloudUIActions.listUser()
   }
 
 
-  addUserConfig(){
-    
-     this.setState({showConfig: !this.state.showConfig,idx:null,confrim:false,configTitle:"添加用户" })
+  addUserConfig() {
+    this.setState({ showConfig: !this.state.showConfig,
+                      idx: null,
+                      confrim: false,
+                      configTitle: '添加用户' })
   }
-  showNotifiy(){
-    this.refs.notifiy.show("标题","内容");
+  showNotifiy() {
+    this.refs.notifiy.show('标题', '内容')
   }
-  closeConfrim(){
-     this.setState({confrim: false,idx:null })
-  }
-
-  removeUser(){
-
-    let user={};
-    
-    if(this.state.idx){
-      user=this.state.users[this.state.idx-1]
-      cloudUIActions.removeUser(user);
-     }
-
-
-     this.setState({confrim:  false})
-    
-
+  closeConfrim() {
+    this.setState({ confrim: false, idx: null })
   }
 
-  saveUser(){
-    
-    let pwd=this.refs.password.getValue();
+  removeUser() {
+    let user = {}
 
-    let email=this.refs.email.getValue();
+    if (this.state.idx) {
+      user = this.state.users[this.state.idx - 1]
+      cloudUIActions.removeUser(user)
+    }
 
-    let type=this.refs.type.getValue();
 
-    if(pwd==""||email==""||type==""){
+    this.setState({ confrim: false })
+  }
+
+  saveUser() {
+    const pwd = this.refs.password.getValue()
+    const email = this.refs.email.getValue()
+    const type = this.refs.type.getValue()
+
+    if(pwd === "" || email === "" || type === ""){
       alert("请检查输入项目");
       return;
     }
-    
+
     if(pwd!=this.refs.password1.getValue()){
       alert("密码不一致!");
       return;
     }
-  
+
 
     if(this.state.idx){
       let user = this.state.users[this.state.idx-1];
@@ -175,8 +161,8 @@ class App extends React.Component {
       cloudUIActions.updateUser("changePassword",{"uid":user.uid,"password":pwd});
 
     }else{
-    
-      
+
+
     cloudUIActions.addUser({"email":email,"password":pwd, "type" : type})
     this.setState({showConfig: false,idx:null,confrim:false,configTitle:"添加用户" })
     }
@@ -212,12 +198,12 @@ class App extends React.Component {
   }
 
   savePushServer(){
-    
+
     console.log(this.refs.pushServerURL.getValue())
     try{
       var protocol=["mqtt","ws","socketio"];
       let server=this.refs.pushServerURL.getValue()
-      
+
       if(protocol.indexOf(server.split("://")[0])<0){
           alert('服务列表解析错误,请检查'+server);
           }else{
@@ -225,17 +211,17 @@ class App extends React.Component {
            _jsonReq('POST',  {"servers":[server]} , '/api/v1/servers')
            this.loadPushServer();
           }
-       
+
     }catch(e){
       console.log(e)
       alert('服务列表解析错误,请检查');
 
     }
-  
+
 
     this.setState({'showPushserver':false});
 
-   
+
   }
 
   deletePushServer(){
@@ -244,7 +230,7 @@ class App extends React.Component {
     try{
       var protocol=["mqtt","ws","socketio"];
       let server=this.refs.pushServerURL.getValue()
-      
+
       if(protocol.indexOf(server.split("://")[0])<0){
           alert('服务列表解析错误,请检查'+server);
           }else{
@@ -252,13 +238,13 @@ class App extends React.Component {
            _jsonReq('DELETE',  {"servers":[server]} , '/api/v1/servers')
            this.loadPushServer();
           }
-       
+
     }catch(e){
       console.log(e)
       alert('服务列表解析错误,请检查');
 
     }
-  
+
 
     this.setState({'showPushserver':false});
 
@@ -283,7 +269,7 @@ class App extends React.Component {
     <Modal show={this.state.showPushserver}>
         <Modal.Header >添加/删除 Push数据源</Modal.Header>
         <Modal.Body >
-          
+
           <Input ref='pushServerURL' type='text' label='Push Server URL'/>
 
         </Modal.Body>
@@ -303,7 +289,7 @@ class App extends React.Component {
               <p/>
               {this.state.confrimMsg} {user.email}
             </Row>
-               
+
         </Modal.Body>
         <Modal.Footer>
             <Button onClick={this.closeConfrim}>取消</Button>
@@ -347,7 +333,7 @@ class App extends React.Component {
                             </Col>
                         </Row>
                     </form>
-                
+
         </Modal.Body>
         <Modal.Footer>
             <Button onClick={this.addUserConfig}>取消</Button>
@@ -364,7 +350,7 @@ class App extends React.Component {
     </div>
     <div className="wrapper">
         <div className="container pt25">
-          
+
   {/*<AlertDismissable/>*/}
             <div className="row text-center ">
                 <Tabs defaultActiveKey={1}>
@@ -374,7 +360,7 @@ class App extends React.Component {
                             <Col xs={1}>
                             <Button onClick={this.addUserConfig} className="btn btn-primary btn-sm ">添加用户</Button>
                            {/* <Button onClick={this.showNotifiy} className="btn btn-primary btn-sm ">show notifiy</Button> */}
-                            
+
                             </Col>
                         </Row>
                         <Row>
@@ -396,7 +382,7 @@ class App extends React.Component {
                                         console.log(this.state.users[i].email, i)
                                       return (
                                         <UserTR key={i+1} idx={i+1} uid={this.state.users[i].uid} email={this.state.users[i].email} password="12345" type={this.state.users[i].type} frozen={this.state.users[i].frozen}/>
-                                        
+
                                         )
                                     })
                                     }
@@ -436,7 +422,7 @@ class App extends React.Component {
                                         console.log(this.state.users[i].email, i)
                                       return (
                                         <BoardTR key={i+1} idx={i+1} uid={this.state.users[i].uid} email={this.state.users[i].email} password="12345" type={this.state.users[i].type} frozen={this.state.users[i].frozen}/>
-                                        
+
                                         )
                                     })
                                     }
@@ -475,7 +461,7 @@ class App extends React.Component {
                          <Row>
                             <p/>
                             <Col xs={10}>
-                            &nbsp; <Input type='textarea'  ref="pushServer"  rows="10" value={this.state.servers} onChange={this.onCodeChange}/> 
+                            &nbsp; <Input type='textarea'  ref="pushServer"  rows="10" value={this.state.servers} onChange={this.onCodeChange}/>
                             </Col>
                         </Row>
                     </Tab>

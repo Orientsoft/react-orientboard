@@ -10,34 +10,34 @@ const ACTIONS = {
   NONE: 0,
   ROTATE: 1,
   DRAG: 2,
-  RESIZE: 3,
+  RESIZE: 3
 }
 
 const ROTATE_STEP = 15,
-      GRID_SIZE = 10
+  GRID_SIZE = 10
 
 let state = {
   box: null,
   dragStart: {
     x: 0,
-    y: 0,
+    y: 0
   },
   center: {
     x: 0,
-    y: 0,
+    y: 0
   },
   rotateStart: {
     x: 0,
-    y: 0,
+    y: 0
   },
   resizeStart: {
     x: 0,
-    y: 0,
+    y: 0
   },
   rInit: 0,
   action: ACTIONS.NONE,
   mode: 'edit',
-  boards: [],
+  boards: []
 }
 
 
@@ -97,7 +97,7 @@ const store = Reflux.createStore({
 
       case ACTIONS.RESIZE:
         let h = state.resizeStart.h + e.clientY - state.resizeStart.y,
-            w = state.resizeStart.w + e.clientX - state.resizeStart.x
+          w = state.resizeStart.w + e.clientX - state.resizeStart.x
 
         if (e.altKey) {
           h -= h % GRID_SIZE
@@ -114,9 +114,9 @@ const store = Reflux.createStore({
     document.documentElement.onmouseup = function () {
       state.action = ACTIONS.NONE
     }
-    document.documentElement.ondblclick =function(){
+    document.documentElement.ondblclick = function () {
       if (state.box)
-      state.box.openConfig();
+        state.box.openConfig()
     }
 
     state.ready = true
@@ -150,7 +150,7 @@ const store = Reflux.createStore({
     console.log('openning config', state.box)
     if (state.box)
       state.box.openConfig()
-  },
+  }
 
 })
 
