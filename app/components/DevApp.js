@@ -38,7 +38,7 @@ class App extends React.Component {
 
     this.state = {
       boards: [],
-      board: this.props.testComponent ? testBoard : null,
+      board: this.props.testComponent ? testBoard : null
     }
   }
 

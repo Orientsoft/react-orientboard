@@ -65,8 +65,9 @@ class App extends React.Component {
      </div>
         <BlockConfigModal show={this.state.showBlockConfig}/>
         <BoardConfigModal show={this.state.showBoardConfig}
-                          boardName= {this.state.boardName}
-                          action={this.state.boardAction}/>
+          boardName= {this.state.boardName}
+          action={this.state.boardAction}
+        />
 
         <div>
           <LeftNav className={styles.left_nav} modals={this.refs}/>

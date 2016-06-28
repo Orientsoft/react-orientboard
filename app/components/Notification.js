@@ -51,5 +51,15 @@ export default class Notification extends React.Component {
   }
 }
 
+Notification.propTypes = {
+  show: React.PropTypes.bool,
+  msg: React.PropTypes.string,
+  title: React.PropTypes.string
+}
+
+Notification.defaultProps = {
+
+}
+
 
 exports.Notification = Notification

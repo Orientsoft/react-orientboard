@@ -52,7 +52,6 @@ class Block extends React.Component {
       console.log('publish')
     else
       selectActions.setActiveBlock(this) // 组件加载后就自动变成ActiveBlock
-
   }
 
   componentWillUnmount() {
@@ -98,7 +97,7 @@ class Block extends React.Component {
       css.position = 'absolute'
     } else {
       css.margin = '10px 5px 15px 50px'
-      //css.marginTop='30px'
+      // css.marginTop='30px'
     }
     return css
   }
@@ -192,7 +191,8 @@ class Block extends React.Component {
 }
 
 Block.propTypes = {
-  config: React.PropTypes.object
+  config: React.PropTypes.object,
+  mode: React.PropTypes.string
 }
 
 Block.defaultProps = {

@@ -50,7 +50,8 @@ export default class Board extends React.Component {
 }
 
 Board.propTypes = {
-  board: React.PropTypes.object
+  board: React.PropTypes.object,
+  mode: React.PropTypes.string
 }
 
 Board.defaultProps = {

@@ -234,7 +234,8 @@ Box.propTypes = {
   z: React.PropTypes.number,
   rotate: React.PropTypes.number,
   data: React.PropTypes.object,
-  type: React.PropTypes.string
+  type: React.PropTypes.string,
+  id: React.PropTypes.string
 }
 
 Box.defaultProps = {

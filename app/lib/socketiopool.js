@@ -66,5 +66,4 @@ socketIOPool.unsub = function unsub(info, topic, cb) {
   console.log('未实现关闭方法')
 }
 
-export
-default socketIOPool
+export default socketIOPool

@@ -1,10 +1,10 @@
-import React from "react"
-import autobind from "autobind-decorator"
-import { ButtonGroup, Glyphicon, Button } from "react-bootstrap"
+import React from 'react'
+import autobind from 'autobind-decorator'
+import { ButtonGroup, Glyphicon, Button } from 'react-bootstrap'
 
-import boxActions from "../actions/box"
-import styles from "../css/app.css"
-import blockActions from "../actions/block"
+import boxActions from '../actions/box'
+import styles from '../css/app.css'
+import blockActions from '../actions/block'
 
 @autobind
 export default class BoxToolbar extends React.Component {

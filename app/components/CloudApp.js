@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import autobind from 'autobind-decorator'
-import { Modal, Button,Input,Row,Col,Tabs,Tab ,Glyphicon, Alert} from 'react-bootstrap'
+import { Modal, Button, Input, Row, Col, Tabs, Tab, Glyphicon, Alert } from 'react-bootstrap'
 
 import blockActions from '../actions/block'
 import boxActions from '../actions/box'
@@ -143,28 +143,28 @@ class App extends React.Component {
     const email = this.refs.email.getValue()
     const type = this.refs.type.getValue()
 
-    if(pwd === "" || email === "" || type === ""){
-      alert("请检查输入项目");
+    if(pwd === '' || email === '' || type === ''){
+      alert('请检查输入项目');
       return;
     }
 
     if(pwd!=this.refs.password1.getValue()){
-      alert("密码不一致!");
+      alert('密码不一致!');
       return;
     }
 
 
     if(this.state.idx){
       let user = this.state.users[this.state.idx-1];
-      console.log("update user ", user)
+      console.log('update user ', user)
 
-      cloudUIActions.updateUser("changePassword",{"uid":user.uid,"password":pwd});
+      cloudUIActions.updateUser('changePassword',{'uid':user.uid,'password':pwd});
 
     }else{
 
 
-    cloudUIActions.addUser({"email":email,"password":pwd, "type" : type})
-    this.setState({showConfig: false,idx:null,confrim:false,configTitle:"添加用户" })
+    cloudUIActions.addUser({'email':email,'password':pwd, 'type' : type})
+    this.setState({showConfig: false,idx:null,confrim:false,configTitle:'添加用户' })
     }
   }
 
@@ -182,7 +182,7 @@ class App extends React.Component {
             this.setState({
                 servers: JSON.stringify(result, null, 4)
             })
-            console.log("远程调用server", result)
+            console.log('远程调用server', result)
         });
 
   }
@@ -201,14 +201,14 @@ class App extends React.Component {
 
     console.log(this.refs.pushServerURL.getValue())
     try{
-      var protocol=["mqtt","ws","socketio"];
+      var protocol=['mqtt','ws','socketio'];
       let server=this.refs.pushServerURL.getValue()
 
-      if(protocol.indexOf(server.split("://")[0])<0){
+      if(protocol.indexOf(server.split('://')[0])<0){
           alert('服务列表解析错误,请检查'+server);
           }else{
 
-           _jsonReq('POST',  {"servers":[server]} , '/api/v1/servers')
+           _jsonReq('POST',  {'servers':[server]} , '/api/v1/servers')
            this.loadPushServer();
           }
 
@@ -228,14 +228,14 @@ class App extends React.Component {
 
      console.log(this.refs.pushServerURL.getValue())
     try{
-      var protocol=["mqtt","ws","socketio"];
+      var protocol=['mqtt','ws','socketio'];
       let server=this.refs.pushServerURL.getValue()
 
-      if(protocol.indexOf(server.split("://")[0])<0){
+      if(protocol.indexOf(server.split('://')[0])<0){
           alert('服务列表解析错误,请检查'+server);
           }else{
 
-           _jsonReq('DELETE',  {"servers":[server]} , '/api/v1/servers')
+           _jsonReq('DELETE',  {'servers':[server]} , '/api/v1/servers')
            this.loadPushServer();
           }
 

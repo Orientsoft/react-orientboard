@@ -83,22 +83,4 @@ mqttPool.unsub = function unsub(info, topic, cb) {
 }
 
 
-// var mqtt = this.props.mqtt;
-
-// var host = 'ws://localhost:3883';
-// var client = mqtt.connect(host);
-
-// client.on('connect', function() {
-//         client.subscribe("test");
-//         console.log("mqtt ok");
-// });
-// var self = this;
-
-// client.on('message', function(topic, payload, packet) {
-//         console.log('msg coming',payload);
-//         self.setState({content:payload+""});
-// });
-
-
-export
-default mqttPool
+export default mqttPool

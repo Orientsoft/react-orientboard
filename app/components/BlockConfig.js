@@ -1,22 +1,22 @@
-import React from "react"
-import { Modal, Button, Input, Tabs, Tab } from "react-bootstrap"
-import autobind from "autobind-decorator"
-import _ from "lodash"
+import React from 'react'
+import { Modal, Button, Input, Tabs, Tab } from 'react-bootstrap'
+import autobind from 'autobind-decorator'
+import _ from 'lodash'
 
-import blockActions from "../actions/block"
-import uiActions from "../actions/ui"
-import selectStore from "../stores/select"
+import blockActions from '../actions/block'
+import uiActions from '../actions/ui'
+import selectStore from '../stores/select'
 
 
 @autobind
 class BlockConfigModal extends React.Component {
   constructor(props) {
     super(props)
-    console.log("props", props)
+    console.log('props', props)
     this.state = {
       w: 800,
       h: 600,
-      pubType: (this.props.data && this.props.data.pubType) ? this.props.data.pubType : "public"
+      pubType: (this.props.data && this.props.data.pubType) ? this.props.data.pubType : 'public'
     }
   }
 
@@ -52,10 +52,10 @@ class BlockConfigModal extends React.Component {
   }
 
   render() {
-    const privateShow = (this.state.pubType === "private") ? true : false
-    const authShow = (this.state.pubType === "auth") ? true : false
+    const privateShow = (this.state.pubType === 'private') ? true : false
+    const authShow = (this.state.pubType === 'auth') ? true : false
 
-    let bid = ""
+    let bid = ''
     if (this.state.board)
       bid = this.state.board._id
 
@@ -73,8 +73,7 @@ class BlockConfigModal extends React.Component {
               <Input ref="backimg" type="text" label="background image" defaultValue={_.get(this.state, 'block.img')}/>
             </Tab>
              <Tab eventKey={2} title="发布设置">
-             <Input type="select" label="发布方式" ref="pubType" defaultValue={this.state.pubType}
-                        onChange={ this.handleChange }>
+             <Input type="select" label="发布方式" ref="pubType" defaultValue={this.state.pubType} onChange={ this.handleChange } >
                 <option value="public">公开访问</option>
                 <option value="private">密码访问</option>
                 <option value="auth">授权</option>
@@ -87,7 +86,7 @@ class BlockConfigModal extends React.Component {
                <Input type="text" ref="password" defaultValue="welcome1" />
               </div>
 
-              <div className={authShow ? '' : 'hidden'}>
+              <div className={authShow ? '' : 'hidden' }>
               <span>授权访问,暂未实现</span>
 
             </div>
@@ -106,7 +105,8 @@ class BlockConfigModal extends React.Component {
 }
 
 BlockConfigModal.propTypes = {
-  show: React.PropTypes.bool
+  show: React.PropTypes.bool,
+  data: React.PropTypes.object
 }
 
 BlockConfigModal.defaultProps = {
