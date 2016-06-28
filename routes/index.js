@@ -4,7 +4,7 @@ const express = require('express'),
       router = express.Router(),
       fs = require('fs-extra'),
       path = require('path'),
-      crypto =require('crypto'),
+      crypto = require('crypto'),
       layouts = {}
 
 
@@ -39,17 +39,15 @@ fs.watch(COMPONENTS_CONFIG, () => {
 })
 
 
-router.use((req,res,next)=>{
+router.use((req, res, next) => {
+  const _path = req.path.toLowerCase()
 
-  let _path=req.path.toLowerCase()
+  if (!req.session.user) {
+    if ( _path.indexOf('/api/display/') !== -1 || _path.indexOf('/api/v1/') !== -1 || _path.indexOf('/chart/') !== -1)
+      return next()
 
- if(!req.session.user){
-    if(_path.indexOf('/api/display/')!=-1||_path.indexOf('/api/v1/')!=-1||_path.indexOf('/chart/')!=-1){
-      return next();
-    }
-    if(req.path.toLowerCase()!="/login"){
-     return  res.redirect("/login")
-    }
+    if (req.path.toLowerCase() !== '/login')
+      return res.redirect('/login')
   }
   next()
 })
@@ -68,8 +66,8 @@ router.use((req,res,next)=>{
 
 /* GET home page. */
 router.get('/board', (req, res) => {
-  //编辑页面都是使用原始的bootstrap
-  req.session.themes='default'
+  // 编辑页面都是使用原始的bootstrap
+  req.session.themes = 'default'
   res.render('board', {
     title: 'Board WorkSpace',
     main_script: '/js/main.js',
@@ -80,71 +78,63 @@ router.get('/board', (req, res) => {
 
 /* User  home page. */
 router.get('/', (req, res) => {
-  //编辑页面都是使用原始的bootstrap
-  req.session.themes='default'
-  res.render('home',{"user":req.session.user})
+  // 编辑页面都是使用原始的bootstrap
+  req.session.themes = 'default'
+  res.render('home', { user: req.session.user })
 })
 
 router.get('/home', (req, res) => {
-  //编辑页面都是使用原始的bootstrap
-  req.session.themes='default'
-  res.render('home',{"user":req.session.user})
+  // 编辑页面都是使用原始的bootstrap
+  req.session.themes = 'default'
+  res.render('home', { user: req.session.user })
 })
 
 /* User login home page. */
 router.get('/login', (req, res) => {
-  //编辑页面都是使用原始的bootstrap
-  req.session.themes='default'
+  // 编辑页面都是使用原始的bootstrap
+  req.session.themes = 'default'
   res.render('login')
 })
 
 
-
 /* User login home page. */
 router.post('/login', (req, res) => {
-  //编辑页面都是使用原始的bootstrap
-  req.session.themes='default'
-  req.session.user={"id":"test"}
+  // 编辑页面都是使用原始的bootstrap
+  req.session.themes = 'default'
+  req.session.user = { id: 'test' }
 
-   
+  if (!req.body.userAccount || !req.body.userAccount)
+    res.rediect('/home')
+  else {
+    const sha1 = crypto.createHash('sha1')
+    sha1.update(req.body.userPassword)
 
-  if(!req.body.userAccount||!req.body.userAccount){
-      res.rediect('/home')
-   }else{
-
-    var sha1 = crypto.createHash('sha1');;
-       sha1.update(req.body.userPassword);
-    
-    var user = {"email":req.body.userAccount,"password":sha1.digest('hex')};
+    const user = { email: req.body.userAccount,
+                   password: sha1.digest('hex') }
     console.log(user)
-      um.findOne(user)
+    um.findOne(user)
         .then((result) => {
-           if(result){
-             req.session.user=result;
-             res.redirect('/home')
-            }else{
-              return res.json({"msg":"登录信息错误!"});
-            }
-         })
-        .catch((e) => {
-            return res.status(500).json({
-                "msg": e
-            })
+          if (result) {
+            req.session.user = result
+            res.redirect('/home')
+          } else
+              return res.json({ msg: '登录信息错误!' })
         })
-
-   }
+        .catch((e) => {
+          return res.status(500).json({
+            msg: e
+          })
+        })
+  }
 })
 
 
 /* User login home page. */
 router.get('/logout', (req, res) => {
-  //编辑页面都是使用原始的bootstrap
-  req.session.user=null
+  // 编辑页面都是使用原始的bootstrap
+  req.session.user = null
   res.redirect('/login')
 })
-
-
-
 
 router.get('/get-test-layout/:name', (req, res) => {
   console.log(

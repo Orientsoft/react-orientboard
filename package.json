@@ -33,6 +33,7 @@
     "node-uuid": "^1.4.7",
     "nodent": "^2.3.10",
     "orientboard-component-example": "git+https://github.com/Orientsoft/orientboard-component-example.git",
+    "orientboard-datasource": "git + https://github.com/Orientsoft/orientboard-datasource.git",
     "pretty-error": "^2.0.0",
     "pubsub-js": "^1.5.3",
     "react": "^0.14.3",

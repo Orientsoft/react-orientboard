@@ -4,7 +4,7 @@
 
  OrientSoft R&D Team
 
- Copyright 2013 - 2016@orientsoft.cn
+ Copyright 2015 - 2016@orientsoft.cn
 
 
 
@@ -38,6 +38,8 @@ git clone --recursive https://github.com/Orientsoft/react-orientboard
 cd react-orientboard
 npm i
 ```
+* Attention: do **not** use third party tools like cnpm
+
 ### Database Init
 
 For development environment prepare, you need install redisServer(see http://redis.io/) and mongodb (see https://docs.mongodb.com/manual/) first.
