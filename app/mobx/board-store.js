@@ -6,8 +6,8 @@ import Box from './box'
 import Block from './block'
 import { swapElements } from '../lib/util'
 
-class Store {
-  @observable boards
+class BoardStore {
+  @observable boards = []
   @observable activeBoard
   @observable activeBlock
   @observable activeBox
@@ -32,6 +32,30 @@ class Store {
       )
 
     return this.bm.create(board.toJSON())
+  }
+
+  async createBoard(config) {
+    try {
+      const newBoard = new Board(await this.bm.create(config))
+      this.boards.push(newBoard)
+      this.activeBoard = newBoard
+    } catch (e) {
+      // TODO: notify failure
+      console.log('Failed to create board', e)
+    }
+  }
+
+  async removeBoard() {
+    const { name, owner } = this.activeBoard
+    const res = await this.bm.remove({ name, owner })
+    if (res.ok === 1) {
+      const i = this.boards.indexOf(this.activeBoard)
+      this.boards.remove(this.activeBoard)
+      if (this.boards.length > 0)
+        this.activeBoard = this.boards[i <= this.boards.length - 1 ? i : i - 1]
+      return
+    }
+    console.log(res)
   }
 
   createBlock(config) {
@@ -67,4 +91,4 @@ class Store {
   }
 }
 
-export default new Store()
+export default new BoardStore()

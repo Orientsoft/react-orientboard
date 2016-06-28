@@ -1,104 +1,97 @@
 import React from 'react'
 import { Modal, Button, Input } from 'react-bootstrap'
 import autobind from 'autobind-decorator'
+import { observer } from 'mobx-react'
+import { computed } from 'mobx'
+import uuid from 'uuid'
 
 import mobxBoard from '../mobx/board-store'
-import uiActions from '../actions/ui'
-import boardActions from '../actions/board'
-import uiStore from '../stores/ui'
+import mobxUI from '../mobx/ui-store'
 
+@observer
 @autobind
 class BoardConfigModal extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-    }
-  }
-
-  componentDidMount() {
-    uiStore.listen((newState) => {
-      this.state.action = newState.boardAction
-      console.log(this.state.action, 'xxxx')
-      switch (this.state.action) {
-      case 'rename':
-        this.state.name = newState.boardName
-        break
-      case 'create':
-        this.state.name = ''
-        break
-      case 'clone':
-        this.state.name = `board${new Date().getTime()}`
-        break
-      default:
-        console.log('action not support')
-      }
-    })
-  }
-
   close() {
-    uiActions.closeBoardConfig()
+    mobxUI.showBoardConfig = false
   }
 
   create() {
-    if(this.state.action=="rename"){
-      console.log("ssss",this.state,boardActions)
-      this.setState({name:this.refs.name.getValue(),desc:this.refs.desc.getValue()})
-      boardActions.renameBoard(this.refs.name.getValue(),this.refs.desc.getValue())
-
-    }else if(this.state.action=="clone"){
-      boardActions.cloneBoard(this.refs.name.getValue());
-    }else if(this.state.action=="create"){
-      boardActions.createBoard({
-      name: this.refs.name.getValue(),
-      desc: this.refs.desc.getValue(),
-      blocks: [{
-        id: Date.now(),
-        w: 800,
-        h: 600,
-        img: null,
-        boxes: [],
-      }],
-    })
+    switch (mobxUI.boardAction) {
+    case 'rename':
+      mobxBoard.activeBoard.name = this.refs.name.getValue()
+      mobxBoard.activeBoard.desc = this.refs.desc.getValue()
+      break
+    case 'clone':
+      mobxBoard.createBoard({
+        name: this.refs.name.getValue(),
+        desc: this.refs.desc.getValue(),
+        owner: this.activeBoard.owner,
+        // give new id to each block and box
+        blocks: this.activeBoard.blocks.map(block => {
+          const newBlock = block.toJSON()
+          newBlock.id = uuid.v4()
+          for (const box of block.boxes)
+            box.id = uuid.v4()
+        }),
+      })
+      break
+    case 'create':
+      mobxBoard.createBoard({
+        name: this.refs.name.getValue(),
+        desc: this.refs.desc.getValue(),
+        owner: mobxBoard.activeBoard.owner,
+        // create an empty block
+        blocks: [{
+          w: 800,
+          h: 600,
+          id: uuid.v4(),
+          boxes: [],
+        }],
+      })
+      break
+    default:
+      throw new Error('Unsupported action')
     }
-
-
-    this.close()
   }
 
+  @computed
+  get defaultName() {
+    switch (mobxUI.boardAction) {
+    case 'rename':
+      return mobxBoard.activeBoard.name
+    case 'clone':
+      return `${mobxBoard.activeBoard.name}-${Date.now()}`
+    default:
+      return ''
+    }
+  }
+
+  @computed
+  get defaultDesc() {
+    return mobxUI.boardAction === 'create' ? '' : mobxBoard.activeBoard.desc
+  }
 
   render() {
-
-    var buttonValue=this.state.name?"确认更改":"确认创建"
-
     return (
-      <Modal show={this.props.show}>
+      <Modal show={mobxUI.showBoardConfig}>
         <Modal.Header >Board名字</Modal.Header>
         <Modal.Body >
-          {/* validation needed */}
-          <Input ref='name' type='text' label='名字'
-            defaultValue={this.state.name}
+          <Input ref="name" type="text" label="名字"
+            defaultValue={this.defaultName}
           />
-
-          <Input ref='desc' type='text' label='描述'
-            defaultValue={this.state.desc}
+          <Input ref="desc" type="text" label="描述"
+            defaultValue={this.defaultDesc}
           />
-
         </Modal.Body>
         <Modal.Footer >
           <Button onClick={this.close}>取消</Button>
-          <Button onClick={this.create}>{buttonValue}</Button>
+          <Button onClick={this.create}>
+            { mobxUI.boardAction === 'rename' ? '确认更改' : '确认创建' }
+          </Button>
         </Modal.Footer>
       </Modal>
     )
   }
-}
-
-BoardConfigModal.propTypes = {
-  show: React.PropTypes.bool,
-}
-
-BoardConfigModal.defaultProps = {
-
 }
 
 export default BoardConfigModal

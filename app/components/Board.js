@@ -9,7 +9,7 @@ import Block from './Block'
 export default class Board extends React.Component {
   render() {
     return (
-      <div>
+      <div {...this.props}>
       {
         this.props.board ? this.props.board.blocks.map(block => (
           <Block

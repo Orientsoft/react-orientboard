@@ -12,7 +12,7 @@ export default class Board {
     this.name = info.name
     this.desc = info.desc
     this.owner = info.owner
-    this.blocks = info.blocks.map(block => (new Block(block)))
+    this.blocks = (info.blocks || []).map(block => (new Block(block)))
   }
 
   toJSON() {

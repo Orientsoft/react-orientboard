@@ -7,6 +7,7 @@ import { Button, ButtonGroup, Glyphicon } from 'react-bootstrap'
 import Box from './Box'
 
 import mobxBoard from '../mobx/board-store'
+import mobxUI from '../mobx/ui-store'
 
 import styles from '../css/block.css'
 
@@ -75,7 +76,7 @@ class Block extends React.Component {
   }
 
   _openConfig() {
-
+    mobxUI.showBlockConfig = true
   }
 
   render() {
@@ -104,10 +105,6 @@ class Block extends React.Component {
 
 Block.propTypes = {
   block: React.PropTypes.object,
-}
-
-Block.defaultProps = {
-
 }
 
 export default Block

@@ -1,13 +1,9 @@
 import React from 'react'
 import _ from 'lodash'
 import autobind from 'autobind-decorator'
+import { observer } from 'mobx-react'
 
 import blockActions from '../actions/block'
-import uiStore from '../stores/ui'
-import selectActions from '../actions/select'
-import selectStore from '../stores/select'
-import boardStore from '../stores/board'
-import boardActions from '../actions/board'
 import mobxBoard from '../mobx/board-store'
 
 import Board from './Board'
@@ -22,60 +18,29 @@ import styles from '../css/app.css'
 import cm from '../lib/components'
 import { init as initBoxMovement } from '../mobx/move'
 
-
+@observer
 @autobind
 class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      boards: [],
-      board: null,
-    }
-  }
-
   componentDidMount() {
     mobxBoard.fetchBoards()
     initBoxMovement()
-    // boxActions.init(this)
-    boardStore.listen((newState) => {
-      this.setState(newState)
-      if ((!this.state.board) && newState.boards[0])
-        selectActions.setActiveBoard(newState.boards[0])
-    })
-    uiStore.listen((newState) => {
-      this.setState(newState)
-    })
-    selectStore.listen((newState) => {
-      this.setState(newState)
-    })
-    selectActions.setApp(this)
-    boardActions.listBoards()
   }
 
   render() {
     return (
       <div>
-        <div id="topnav" className="p-t-60">
-          <div className="">
-            <div className="container-fluid">
-              <TopNav boards={this.state.boards}/>
-            </div>
-          </div>
+        <div id="topnav" className="container-fluid p-t-60">
+          <TopNav/>
         </div>
 
-        <BlockConfigModal show={this.state.showBlockConfig}/>
-        <BoardConfigModal
-          board={mobxBoard.activeBoard}
-          show={this.state.showBoardConfig}
-          boardName= {this.state.boardName}
-          action={this.state.boardAction}
-        />
+        <BlockConfigModal/>
+        <BoardConfigModal/>
 
         <div>
           <LeftNav className={styles.left_nav} modals={this.refs}/>
           <div className={styles.workspace}>
             <BoxToolbar/>
-            <Board ref="board" board={mobxBoard.activeBoard}/>
+            <Board board={mobxBoard.activeBoard}/>
           </div>
         </div>
 
@@ -95,14 +60,6 @@ class App extends React.Component {
       </div>
     )
   }
-
-}
-
-App.propTypes = {
-
-}
-
-App.defaultProps = {
 
 }
 
