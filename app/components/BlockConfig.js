@@ -1,42 +1,29 @@
 import React from 'react'
 import { Modal, Button, Input, Tabs, Tab } from 'react-bootstrap'
 import autobind from 'autobind-decorator'
-import _ from 'lodash'
 import { observer } from 'mobx-react'
 import classnames from 'classnames'
 
-import blockActions from '../actions/block'
 import mobxUI from '../mobx/ui-store'
+import mobxBoard from '../mobx/board-store'
 
 
 @observer
 @autobind
 class BlockConfigModal extends React.Component {
-  constructor(props) {
-    super(props)
-    console.log("props",props)
-    this.state = {
-      w: 800,
-      h: 600,
-      pubType: (this.props.data&&this.props.data.pubType)?this.props.data.pubType:'public'
-    }
-  }
-
   close() {
-    mobxUI.showBoardConfig = false
+    mobxUI.showBlockConfig = false
   }
 
   update() {
-    const w = this.refs.width.getValue(),
-          h = this.refs.height.getValue(),
-          img = this.refs.backimg.getValue(),
-          pubType=this.refs.pubType.getValue(),
-          password=this.refs.password.getValue(),
-          desc = this.refs.desc.getValue()
+    const block = mobxBoard.activeBlock
+    block.w = this.refs.width.getValue()
+    block.h = this.refs.height.getValue()
+    block.img = this.refs.backimg.getValue()
+    block.pubType = this.refs.pubType.getValue()
+    block.password = this.refs.password.getValue()
+    block.desc = this.refs.desc.getValue()
 
-    this.setState({ w, h, img,pubType,password })
-    blockActions.setBlockConfig({ w, h, img,pubType,password,desc })
-    console.log(w, h, img,pubType,password,desc)
     this.close()
   }
 
@@ -54,6 +41,7 @@ class BlockConfigModal extends React.Component {
     if(this.state.board){
       bid=this.state.board._id;
     }
+    const block = mobxBoard.activeBlock
     return (
       <Modal show={mobxUI.showBlockConfig}>
         <Modal.Header >Block Config</Modal.Header>
@@ -62,16 +50,16 @@ class BlockConfigModal extends React.Component {
           <Tabs defaultActiveKey={1}>
             <Tab eventKey={1} title="基础设置">
               <Input ref="desc" type="text" label="描述"
-                defaultValue={_.get(this.state, 'block.desc')}
+                defaultValue={block.desc}
               />
               <Input ref="width" type="text" label="width"
-                defaultValue={_.get(this.state, 'block.w')}
+                defaultValue={block.w}
               />
               <Input ref="height" type="text" label="height"
-                defaultValue={_.get(this.state, 'block.h')}
+                defaultValue={block.h}
               />
               <Input ref="backimg" type="text" label="background image"
-                defaultValue={_.get(this.state, 'block.img')}
+                defaultValue={block.img}
               />
             </Tab>
             <Tab eventKey={2} title="发布设置">

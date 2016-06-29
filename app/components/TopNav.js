@@ -60,6 +60,7 @@ export default class TopNav extends React.Component {
   }
 
   _removeBoard() {
+    // TODO: use custom comfirmation UI
     if (window.confirm(`你确定要删除${_.get(mobxBoard.activeBoard, 'name')}吗?`))
       mobxBoard.removeBoard()
   }
@@ -92,29 +93,29 @@ export default class TopNav extends React.Component {
         </Navbar.Header>
 
         <Nav className="pull-right">
-          <NavItem eventKey={5} onClick={this._createBoard}>
-            <i className="fa  fa-file-o"></i>创建
+          <NavItem eventKey={1} onClick={this._createBoard}>
+            <i className="fa  fa-file-o"/>创建
           </NavItem>
-          <NavItem eventKey={4} onClick={this._saveBoard}>
-            <i className="fa  fa-save"></i>保存
+          <NavItem eventKey={2} onClick={this._saveBoard}>
+            <i className="fa  fa-save"/>保存
           </NavItem>
-          <NavItem eventKey={10} onClick={this._cloneBoard}>
-            <i className="fa  fa-clone"></i>克隆
+          <NavItem eventKey={3} onClick={this._cloneBoard}>
+            <i className="fa  fa-clone"/>克隆
           </NavItem>
-          <NavItem eventKey={9} onClick={this._renameBoard}>
-            <i className="fa  fa-external-link"></i>更名
+          <NavItem eventKey={4} onClick={this._renameBoard}>
+            <i className="fa  fa-external-link"/>更名
           </NavItem>
-          <NavItem eventKey={8} onClick={this._removeBoard}>
-            <i className="fa  fa-trash-o"></i>删除
+          <NavItem eventKey={5} onClick={this._removeBoard}>
+            <i className="fa  fa-trash-o"/>删除
           </NavItem>
           <NavItem eventKey={6} onClick={boardActions.getDisplayLink}>
-             <i className="fa fa-link"></i>获取URL
+             <i className="fa fa-link"/>获取URL
           </NavItem>
           <NavItem eventKey={7} onClick={boardActions.openDisplayLink}>
-             <i className="fa fa-eye"></i>预览
+             <i className="fa fa-eye"/>预览
           </NavItem>
-           <NavItem eventKey={1} onClick={this._setPublishMode}>
-            <i className="fa fa-share">发布</i>
+           <NavItem eventKey={8} onClick={this._setPublishMode}>
+            <i className="fa fa-share"/>发布
           </NavItem>
         </Nav>
       </Navbar>
