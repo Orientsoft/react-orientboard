@@ -7,6 +7,7 @@ import autobind from 'autobind-decorator'
 import mqtt from 'mqtt'
 
 import mobxBoard from '../mobx/board-store'
+import mobxUI from '../mobx/ui-store'
 import { startRotate, startResize, startDrag, stopMovement } from '../mobx/move'
 import { observer } from 'mobx-react'
 
@@ -22,13 +23,7 @@ import { startDynamic, stopDynamic } from '../lib/util'
 @observer
 @autobind
 class Box extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      mode: 'edit',
-    }
-  }
-
+  // FIXME: find workaround to open box config
   openConfig() {
     if (this.refs.content.openConfig)
       this.refs.content.openConfig()
@@ -113,16 +108,15 @@ class Box extends React.Component {
         />
         {
           // 在这里就可以使用全局的props,把相关push,socketio的库派生出来
-          function renderContent() {
-            const box = this.props.box
+          (function renderContent() {
             const child = cm[box.type]
             const props = _.pick(box, ['x', 'y', 'h', 'w', 'rotate'])
 
             // props.data = this.props.data
             props.data = box.data
-            props.edit = (this.state.mode === 'edit')
+            props.edit = mobxBoard.editable
             props.ref = 'content'
-            props.theme = this.state.theme
+            props.theme = mobxUI.theme
             props.socketioPool = socketIOPool
             props.mqtt = mqtt
             props.mqttPool = mqttPool
@@ -131,7 +125,7 @@ class Box extends React.Component {
             props.stopDynamic = stopDynamic
             props.className = styles.box_content
             return React.createElement(child, props)
-          }.bind(this)()
+          })()
         }
       </div>
     )

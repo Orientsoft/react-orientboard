@@ -26,11 +26,22 @@ build/Release
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
 
+# TODO: use npm to manage static assets
 public/vendor
-#public/js
-#public/css
+public/js/main.js
+public/js/display.js
+public/js/vendor.js
+public/js/component-test.js
+public/js/cloud.js
+
+public/css/main.css
+public/css/display.css
+public/css/component-test.css
+public/css/cloud.css
+
 public/components
 public/doc
+public/publish
 
 example-component/lib
 

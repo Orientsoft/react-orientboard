@@ -1,20 +1,20 @@
 import React from 'react'
 import autobind from 'autobind-decorator'
-import { ButtonGroup, Glyphicon, Button } from 'react-bootstrap'
+import { ButtonGroup } from 'react-bootstrap'
+import { computed } from 'mobx'
+import { observer } from 'mobx-react'
+import classnames from 'classnames'
 
-import boxActions from '../actions/box'
-import styles from '../css/app.css'
 import mobxBoard from '../mobx/board-store'
 
+import { BoxButton } from './Block'
+
+import styles from '../css/app.css'
+
+
+@observer
 @autobind
 export default class BoxToolbar extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      active: false,
-    }
-  }
-
   _zIndexUp() {
     mobxBoard.addZIndex(1)
   }
@@ -27,26 +27,27 @@ export default class BoxToolbar extends React.Component {
     mobxBoard.removeBox()
   }
 
+  _openConfig() {
+    alert('FIXME: Find a workaround to open box config')
+  }
+
+  @computed
+  get showBoxToolbar() {
+    return mobxBoard.activeBox !== undefined
+  }
+
   render() {
     return (
-      <ButtonGroup className={styles.box_toolbar} show={this.props.show}>
-        <Button className={styles.box_button} onClick={this._zIndexUp}>
-          <Glyphicon glyph="chevron-up"/>
-        </Button>
-        <Button className={styles.box_button} onClick={this._zIndexDown}>
-          <Glyphicon glyph="chevron-down"/>
-        </Button>
-         <Button className={styles.box_button} onClick={this._zIndexDown}>
-          <Glyphicon glyph="retweet"/>
-        </Button>
-
-        <Button className={styles.box_button} onClick={boxActions.openConfig}>
-          <Glyphicon glyph="cog"/>
-        </Button>
-        <Button className={styles.box_button} onClick={this._removeBox}>
-          <Glyphicon glyph="remove"/>
-        </Button>
-
+      <ButtonGroup
+        className={classnames(
+          styles.box_toolbar, { hidden: !this.showBoxToolbar }
+        )}
+      >
+        <BoxButton onClick={this._zIndexUp} icon="chevron-up"/>
+        <BoxButton onClick={this._zIndexDown} icon="chevron-down"/>
+        <BoxButton onClick={null} icon="retweet"/>
+        <BoxButton onClick={this._openConfig} icon="cog"/>
+        <BoxButton onClick={this._removeBox} icon="remove"/>
       </ButtonGroup>
     )
   }

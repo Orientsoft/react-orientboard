@@ -4,6 +4,7 @@ import { observer } from 'mobx-react'
 
 import Block from './Block'
 
+
 @observer
 @autobind
 export default class Board extends React.Component {
@@ -27,8 +28,4 @@ export default class Board extends React.Component {
 Board.propTypes = {
   board: React.PropTypes.object,
   mode: React.PropTypes.string,
-}
-
-Board.defaultProps = {
-
 }

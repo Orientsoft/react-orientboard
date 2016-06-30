@@ -11,21 +11,22 @@ import mobxUI from '../mobx/ui-store'
 
 import styles from '../css/block.css'
 
-const BoxButton = (props) => (
-  <Button className={styles.box_button} onClick={props.onClick}>
+
+export const BoxButton = (props) => (
+  <Button className={styles.box_button} {...props}>
     <Glyphicon glyph={props.icon}/>
   </Button>
 )
 
 BoxButton.propTypes = {
-  onClick: React.PropTypes.function,
+  // onClick: React.PropTypes.function,
   icon: React.PropTypes.string,
 }
 
 
 @observer
 @autobind
-class Block extends React.Component {
+export default class Block extends React.Component {
   _getCss() {
     const block = this.props.block
     const css = {
@@ -38,12 +39,12 @@ class Block extends React.Component {
       right: 0,
     }
 
-    if (this.props.mode === 'publish') {
+    // TODO: use css and class instead
+    if (!mobxBoard.editable) {
       css.margin = 'auto'
       css.position = 'absolute'
     } else {
       css.margin = '10px 5px 15px 50px'
-      //css.marginTop='30px'
     }
 
     return css
@@ -106,5 +107,3 @@ class Block extends React.Component {
 Block.propTypes = {
   block: React.PropTypes.object,
 }
-
-export default Block

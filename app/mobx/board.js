@@ -6,6 +6,8 @@ export default class Board {
   @observable blocks = []
   @observable name
   @observable desc
+  @observable pubType
+  @observable password
 
   constructor(info) {
     this._id = info._id
@@ -13,6 +15,8 @@ export default class Board {
     this.desc = info.desc
     this.owner = info.owner
     this.blocks = (info.blocks || []).map(block => (new Block(block)))
+    this.pubType = info.pubType || 'public'
+    this.password = info.password
   }
 
   toJSON() {

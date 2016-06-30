@@ -35,14 +35,9 @@ class BoardStore {
   }
 
   async createBoard(config) {
-    try {
-      const newBoard = new Board(await this.bm.create(config))
-      this.boards.push(newBoard)
-      this.activeBoard = newBoard
-    } catch (e) {
-      // TODO: notify failure
-      console.log('Failed to create board', e)
-    }
+    const newBoard = new Board(await this.bm.create(config))
+    this.boards.push(newBoard)
+    this.activeBoard = newBoard
   }
 
   async removeBoard() {
@@ -58,7 +53,12 @@ class BoardStore {
     console.log(res)
   }
 
+  async publishBoard() {
+    return (await this.bm.publish(this.activeBoard._id)).status === 'ok'
+  }
+
   createBlock(config) {
+    console.log('create with', config)
     const i = this.activeBoard.blocks.indexOf(this.activeBlock)
     const newBlock = new Block(config)
     this.activeBoard.blocks.splice(i + 1, 0, newBlock)
@@ -70,7 +70,7 @@ class BoardStore {
   }
 
   moveBlock(offset) {
-    // FIXME: Currently offset can only be 1 or -1. Replace swapElements so
+    // TODO: Currently offset can only be 1 or -1. Replace swapElements so
     // blocks can be moved by multiple levels a time
     const i = this.activeBoard.blocks.indexOf(this.activeBlock)
     if ((i + offset) >= 0 && (i + offset) < this.activeBoard.blocks.length)
