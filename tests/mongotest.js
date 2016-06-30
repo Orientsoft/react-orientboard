@@ -1,18 +1,13 @@
  'use strict'
 
-var BoardManager= require('../lib/board-manager-new');
+var BoardManager= require('../lib/board-manager');
 
 
 var bm =new BoardManager({'mongo':{host:'127.0.0.1','db':'reactboard'}})
 
 bm.connect();
 
-
 setTimeout(function(){
-
-	
-
-	
 	var a= {
   			name: 'MyBoard',
   			blocks:
@@ -22,7 +17,7 @@ setTimeout(function(){
        			img: null,
        			pubType: 'private',
        			id: 1457845140123 } ],
-  				owner: 'test' 
+  				owner: 'test'
   			}
   	//bm.findOne(null,{}).then((item)=>{console.log(item)})
   	//bm.create('test',a).then((item)=>{console.log(item)})
@@ -34,8 +29,8 @@ setTimeout(function(){
 //
 
 
-// var Promise = require('bluebird');  
-// var mongodb = require('mongodb');  
+// var Promise = require('bluebird');
+// var mongodb = require('mongodb');
 // Promise.promisifyAll(mongodb);
 
 // var objID =require('mongodb').ObjectId
@@ -45,14 +40,14 @@ setTimeout(function(){
 //     console.log("init")
 //     return mongodb.MongoClient.connectAsync('mongodb://127.0.0.1:27017/reactboard')
 //         // .disposer is what handles cleaning up the connection
-     
+
 // }
 
 
 
 
-// var Promise = require('bluebird');  
-// var db = require('mongodb');  
+// var Promise = require('bluebird');
+// var db = require('mongodb');
 // Promise.promisifyAll(db);
 
 
@@ -62,7 +57,7 @@ setTimeout(function(){
 
 
 
-    
+
 
 // Promise.using(
 // a,

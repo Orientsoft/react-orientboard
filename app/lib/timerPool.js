@@ -15,7 +15,10 @@ timerPool.start = function start(url, interval, cb, once) {
 	  if (!once) {
 		  let id = setInterval(function(){
 		  	  $.get(url, function (result) {
-				    if(cb) cb(result) else console.log('debug:', result)
+				    if(cb)
+							cb(result)
+						else
+							console.log('debug:', result)
 	  		})
 			}, interval)
 

@@ -30,6 +30,7 @@ class Block extends React.Component {
       w: this.props.config.w || 800,
       h: this.props.config.h || 600,
       img: this.props.config.img || null,
+      backgroundColor: this.props.config.color || '#f3f3f3',
       pubType: this.props.config.pubType || 'public',
       password: this.props.config.password || 'welcome1',
       boxes: this.props.config.boxes,

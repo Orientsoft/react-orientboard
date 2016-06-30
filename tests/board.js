@@ -21,7 +21,7 @@ describe('Board Manager', () => {
       mongo: {
         host: 'localhost'
       , port: 27017
-      , db: 'orientboard'
+      , db: 'reactboard'
       }
     })
   })
