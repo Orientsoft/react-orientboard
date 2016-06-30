@@ -28,7 +28,7 @@ export default class BoxToolbar extends React.Component {
   }
 
   _openConfig() {
-    alert('FIXME: Find a workaround to open box config')
+    mobxBoard.activeBoxRef.openConfig()
   }
 
   @computed

@@ -12,6 +12,8 @@ class BoardStore {
   @observable activeBlock
   @observable activeBox
   @observable editable = true
+  activeBoxRef = undefined
+
   constructor() {
     this.bm = new BoardManager()
   }
