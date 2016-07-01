@@ -27,17 +27,17 @@ export default class App extends React.Component {
     return (
       <div>
         <div id="topnav" className="container-fluid p-t-60">
-          <TopNav/>
+          <TopNav />
         </div>
 
-        <BlockConfigModal/>
-        <BoardConfigModal/>
+        <BlockConfigModal />
+        <BoardConfigModal />
 
         <div>
-          <LeftNav className={styles.left_nav} modals={this.refs}/>
+          <LeftNav className={styles.left_nav} modals={this.refs} />
           <div className={styles.workspace}>
-            <BoxToolbar/>
-            <Board board={mobxBoard.activeBoard}/>
+            <BoxToolbar />
+            <Board board={mobxBoard.activeBoard} />
           </div>
         </div>
       </div>

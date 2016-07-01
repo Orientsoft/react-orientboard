@@ -10,7 +10,7 @@ utils.initStores()
 utils.getTestLayout(document.title).then((layout) => {
   console.log('test layout:', layout)
   ReactDOM.render(
-    <DevApp testComponent={layout}/>,
+    <DevApp testComponent={layout} />,
     document.querySelector('#mount-app')
   )
 })

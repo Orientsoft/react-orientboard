@@ -43,11 +43,11 @@ export default class BoxToolbar extends React.Component {
           styles.box_toolbar, { hidden: !this.showBoxToolbar }
         )}
       >
-        <BoxButton onClick={this._zIndexUp} icon="chevron-up"/>
-        <BoxButton onClick={this._zIndexDown} icon="chevron-down"/>
-        <BoxButton onClick={null} icon="retweet"/>
-        <BoxButton onClick={this._openConfig} icon="cog"/>
-        <BoxButton onClick={this._removeBox} icon="remove"/>
+        <BoxButton onClick={this._zIndexUp} icon="chevron-up" />
+        <BoxButton onClick={this._zIndexDown} icon="chevron-down" />
+        <BoxButton onClick={null} icon="retweet" />
+        <BoxButton onClick={this._openConfig} icon="cog" />
+        <BoxButton onClick={this._removeBox} icon="remove" />
       </ButtonGroup>
     )
   }

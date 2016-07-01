@@ -6,7 +6,7 @@ const actions = Reflux.createActions([
   'removeUser',
   'updateUser',
   'listUser',
-  'changePassword'
+  'changePassword',
 ].reduce((pv, cv) => {
   pv[cv] = { asyncResult: true }
   return pv

@@ -315,7 +315,7 @@ gulp.task('doc', (cb) => {
 
 
 gulp.task('postinstall', (cb) => {
-  //sequence('install', 'gen', 'build-vendor', 'build-all', 'doc')(cb)
+  // sequence('install', 'gen', 'build-vendor', 'build-all', 'doc')(cb)
   sequence('install', 'gen', 'build-vendor', 'build-all')(cb)
 })
 
@@ -324,7 +324,10 @@ function isFixed(file) {
 }
 
 gulp.task('lint', () => {
-  return gulp.src(['**/*.js'])
+  return gulp.src([
+    'app/**/*.js', 'lib/**/*.js', 'routes/**/*.js', 'tests/**/*.js',
+    'routes/**/*.js', 'app.js',
+  ])
     .pipe(eslint({
       fix: true,
       quiet: argv.q,

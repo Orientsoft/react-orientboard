@@ -64,7 +64,7 @@ export default class LeftNav extends React.Component {
         </div>
 
         <h5 className="text-center" style={{ color: '#fff' }}>
-          <i className={'fa fa-cog fa-1.5x'}/>组件列表
+          <i className={'fa fa-cog fa-1.5x'} />组件列表
         </h5>
 
       </div>

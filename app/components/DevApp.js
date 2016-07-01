@@ -57,8 +57,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <BlockConfigModal show={this.state.showBlockConfig}/>
-        <BoardConfigModal show={this.state.showBoardConfig}/>
+        <BlockConfigModal show={this.state.showBlockConfig} />
+        <BoardConfigModal show={this.state.showBoardConfig} />
 
         <div>
           <div className={styles.left_nav}>
@@ -93,7 +93,7 @@ class App extends React.Component {
           </div>
           <div className={styles.workspace}>
             <BoxToolbar />
-            <Board board={this.state.board} ref='board'/>
+            <Board board={this.state.board} ref="board" />
           </div>
         </div>
 

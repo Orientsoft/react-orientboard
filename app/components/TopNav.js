@@ -87,7 +87,7 @@ export default class TopNav extends React.Component {
       >
         <Navbar.Header>
           <div className="row">
-            <br/>
+            <br />
             <Input type="select"
               value={_.get(mobxBoard.activeBoard, 'name')}
               onChange={this._hangleChange}
@@ -103,28 +103,28 @@ export default class TopNav extends React.Component {
 
         <Nav className="pull-right">
           <NavItem eventKey={1} onClick={this._createBoard}>
-            <i className="fa  fa-file-o"/>创建
+            <i className="fa  fa-file-o" />创建
           </NavItem>
           <NavItem eventKey={2} onClick={this._saveBoard}>
-            <i className="fa  fa-save"/>保存
+            <i className="fa  fa-save" />保存
           </NavItem>
           <NavItem eventKey={3} onClick={this._cloneBoard}>
-            <i className="fa  fa-clone"/>克隆
+            <i className="fa  fa-clone" />克隆
           </NavItem>
           <NavItem eventKey={4} onClick={this._updateBoard}>
-            <i className="fa  fa-external-link"/>更改
+            <i className="fa  fa-external-link" />更改
           </NavItem>
           <NavItem eventKey={5} onClick={this._removeBoard}>
-            <i className="fa  fa-trash-o"/>删除
+            <i className="fa  fa-trash-o" />删除
           </NavItem>
           <NavItem eventKey={6} onClick={this._showDisplayLink}>
-             <i className="fa fa-link"/>获取URL
+             <i className="fa fa-link" />获取URL
           </NavItem>
           <NavItem eventKey={7} onClick={this._openDisplayLink}>
-             <i className="fa fa-eye"/>预览
+             <i className="fa fa-eye" />预览
           </NavItem>
            <NavItem eventKey={8} onClick={this._publishBoard}>
-            <i className="fa fa-share"/>发布
+            <i className="fa fa-share" />发布
           </NavItem>
         </Nav>
       </Navbar>

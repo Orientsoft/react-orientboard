@@ -7,7 +7,7 @@ import selectActions from '../actions/select'
 import selectStore from '../stores/select'
 import BoardManager from '../../lib/client'
 
-import { swapElements, copyToClipboard,openWindow } from '../lib/util'
+import { swapElements, copyToClipboard, openWindow } from '../lib/util'
 
 const bm = new BoardManager()
 let state = {
@@ -28,19 +28,16 @@ const store = Reflux.createStore({
   },
   onCloneBoard: async(newName) => {
     const nb = state.app.refs.board.toJson()
-    nb.name=newName
+    nb.name = newName
     try {
       const res = await bm.create(nb)
       state.boards.push(res)
       store.trigger(state)
 
       return actions.createBoard.completed(nb)
-
     } catch (e) {
       return actions.createBoard.failed(e)
     }
-
-
   },
   onCreateBoard: async (board) => {
     try {
@@ -53,21 +50,20 @@ const store = Reflux.createStore({
     }
   },
 
-  onRenameBoard: async (boardName,boardDesc) => {
-
+  onRenameBoard: async (boardName, boardDesc) => {
     const nb = state.app.refs.board.toJson()
-    const oldName=nb.name
-    nb.name=boardName
-    nb.desc=boardDesc
+    const oldName = nb.name
+    nb.name = boardName
+    nb.desc = boardDesc
 
-    //console.log("rename",boardDesc)
+    // console.log("rename",boardDesc)
 
     actions.updateBoard({ name: oldName }, nb)
-    state.boards[_.findIndex(state.boards, { name: boardName,desc:boardDesc })] = nb
+    state.boards[_.findIndex(state.boards, { name: boardName, desc: boardDesc })] = nb
     store.trigger(state)
     return actions.updateBoard.completed()
 
-    //return "true"
+    // return "true"
   },
 
   onCreateBoardFailed: () => {
@@ -128,21 +124,21 @@ const store = Reflux.createStore({
     }
   },
   onPublishBoard: async() => {
-    //const link = window.location.origin + `/api/display/${state.board._id}`
-    //copyToClipboard(link)
+    // const link = window.location.origin + `/api/display/${state.board._id}`
+    // copyToClipboard(link)
 
-    const board=_.findIndex(state.boards, { _id: state.board._id })
+    const board = _.findIndex(state.boards, { _id: state.board._id })
 
     const res = await bm.publish(state.board._id)
 
-     if(res.status=="ok"){
-        alert('发布成功');
-        const link = window.location.origin + `/publish/${state.board._id}.html`
-        openWindow(link)
-     }else{
-        alert('发布失败');
-     }
-     return
+    if (res.status == 'ok') {
+      alert('发布成功')
+      const link = window.location.origin + `/publish/${state.board._id}.html`
+      openWindow(link)
+    } else {
+      alert('发布失败')
+    }
+    return
   },
 
   onGetDisplayLink: () => {

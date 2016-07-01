@@ -14,7 +14,7 @@ import styles from '../css/block.css'
 
 export const BoxButton = (props) => (
   <Button className={styles.box_button} {...props}>
-    <Glyphicon glyph={props.icon}/>
+    <Glyphicon glyph={props.icon} />
   </Button>
 )
 
@@ -90,14 +90,14 @@ export default class Block extends React.Component {
         onMouseDown={this._handleMouseDown}
       >
         <ButtonGroup className={styles.block_toolbar} vertical>
-          <BoxButton onClick={this._moveUp} icon="chevron-up"/>
-          <BoxButton onClick={this._moveDown} icon="chevron-down"/>
-          <BoxButton onClick={this._openConfig} icon="cog"/>
-          <BoxButton onClick={this._createBlock} icon="plus"/>
-          <BoxButton onClick={this._removeBlock} icon="remove"/>
+          <BoxButton onClick={this._moveUp} icon="chevron-up" />
+          <BoxButton onClick={this._moveDown} icon="chevron-down" />
+          <BoxButton onClick={this._openConfig} icon="cog" />
+          <BoxButton onClick={this._createBlock} icon="plus" />
+          <BoxButton onClick={this._removeBlock} icon="remove" />
         </ButtonGroup>
         {
-          this.props.block.boxes.map(box => (<Box key={box.id} box={box}/>))
+          this.props.block.boxes.map(box => (<Box key={box.id} box={box} />))
         }
       </div>
     )

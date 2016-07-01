@@ -7,6 +7,6 @@ import { initStores } from './lib/util'
 initStores()
 
 ReactDOM.render(
-  <Display board={ gBoard }/>,
+  <Display board={gBoard} />,
   document.querySelector('#mount-app')
 )

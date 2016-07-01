@@ -125,7 +125,7 @@ export default class BoardConfigModal extends React.Component {
         <Modal.Footer >
           <Button onClick={this.close}>取消</Button>
           <Button onClick={this.update}>
-            { mobxUI.boardAction === 'update' ? '确认更改' : '确认创建' }
+            {mobxUI.boardAction === 'update' ? '确认更改' : '确认创建'}
           </Button>
         </Modal.Footer>
       </Modal>
