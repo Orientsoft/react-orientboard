@@ -23,7 +23,6 @@ import { startDynamic, stopDynamic } from '../lib/util'
 @observer
 @autobind
 class Box extends React.Component {
-  // FIXME: find workaround to open box config
   openConfig() {
     if (this.refs.content.openConfig)
       this.refs.content.openConfig()
