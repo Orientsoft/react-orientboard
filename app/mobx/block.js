@@ -7,6 +7,7 @@ export default class Block {
   @observable w
   @observable h
   @observable img
+  @observable bgcolor
   @observable boxes = []
 
   constructor(info) {
@@ -14,6 +15,7 @@ export default class Block {
     this.w = info.w || 800
     this.h = info.h || 600
     this.img = info.img
+    this.bgcolor = info.bgcolor || '#FFF'
     this.boxes = info.boxes.map(box => (new Box(box)))
   }
 }

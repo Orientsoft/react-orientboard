@@ -33,6 +33,7 @@ export default class Block extends React.Component {
       width: block.w,
       height: block.h,
       backgroundImage: block.img ? `url(${block.img})` : 'none',
+      backgroundColor: block.bgcolor,
       top: 0,
       left: 0,
       bottom: 0,
@@ -43,9 +44,9 @@ export default class Block extends React.Component {
     if (!mobxBoard.editable) {
       css.margin = 'auto'
       css.position = 'absolute'
-    } else {
+    } else
       css.margin = '10px 5px 15px 50px'
-    }
+
 
     return css
   }
@@ -60,6 +61,7 @@ export default class Block extends React.Component {
       w: block.w,
       h: block.h,
       img: block.img,
+      bgcolor: block.bgcolor,
       boxes: [],
     })
   }

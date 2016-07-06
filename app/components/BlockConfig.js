@@ -20,7 +20,7 @@ export default class BlockConfigModal extends React.Component {
     block.w = this.refs.width.getValue()
     block.h = this.refs.height.getValue()
     block.img = this.refs.backimg.getValue()
-    block.desc = this.refs.desc.getValue()
+    block.bgcolor = this.refs.bgcolor.getValue()
 
     this.close()
   }
@@ -41,6 +41,10 @@ export default class BlockConfigModal extends React.Component {
           <Input ref="backimg" type="text" label="background image"
             defaultValue={_.get(block, 'img')}
           />
+          <Input ref="bgcolor" type="text" label="background Color"
+            defaultValue={_.get(block, 'bgcolor')}
+          />
+
         </Modal.Body>
         <Modal.Footer >
           <Button onClick={this.close}>Cancle</Button>

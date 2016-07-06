@@ -77,6 +77,7 @@ class Box extends React.Component {
   }
 
   _selectSelf() {
+    console.log(mobxBoard.editable)
     if (mobxBoard.editable) {
       mobxBoard.activeBox = this.props.box
       mobxBoard.activeBoxRef = this
