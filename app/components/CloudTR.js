@@ -1,14 +1,7 @@
 import React from 'react'
-import _ from 'lodash'
+import { observable } from 'mobx'
 import autobind from 'autobind-decorator'
 import { Modal, Button, Input, Row, Col, Tabs, Tab, Glyphicon, Alert } from 'react-bootstrap'
-
-import blockActions from '../actions/block'
-import boxActions from '../actions/box'
-import uiStore from '../stores/ui'
-import selectActions from '../actions/select'
-import selectStore from '../stores/select'
-
 
 import cloudUIActions from '../actions/cloudui'
 import cloudUIStore from '../stores/cloudui'
@@ -23,8 +16,6 @@ const UserType = { 'admin': '管理员', 'worker': '开发者', 'guest': '使用
 
 @autobind
 class UserTR extends React.Component {
-
-
   constructor(props) {
     super(props)
 
@@ -54,7 +45,7 @@ class UserTR extends React.Component {
 
   frozenSetup() {
     console.log(this.state.frozen)
-    if (this.state.type != 'admin') {
+    if (this.state.type !== 'admin') {
       this.setState({ 'frozen': !this.state.frozen })
       cloudUIActions.updateUser('frozen', { 'uid': this.state.uid, 'frozen': !this.state.frozen })
     } else {
@@ -64,7 +55,7 @@ class UserTR extends React.Component {
 
 
   deleteUser() {
-    if (this.state.type == 'admin') {
+    if (this.state.type === 'admin') {
       return alert('不能删除 Board 管理员')
     } else {
       cloudUIActions.removeUserConfrim(this.state.idx)
@@ -132,7 +123,7 @@ class BoardTR extends React.Component {
 
   frozenSetup() {
     console.log(this.state.frozen)
-    if (this.state.type != 'admin') {
+    if (this.state.type !== 'admin') {
       this.setState({ 'frozen': !this.state.frozen })
       cloudUIActions.updateUser('frozen', { 'uid': this.state.uid, 'frozen': !this.state.frozen })
     } else {
@@ -142,7 +133,7 @@ class BoardTR extends React.Component {
 
 
   deleteBoard() {
-    if (this.state.type == 'admin') {
+    if (this.state.type === 'admin') {
       return alert('不能删除 Board 管理员')
     } else {
        // cloudUIActions.removeUserConfrim(this.state.idx)
@@ -173,4 +164,3 @@ class BoardTR extends React.Component {
 
 exports.UserTR = UserTR
 exports.BoardTR = BoardTR
-

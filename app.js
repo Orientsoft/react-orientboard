@@ -83,7 +83,7 @@ require('express-dynamic-helpers-patch')(app)
 
 app.dynamicHelpers({ isAdmin(req, res) {
   var isAdmin = false
-  if (req.session.user && req.session.user.type == 'admin') {
+  if (req.session.user && req.session.user.type === 'admin') {
     isAdmin = true
   }
   return isAdmin

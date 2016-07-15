@@ -52,7 +52,6 @@ class BoardStore {
         this.activeBoard = this.boards[i <= this.boards.length - 1 ? i : i - 1]
       return
     }
-    console.log(res)
   }
 
   async publishBoard() {

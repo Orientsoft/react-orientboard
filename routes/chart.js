@@ -27,17 +27,17 @@ function buildChartJSData(cols, min, max) {
   var chartdata = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
-      {
-        label: 'My First dataset',
-        fillColor: 'rgba(220,220,220,0.2)',
-        strokeColor: 'rgba(220,220,220,1)',
-        pointColor: 'rgba(220,220,220,1)',
-        pointStrokeColor: '#fff',
-        pointHighlightFill: '#fff',
-        pointHighlightStroke: 'rgba(220,220,220,1)',
+        {
+          label: 'My First dataset',
+          fillColor: 'rgba(220,220,220,0.2)',
+          strokeColor: 'rgba(220,220,220,1)',
+          pointColor: 'rgba(220,220,220,1)',
+          pointStrokeColor: '#fff',
+          pointHighlightFill: '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
             // data: [65, 59, 80, 81, 56, 55, 40]
-        data: [],
-      },
+          data: [],
+        },
     ],
   }
 
@@ -96,14 +96,14 @@ router.get('/widget01/:id', async (req, res) => {
 
     const result = {
       'datasets': [
-        {
-          'label': title,
-          'data': parseFloat((Math.random() * (1 + max - min)).toFixed(2)),
-        },
-        {
-          'label': sub_title,
-          'data': parseFloat((Math.random() * (1 + max - min)).toFixed(2)),
-        },
+            {
+              'label': title,
+              'data': parseFloat((Math.random() * (1 + max - min)).toFixed(2)),
+            },
+            {
+              'label': sub_title,
+              'data': parseFloat((Math.random() * (1 + max - min)).toFixed(2)),
+            },
       ],
     }
     return res.json(result)

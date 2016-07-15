@@ -33,7 +33,7 @@ router.post('/servers', (req, res) => {
   if (req.body.servers) {
     let _servers = req.body.servers
     _.forEach(_servers, (item) => {
-      if (servers.indexOf(item) == -1) {
+      if (servers.indexOf(item) === -1) {
         servers.push(item)
       }
     })

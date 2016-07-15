@@ -114,6 +114,7 @@ class Box extends React.Component {
             const child = cm[box.type]
             const props = _.pick(box, ['x', 'y', 'h', 'w', 'rotate'])
 
+            console.log('creat dynamic lib')
             // props.data = this.props.data
             props.data = box.data
             props.edit = mobxBoard.editable

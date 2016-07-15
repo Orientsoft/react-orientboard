@@ -27,6 +27,8 @@ export default class BlockConfigModal extends React.Component {
 
   render() {
     const block = mobxBoard.activeBlock
+    if (mobxBoard.editable === false)
+      mobxUI.showBlockConfig = false
     return (
       <Modal show={mobxUI.showBlockConfig}>
         <Modal.Header >Block Config</Modal.Header>

@@ -59,8 +59,7 @@ router.put('/:uid', (req, res) => {
             'msg': e,
           })
         })
-  } catch (e) {
-    	   console.log(e + '')
+  } catch (e) { console.log(e + '')
     return res.status(500).json({ 'msg': e + '' })
   }
 })
@@ -76,8 +75,7 @@ router.delete('/:uid', (req, res) => {
             'msg': e,
           })
         })
-  } catch (e) {
-    	  console.log(e + '')
+  } catch (e) { console.log(e + '')
     return res.status(500).json({ 'msg': e + '' })
   }
 })
@@ -105,8 +103,7 @@ router.get('/:id', (req, res) => {
             'msg': e,
           })
         })
-  } catch (e) {
-    	    console.log(e + '')
+  } catch (e) { console.log(e + '')
     return res.status(500).json({ 'msg': e + '' })
   }
 })

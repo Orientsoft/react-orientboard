@@ -8,7 +8,7 @@ import BoardManager from '../../lib/client'
 
 const bm = new BoardManager()
 
-let state = {
+const state = {
   users: [],
 }
 
@@ -42,7 +42,7 @@ const store = Reflux.createStore({
     bm.removeUser(user).then(() => {
       let idx = 0
       for (var i = 0; i < state.users.length; i++) {
-        if (state.users[i].email == user.email) {
+        if (state.users[i].email === user.email) {
           idx = i
           break
         }
@@ -108,7 +108,7 @@ const store = Reflux.createStore({
     bm.listUser().then((users) => {
       _.forEach(users, (user) => {
         // console.log(user);
-        if (state.users.indexOf(user) == -1) {
+        if (state.users.indexOf(user) === -1) {
           state.users.push(user)
         }
       })

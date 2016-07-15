@@ -52,34 +52,40 @@ export default class Block extends React.Component {
   }
 
   _handleMouseDown() {
-    mobxBoard.activeBlock = this.props.block
+    if (mobxBoard.editable)
+      mobxBoard.activeBlock = this.props.block
   }
 
   _createBlock() {
     const block = mobxBoard.activeBlock
-    mobxBoard.createBlock({
-      w: block.w,
-      h: block.h,
-      img: block.img,
-      bgcolor: block.bgcolor,
-      boxes: [],
-    })
+    if (mobxBoard.editable)
+      mobxBoard.createBlock({
+        w: block.w,
+        h: block.h,
+        img: block.img,
+        bgcolor: block.bgcolor,
+        boxes: [],
+      })
   }
 
   _removeBlock() {
-    mobxBoard.removeBlock()
+    if (mobxBoard.editable)
+      mobxBoard.removeBlock()
   }
 
   _moveUp() {
-    mobxBoard.moveBlock(-1)
+    if (mobxBoard.editable)
+      mobxBoard.moveBlock(-1)
   }
 
   _moveDown() {
-    mobxBoard.moveBlock(1)
+    if (mobxBoard.editable)
+      mobxBoard.moveBlock(1)
   }
 
   _openConfig() {
-    mobxUI.showBlockConfig = true
+    if (mobxBoard.editable)
+      mobxUI.showBlockConfig = true
   }
 
   render() {

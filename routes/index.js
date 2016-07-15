@@ -43,10 +43,10 @@ router.use((req, res, next) => {
   let _path = req.path.toLowerCase()
 
   if (!req.session.user) {
-    if (_path.indexOf('/api/display/') != -1 || _path.indexOf('/api/v1/') != -1 || _path.indexOf('/chart/') != -1) {
+    if (_path.indexOf('/api/display/') !== -1 || _path.indexOf('/api/v1/') !== -1 || _path.indexOf('/chart/') !== -1) {
       return next()
     }
-    if (req.path.toLowerCase() != '/login') {
+    if (req.path.toLowerCase() !== '/login') {
       return res.redirect('/login')
     }
   }

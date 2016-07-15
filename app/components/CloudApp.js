@@ -3,12 +3,6 @@ import _ from 'lodash'
 import autobind from 'autobind-decorator'
 import { Modal, Button, Input, Row, Col, Tabs, Tab, Glyphicon, Alert } from 'react-bootstrap'
 
-import blockActions from '../actions/block'
-import boxActions from '../actions/box'
-import uiStore from '../stores/ui'
-import selectActions from '../actions/select'
-import selectStore from '../stores/select'
-
 import cloudUIActions from '../actions/cloudui'
 import cloudUIStore from '../stores/cloudui'
 
@@ -16,8 +10,7 @@ import cloudUIStore from '../stores/cloudui'
 import styles from '../css/app.css'
 import cm from '../lib/components'
 import { Notification } from './Notification'
-import { UserTR, BoardTR } from './CloudTR'
-const UserType = { 'admin': '管理员', 'worker': '开发者', 'guest': '使用者' }
+import UserTR from './CloudTR'
 
 import $ from 'jquery'
 

@@ -51,7 +51,7 @@ socketIOPool.sub = function sub(info, topic, cb) {
   if (!callback[topic]) {
     callback[topic] = []
     callback[topic].push(cb)
-  } else if (callback[topic].indexOf(cb) == -1) {
+  } else if (callback[topic].indexOf(cb) === -1) {
     callback[topic].push(cb)
   } else {
     console.log('cb already used')

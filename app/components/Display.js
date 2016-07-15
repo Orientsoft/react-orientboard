@@ -1,20 +1,17 @@
 import React from 'react'
 
 import Board from './Board'
-import uiAction from '../actions/ui'
+
 
 // TODO: l1 better display page
 
 export default class Display extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-
-    }
   }
 
   componentDidMount() {
-    uiAction.setMode('publish')
+
   }
 
   render() {

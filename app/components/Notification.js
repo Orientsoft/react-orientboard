@@ -1,9 +1,6 @@
 import React from 'react'
-import _ from 'lodash'
 import autobind from 'autobind-decorator'
-import {
-  Modal, Button, Input, Row, Col, Tabs, Tab, Glyphicon, Alert
-} from 'react-bootstrap'
+import { Modal, Button, Row } from 'react-bootstrap'
 
 
 // TODO: l1 better display page
@@ -23,7 +20,7 @@ export default class Notification extends React.Component {
   }
 
   show(title, msg) {
-  	this.setState({ show: true, title, msg })
+    this.setState({ show: true, title, msg })
   }
 
   close() {
