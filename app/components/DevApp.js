@@ -5,12 +5,6 @@ import {
   Button, ButtonGroup,
 } from 'react-bootstrap'
 
-import blockActions from '../actions/block'
-import boxActions from '../actions/box'
-import uiStore from '../stores/ui'
-import selectActions from '../actions/select'
-import selectStore from '../stores/select'
-
 import Board from './Board'
 import BlockConfigModal from './BlockConfig'
 import BoardConfigModal from './BoardConfig'
